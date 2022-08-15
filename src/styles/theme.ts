@@ -1,12 +1,12 @@
 export const theme = {
     colors: {
-        primary: '#26054C',
+        primary: '#D22779',
         primaryAlt: '#190430',
-        secondary: '#2b2b2b',
-        secondaryAlt: '#343434',
+        secondary: '#26054C',
+        secondaryAlt: '#190430',
         tertiary: '#DF0054',
         neutral: '#fff',
-        neutralAlt: '#7a7a7a',
+        neutralAlt: '#D9D9D9',
     },
     spacing: {
         xs: '.5rem',
