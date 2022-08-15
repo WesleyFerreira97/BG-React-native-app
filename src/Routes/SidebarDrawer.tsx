@@ -22,6 +22,8 @@ export function SidebarDrawer() {
             }}
         >
             <Drawer.Screen name="Teste" component={DrawerMenu} />
+            <Drawer.Screen name="Teste2" component={DrawerMenu} />
+            <Drawer.Screen name="Teste3" component={DrawerMenu} />
         </Drawer.Navigator>
     );
 }

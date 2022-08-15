@@ -7,12 +7,5 @@ export const theme = {
         tertiary: '#DF0054',
         neutral: '#fff',
         neutralAlt: '#D9D9D9',
-    },
-    spacing: {
-        xs: '.5rem',
-        sm: '.75rem',
-        md: '1rem',
-        lg: '1.25rem',
-        xl: '1.5rem',
     }
 }
