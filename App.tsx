@@ -3,8 +3,8 @@ import { Routes } from './src/Routes';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { theme } from './src/styles/theme';
-import { SidebarDrawer } from './src/Routes/SidebarDrawer';
 import 'react-native-gesture-handler';
+import { SidebarDrawer } from './src/Routes/SidebarDrawer';
 
 export default function App() {
   return (
@@ -17,6 +17,7 @@ export default function App() {
             translucent
           />
           <NavigationContainer>
+            {/* <SidebarDrawer /> */}
             <Routes />
           </NavigationContainer>
         </SafeAreaView>
