@@ -1,6 +1,5 @@
 {
   "expo": {
-    "entryPoint": "./src/App.js",
     "name": "BG-React-native-app",
     "slug": "BG-React-native-app",
     "version": "1.0.0",
