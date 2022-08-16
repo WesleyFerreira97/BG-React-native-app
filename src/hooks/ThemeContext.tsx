@@ -5,7 +5,7 @@ type ChildrenProps = {
     children: React.ReactNode,
 }
 
-type ThemeProps = {
+export type ThemeProps = {
     colors: {
         primary: string,
         primaryAlt: string,

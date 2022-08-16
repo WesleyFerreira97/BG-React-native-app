@@ -1,20 +1,22 @@
-import { theme } from '../styles/theme';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { SidebarDrawer } from './SidebarDrawer';
 import { DrawerActions } from '@react-navigation/native';
+import { useTheme } from '../hooks/ThemeContext';
 
 import { Home } from '../screens/Home';
 import { Pedidos } from '../screens/Pedidos';
+import { Cube } from 'phosphor-react-native';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export function Routes() {
+    const { theme } = useTheme();
+
     return (
         <>
-            {/* <SidebarDrawer /> */}
             <Tab.Navigator
-                barStyle={{
-                    backgroundColor: theme.colors.primary,
+                screenOptions={{
+                    tabBarColor: theme.colors.primary,
                 }}
             >
                 <Tab.Screen
@@ -23,12 +25,20 @@ export function Routes() {
                     listeners={({ navigation }) => ({
                         tabPress: e => {
                             e.preventDefault();
-                            console.log(navigation.dispatch(DrawerActions.toggleDrawer()));
+                            navigation.dispatch(DrawerActions.toggleDrawer());
                         }
                     })}
                 />
-                <Tab.Screen name="Inicio" component={Home} />
-                <Tab.Screen name="Fodase" component={SidebarDrawer} />
+                <Tab.Screen
+                    name="Inicio"
+                    component={Home}
+                    options={{
+                        tabBarLabel: 'Profile',
+                        tabBarIcon: ({ color }) => (
+                            <Cube color={theme.colors.neutral} weight="duotone" size={22} />
+                        ),
+                    }}
+                />
                 <Tab.Screen name="Pedidos" component={Pedidos} />
             </Tab.Navigator>
         </>
