@@ -1,13 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import Routes from './src/Routes';
+import { Routes } from './src/Routes';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { theme } from './src/styles/theme';
 import 'react-native-gesture-handler';
-import { SidebarDrawer } from './src/Routes/SidebarDrawer';
 import { ThemeContextProvider } from './src/hooks/ThemeContext';
 
+import { useFonts } from 'expo-font';
+// import * as SplashScreen from 'expo-splash-screen';
+// import { useCallback, useEffect } from 'react';
+
+
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'Aquire': require('./assets/fonts/AquireBold-8Ma60.otf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <>
       <ThemeContextProvider>
@@ -15,7 +27,7 @@ export default function App() {
           <SafeAreaView style={{ flex: 1 }}>
             <StatusBar
               style="light"
-              backgroundColor={theme.colors.primary}
+              backgroundColor='#000'
               translucent
             />
             <NavigationContainer>
