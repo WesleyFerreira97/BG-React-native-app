@@ -11,9 +11,9 @@ export function HeaderScreen() {
     return (
         <View style={{
             ...styles.container,
-            backgroundColor: theme.colors.secondary
+            backgroundColor: theme.colors.secondaryAlt
         }}>
-            <PlusCircle color={theme.colors.neutralAlt} weight="regular" size={24} />
+            <PlusCircle color={theme.colors.neutralAlt} weight="regular" size={28} />
             <Text
                 style={{
                     ...styles.title,

@@ -2,11 +2,12 @@ export const theme = {
     colors: {
         primary: '#D22779',
         primaryAlt: '#190430',
-        secondary: '#3F3351',
-        // secondary: '#D22779',
-        secondaryAlt: '#190430',
+        secondary: '#051629',
+        secondaryAlt: '#00060E',
         tertiary: '#DF0054',
         neutral: '#fff',
         neutralAlt: '#DBD8EA',
     }
 }
+
+// Roxo 610094

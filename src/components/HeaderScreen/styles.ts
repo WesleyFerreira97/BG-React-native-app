@@ -2,14 +2,15 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container: {
-        height: '10%',
+        height: '9%',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
     title: {
-        fontSize: 24,
+        fontSize: 18,
         fontFamily: 'Aquire',
+        marginLeft: 10,
     }
 });

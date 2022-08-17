@@ -16,7 +16,7 @@ export function Routes() {
         <>
             <Tab.Navigator
                 screenOptions={{
-                    tabBarColor: theme.colors.secondary,
+                    tabBarColor: theme.colors.secondaryAlt,
                 }}
                 shifting={true}
             >
