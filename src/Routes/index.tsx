@@ -1,16 +1,26 @@
+import React, { useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { SidebarDrawer } from './SidebarDrawer';
-import { DrawerActions } from '@react-navigation/native';
 import { useTheme } from '../hooks/ThemeContext';
 
 import { Home } from '../screens/Home';
 import { Pedidos } from '../screens/Pedidos';
-import { Cube } from 'phosphor-react-native';
+import { House, List, ClipboardText } from 'phosphor-react-native';
+
+// Imports from bottom Drawer Menu
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { StyleSheet } from 'react-native';
 
 const Tab = createMaterialBottomTabNavigator();
 
-export function Routes() {
+function Routes() {
     const { theme } = useTheme();
+    const bottomSheetRef = useRef<BottomSheet>(null);
+
+    function handleOpen() {
+        bottomSheetRef.current?.expand();
+    }
 
     return (
         <>
@@ -18,29 +28,68 @@ export function Routes() {
                 screenOptions={{
                     tabBarColor: theme.colors.primary,
                 }}
+
+                shifting={true}
             >
                 <Tab.Screen
-                    name="Menu"
+                    name="menu"
                     component={SidebarDrawer}
                     listeners={({ navigation }) => ({
                         tabPress: e => {
                             e.preventDefault();
-                            navigation.dispatch(DrawerActions.toggleDrawer());
+                            handleOpen();
                         }
                     })}
-                />
-                <Tab.Screen
-                    name="Inicio"
-                    component={Home}
                     options={{
-                        tabBarLabel: 'Profile',
+                        tabBarLabel: 'Menu',
                         tabBarIcon: ({ color }) => (
-                            <Cube color={theme.colors.neutral} weight="duotone" size={22} />
+                            <List color={color} weight="duotone" size={22} />
                         ),
                     }}
                 />
-                <Tab.Screen name="Pedidos" component={Pedidos} />
+                <Tab.Screen
+                    name="home"
+                    component={Home}
+                    options={{
+                        tabBarLabel: 'Início',
+                        tabBarIcon: ({ color }) => (
+                            <House color={color} weight="regular" size={22} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="pedidos"
+                    component={Pedidos}
+                    options={{
+                        tabBarLabel: 'Pedidos',
+                        tabBarIcon: ({ color }) => (
+                            <ClipboardText color={color} weight="duotone" size={22} />
+                        ),
+                    }}
+                />
             </Tab.Navigator>
+            <BottomSheet
+                ref={bottomSheetRef}
+                snapPoints={[1, 280]}
+                backgroundStyle={styles.container}
+                handleIndicatorStyle={styles.indicator}
+            >
+
+            </BottomSheet>
         </>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'black',
+        borderRadius: 30,
+        flex: 1,
+    },
+    indicator: {
+        backgroundColor: 'yellow',
+    }
+});
+
+
+export default gestureHandlerRootHOC(Routes);

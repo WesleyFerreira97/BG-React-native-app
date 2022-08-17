@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Home } from '../screens/Home';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Drawer = createDrawerNavigator();
 
@@ -15,10 +15,9 @@ const DrawerMenu = () => {
 export function SidebarDrawer() {
     return (
         <Drawer.Navigator
-            initialRouteName='Teste'
+            // drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
-                headerShown: false,
-
+                // headerShown: false,
             }}
         >
             <Drawer.Screen name="Teste" component={DrawerMenu} />
