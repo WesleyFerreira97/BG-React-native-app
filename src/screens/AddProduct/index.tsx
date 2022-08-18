@@ -7,6 +7,7 @@ import { Formik } from 'formik';
 import { styles } from './styles';
 import { Button, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
+import { supaDb } from '../../services/supadb';
 
 type FormValueProps = {
     title: string,
