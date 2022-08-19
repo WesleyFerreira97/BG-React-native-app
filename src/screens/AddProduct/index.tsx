@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
-import { HeaderScreen } from '../../components/HeaderScreen';
-import { useTheme } from '../../hooks/ThemeContext';
-import { Formik } from 'formik';
-
 import { styles } from './styles';
+
+import { HeaderScreen } from '../../components/HeaderScreen';
+import { useTheme } from '../../providers/ThemeContext';
+import { Formik } from 'formik';
 import { Button, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
+import { dbInsert } from '../../hooks/dbInsert';
 import { supaDb } from '../../services/supadb';
+import type { ProductProps } from '../../@types/product'
 
 type FormValueProps = {
     title: string,
@@ -29,16 +31,12 @@ const productValidation = Yup.object().shape({
 
 export function AddProduct() {
     const { theme } = useTheme();
+    const { dataResponse, setData } = dbInsert<ProductProps>('products');
 
     useEffect(() => {
-        supaDb.from("products")
-            .select("*")
-            .order("id", { ascending: true })
-            .then((data) => {
-                console.log(data);
+        console.log(dataResponse);
 
-            })
-    }, [])
+    }, []);
 
     return (
         <View style={{
@@ -69,6 +67,14 @@ export function AddProduct() {
                     </View>
                 )}
             </Formik>
+            <Button onPress={() =>
+                setData({
+                    title: "Test prop table",
+                    description: "Descrição"
+                })
+            }>
+                Submit
+            </Button>
         </View>
     );
 }

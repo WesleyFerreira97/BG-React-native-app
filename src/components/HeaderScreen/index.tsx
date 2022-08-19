@@ -1,7 +1,7 @@
 import { PlusCircle } from 'phosphor-react-native';
 import React from 'react';
 import { Text, View } from 'react-native';
-import { useTheme } from '../../hooks/ThemeContext';
+import { useTheme } from '../../providers/ThemeContext';
 
 import { styles } from './styles';
 

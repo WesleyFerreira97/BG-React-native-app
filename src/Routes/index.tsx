@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { useTheme } from '../hooks/ThemeContext';
+import { useTheme } from '../providers/ThemeContext';
 
 import { Home } from '../screens/Home';
 import { Pedidos } from '../screens/Pedidos';

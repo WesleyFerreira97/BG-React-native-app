@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
-import { useTheme } from '../../hooks/ThemeContext';
-import { ThemeProps } from '../../hooks/ThemeContext';
+import { useTheme } from '../../providers/ThemeContext';
+import { ThemeProps } from '../../providers/ThemeContext';
 import { styles } from './styles';
 
 export function Home() {

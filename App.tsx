@@ -3,7 +3,7 @@ import { Routes } from './src/Routes';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
-import { ThemeContextProvider } from './src/hooks/ThemeContext';
+import { ThemeContextProvider } from './src/providers/ThemeContext';
 import 'react-native-url-polyfill/auto';
 import { useFonts } from 'expo-font';
 
