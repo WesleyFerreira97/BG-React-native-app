@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { HeaderScreen } from '../../components/HeaderScreen';
 import { useTheme } from '../../hooks/ThemeContext';
@@ -29,6 +29,16 @@ const productValidation = Yup.object().shape({
 
 export function AddProduct() {
     const { theme } = useTheme();
+
+    useEffect(() => {
+        supaDb.from("products")
+            .select("*")
+            .order("id", { ascending: true })
+            .then((data) => {
+                console.log(data);
+
+            })
+    }, [])
 
     return (
         <View style={{

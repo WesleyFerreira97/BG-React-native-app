@@ -4,13 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
 import { ThemeContextProvider } from './src/hooks/ThemeContext';
-
+import 'react-native-url-polyfill/auto';
 import { useFonts } from 'expo-font';
-// import * as SplashScreen from 'expo-splash-screen';
-// import { useCallback, useEffect } from 'react';
-
-
-// Constants.manifest.extra.fact === 'kittens are cool';
 
 export default function App() {
 
