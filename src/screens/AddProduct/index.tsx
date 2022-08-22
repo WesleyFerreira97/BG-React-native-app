@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Text, View } from 'react-native';
 import { styles } from './styles';
 
 import { HeaderScreen } from '../../components/HeaderScreen';
@@ -10,15 +10,12 @@ import * as Yup from 'yup';
 import { dbInsert } from '../../hooks/dbInsert';
 import { supaDb } from '../../services/supadb';
 import type { ProductProps } from '../../@types/product'
+import * as ImagePicker from 'expo-image-picker';
 
-type FormValueProps = {
-    title: string,
-    description: string,
-}
-
-const initialValues: FormValueProps = {
+const initialValues: ProductProps = {
     title: "",
     description: "",
+    image: "",
 }
 
 const productValidation = Yup.object().shape({
@@ -31,12 +28,22 @@ const productValidation = Yup.object().shape({
 
 export function AddProduct() {
     const { theme } = useTheme();
-    const { dataResponse, setData } = dbInsert<ProductProps>('products');
+    const { dataResponse, setData } = dbInsert<ProductProps>("products");
+    const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-    useEffect(() => {
-        console.log(dataResponse);
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
 
-    }, []);
+        if (!result.cancelled) {
+            setImageSrc(result.uri);
+        }
+    };
+
 
     return (
         <View style={{
@@ -47,7 +54,7 @@ export function AddProduct() {
             <Formik
                 initialValues={initialValues}
                 validationSchema={productValidation}
-                onSubmit={(values: FormValueProps) => {
+                onSubmit={(values: ProductProps) => {
                     console.log(values);
 
                 }}
@@ -67,14 +74,15 @@ export function AddProduct() {
                     </View>
                 )}
             </Formik>
-            <Button onPress={() =>
-                setData({
-                    title: "Test prop table",
-                    description: "Descrição"
-                })
-            }>
-                Submit
-            </Button>
+
+            <Button onPress={pickImage}>Image Picker</Button>
+            {imageSrc && (
+                <Image
+                    source={{ uri: imageSrc }}
+                    style={{ width: '90%', height: '40%' }}
+                />
+            )}
+
         </View>
     );
 }
