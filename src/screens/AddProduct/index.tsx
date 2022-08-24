@@ -10,7 +10,8 @@ import * as Yup from 'yup';
 import { useInsert } from '../../hooks/useInsert';
 import { supaDb } from '../../services/supadb';
 import type { ProductProps } from '../../@types/product'
-import * as ImagePicker from 'expo-image-picker';
+import { ImageInput } from '../../components/ImageInput';
+
 
 const initialValues: ProductProps = {
     title: "",
@@ -29,21 +30,6 @@ const productValidation = Yup.object().shape({
 export function AddProduct() {
     const { theme } = useTheme();
     const { dataResponse, setData } = useInsert<ProductProps>("products");
-    const [imageSrc, setImageSrc] = useState<string | null>(null);
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        if (!result.cancelled) {
-            setImageSrc(result.uri);
-        }
-    };
-
 
     return (
         <View style={{
@@ -56,7 +42,7 @@ export function AddProduct() {
                 validationSchema={productValidation}
                 onSubmit={(values: ProductProps) => {
                     console.log(values);
-
+                    // setData() 
                 }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
@@ -70,18 +56,18 @@ export function AddProduct() {
                         {errors.title && touched.title ? (
                             <Text style={{ color: 'red' }}>{errors.title}</Text>
                         ) : null}
+
+                        <ImageInput
+                            name="image"
+                        />
+
+
                         <Button onPress={handleSubmit}> Submit </Button>
                     </View>
                 )}
             </Formik>
 
-            <Button onPress={pickImage}>Image Picker</Button>
-            {imageSrc && (
-                <Image
-                    source={{ uri: imageSrc }}
-                    style={{ width: '90%', height: '40%' }}
-                />
-            )}
+
 
         </View>
     );
