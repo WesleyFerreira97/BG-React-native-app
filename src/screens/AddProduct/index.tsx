@@ -24,6 +24,9 @@ const productValidation = Yup.object().shape({
         .min(2, 'Titulo muito curto!')
         .max(50, 'Titulo muito grande!')
         .required('Titulo é obrigatório'),
+    image: Yup.string()
+        .min(10, 'Imagem inválida')
+        .required('Imagem é obrigatória'),
 
 });
 
@@ -53,6 +56,7 @@ export function AddProduct() {
                             value={values.title}
                             placeholder="Titulo"
                         />
+
                         {errors.title && touched.title ? (
                             <Text style={{ color: 'red' }}>{errors.title}</Text>
                         ) : null}

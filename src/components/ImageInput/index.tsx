@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, View } from 'react-native';
+import { Image, View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { styles } from './styles';
@@ -33,6 +33,10 @@ export function ImageInput({ label, ...props }: any) {
                     style={{ width: '90%', height: '60%' }}
                 />
             )}
+
+            {meta.touched && meta.error ? (
+                <Text style={{ color: "red" }}>{meta.error}</Text>
+            ) : null}
         </View>
     );
 }
