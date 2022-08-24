@@ -7,7 +7,7 @@ import { useTheme } from '../../providers/ThemeContext';
 import { Formik } from 'formik';
 import { Button, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
-import { dbInsert } from '../../hooks/dbInsert';
+import { useInsert } from '../../hooks/useInsert';
 import { supaDb } from '../../services/supadb';
 import type { ProductProps } from '../../@types/product'
 import * as ImagePicker from 'expo-image-picker';
@@ -28,7 +28,7 @@ const productValidation = Yup.object().shape({
 
 export function AddProduct() {
     const { theme } = useTheme();
-    const { dataResponse, setData } = dbInsert<ProductProps>("products");
+    const { dataResponse, setData } = useInsert<ProductProps>("products");
     const [imageSrc, setImageSrc] = useState<string | null>(null);
 
     const pickImage = async () => {

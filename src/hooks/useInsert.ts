@@ -7,7 +7,7 @@ type DbInsertReturn<T> = {
     setData: React.Dispatch<T>
 };
 
-export function dbInsert<T>(
+export function useInsert<T>(
     table: string
 ): DbInsertReturn<T> {
 
@@ -30,5 +30,3 @@ export function dbInsert<T>(
 
 
 // supaDb.storage.from("products-images")
-
-
