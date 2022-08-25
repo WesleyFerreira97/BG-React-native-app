@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 import { styles } from './styles';
 
 import { HeaderScreen } from '../../components/HeaderScreen';
@@ -11,6 +11,7 @@ import { useInsert } from '../../hooks/useInsert';
 import { supaDb } from '../../services/supadb';
 import type { ProductProps } from '../../@types/product'
 import { ImageInput } from '../../components/ImageInput';
+import { useFileUpload } from '../../hooks/useFileUpload';
 
 
 const initialValues: ProductProps = {
@@ -24,15 +25,12 @@ const productValidation = Yup.object().shape({
         .min(2, 'Titulo muito curto!')
         .max(50, 'Titulo muito grande!')
         .required('Titulo é obrigatório'),
-    image: Yup.string()
-        .min(10, 'Imagem inválida')
-        .required('Imagem é obrigatória'),
-
 });
 
 export function AddProduct() {
     const { theme } = useTheme();
     const { dataResponse, setData } = useInsert<ProductProps>("products");
+    const { setFile } = useFileUpload();
 
     return (
         <View style={{
@@ -44,12 +42,16 @@ export function AddProduct() {
                 initialValues={initialValues}
                 validationSchema={productValidation}
                 onSubmit={(values: ProductProps) => {
-                    console.log(values);
-                    // setData() 
+                    console.log(values.image);
+
+                    // setFile({
+                    //     name: "fodase",
+                    //     data: values.image
+                    // })
                 }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                    <View>
+                    <View style={{ flex: 1 }}>
                         <TextInput
                             onChangeText={handleChange('title')}
                             onBlur={handleBlur('title')}
@@ -64,7 +66,6 @@ export function AddProduct() {
                         <ImageInput
                             name="image"
                         />
-
 
                         <Button onPress={handleSubmit}> Submit </Button>
                     </View>

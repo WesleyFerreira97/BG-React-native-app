@@ -6,6 +6,12 @@ import { styles } from './styles';
 import { useField } from 'formik';
 import { supaDb } from '../../services/supadb';
 
+type FileFormatProps = {
+    uri: string,
+    name: string,
+    type: string,
+}
+
 export function ImageInput({ label, ...props }: any) {
     const [imageSrc, setImageSrc] = useState<string | null>(null);
     const [field, meta, helpers] = useField(props);
@@ -19,25 +25,21 @@ export function ImageInput({ label, ...props }: any) {
         });
 
         if (!result.cancelled) {
-            console.log(result, "base64 filho");
+            const ext = result.uri.substring(result.uri.lastIndexOf(".") + 1);
+            const fileName = result.uri.replace(/^.*[\\\/]/, "");
+
+            let formData: any = new FormData();
+
+            await formData.append("files", {
+                uri: result.uri,
+                name: fileName,
+                type: `image/${ext}`,
+            })
 
             setImageSrc(result.uri);
-            helpers.setValue(result.uri)
+            helpers.setValue(formData)
         }
     };
-
-    // useEffect(() => {
-    //     if (!imageSrc) return;
-
-    //     supaDb.storage
-    //         .from("photo")
-    //         .upload("public/news/image1.jpg", imageSrc)
-    //         .then((res) => {
-    //             console.log(res);
-
-    //         });
-
-    // }, [imageSrc]);
 
     return (
         <View style={styles.container}>
