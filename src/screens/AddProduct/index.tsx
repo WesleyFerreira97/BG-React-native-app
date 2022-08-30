@@ -30,7 +30,12 @@ const productValidation = Yup.object().shape({
 export function AddProduct() {
     const { theme } = useTheme();
     const { dataResponse, setData } = useInsert<ProductProps>("products");
-    const { setFile } = useFileUpload();
+    const { fileUploadResponse, setFile } = useFileUpload();
+
+    useEffect(() => {
+        console.log(fileUploadResponse, 'outside return, upload response');
+
+    }, [fileUploadResponse])
 
     return (
         <View style={{
@@ -41,13 +46,19 @@ export function AddProduct() {
             <Formik
                 initialValues={initialValues}
                 validationSchema={productValidation}
-                onSubmit={(values: ProductProps) => {
-                    console.log(values.image);
+                onSubmit={async (values: ProductProps) => {
+                    await setFile({
+                        name: values.title,
+                        data: values.image
+                    })
 
-                    // setFile({
-                    //     name: "fodase",
-                    //     data: values.image
-                    // })
+                    // if(fileUploadResponse.error) return fileUploadResponse.error;
+
+                    setData({
+                        title: values.title,
+                        image: 'values.description',
+                    })
+
                 }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
@@ -77,3 +88,9 @@ export function AddProduct() {
         </View>
     );
 }
+
+// Fluxo do submit
+// Inserir bucket de imagem
+// Aguardar a resposta do servidor
+// Dependendo da resposta inserir a table com os dados relacionados a imagem/bucket
+// Ou mostrar mensagem de erro 
