@@ -15,7 +15,12 @@ export function Home() {
         console.log(error, 'buckets error');
     }
 
-    getAllBuckets();
+    async function getAllBucketsFolders() {
+        const { data, error } = await supaDb.storage.from("photo").list("public");
+
+        console.log(data, 'buckets data');
+        console.log(error, 'buckets error');
+    }
 
     return (
         <View
@@ -23,7 +28,10 @@ export function Home() {
                 styles.container,
                 { backgroundColor: theme.colors.primary }
             ]} >
-            <Text>Home COMPONENT</Text>
+            <Button
+                style={styles.button}
+                onPress={getAllBucketsFolders}
+            >Start Function</Button>
         </View>
     );
 }

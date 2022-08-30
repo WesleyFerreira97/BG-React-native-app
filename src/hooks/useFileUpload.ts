@@ -10,11 +10,7 @@ type FileProps = {
 
 export function useFileUpload<T>() {
     const [file, setFile] = useState<FileProps | null>(null);
-    const [fileUploadResponse, setFileUploadResponse] = useState<PostgrestResponse<T> | unknown>();
-
-    async function uploadFile(value: any) {
-        setFile(value);
-    }
+    const [fileUploadResponse, setFileUploadResponse] = useState<PostgrestResponse<T> | unknown>(null);
 
     useEffect(() => {
         if (!file) return;
@@ -33,5 +29,9 @@ export function useFileUpload<T>() {
         asyncUpload();
     }, [file]);
 
-    return { fileUploadResponse, setFile, uploadFile };
+    const fileUploadResponseTemp = () => {
+
+    }
+
+    return { fileUploadResponse, setFile };
 }

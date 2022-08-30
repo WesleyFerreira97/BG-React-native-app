@@ -32,10 +32,17 @@ export function AddProduct() {
     const { dataResponse, setData } = useInsert<ProductProps>("products");
     const { fileUploadResponse, setFile } = useFileUpload();
 
-    useEffect(() => {
-        console.log(fileUploadResponse, 'outside return, upload response');
+    const handleSubmitProduct = async (values: ProductProps) => {
+        setFile({
+            name: values.title,
+            data: values.image
+        })
 
-    }, [fileUploadResponse])
+        // setData({
+        //     title: values.title,
+        //     image: 'values.description',
+        // })
+    }
 
     return (
         <View style={{
@@ -47,21 +54,10 @@ export function AddProduct() {
                 initialValues={initialValues}
                 validationSchema={productValidation}
                 onSubmit={async (values: ProductProps) => {
-                    await setFile({
-                        name: values.title,
-                        data: values.image
-                    })
-
-                    // if(fileUploadResponse.error) return fileUploadResponse.error;
-
-                    setData({
-                        title: values.title,
-                        image: 'values.description',
-                    })
-
+                    handleSubmitProduct(values);
                 }}
             >
-                {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                     <View style={{ flex: 1 }}>
                         <TextInput
                             onChangeText={handleChange('title')}
