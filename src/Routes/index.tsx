@@ -19,7 +19,7 @@ export function Routes() {
                     tabBarColor: theme.colors.secondaryAlt,
                 }}
                 shifting={true}
-                initialRouteName="home"
+                initialRouteName="addProduct"
             >
                 <Tab.Screen
                     name="addProduct"

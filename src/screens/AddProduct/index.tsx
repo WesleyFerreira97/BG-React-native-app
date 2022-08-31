@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { styles } from './styles';
 
 import { HeaderScreen } from '../../components/HeaderScreen';
@@ -8,16 +8,14 @@ import { Formik } from 'formik';
 import { Button, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
 import { useInsert } from '../../hooks/useInsert';
-import { supaDb } from '../../services/supadb';
 import type { ProductProps } from '../../@types/product'
 import { ImageInput } from '../../components/ImageInput';
-import { useFileUpload } from '../../hooks/useFileUpload';
-
+import { useFileUploadAlt } from '../../hooks/useFileUpload';
 
 const initialValues: ProductProps = {
     title: "",
     description: "",
-    image: "",
+    images: "",
 }
 
 const productValidation = Yup.object().shape({
@@ -30,19 +28,29 @@ const productValidation = Yup.object().shape({
 export function AddProduct() {
     const { theme } = useTheme();
     const { dataResponse, setData } = useInsert<ProductProps>("products");
-    const { fileUploadResponse, setFile } = useFileUpload();
+    const [productProps, setProductProps] = useState<any>();
 
-    const handleSubmitProduct = async (values: ProductProps) => {
-        setFile({
-            name: values.title,
-            data: values.image
-        })
+    useEffect(() => {
+        if (!productProps) return;
 
-        // setData({
-        //     title: values.title,
-        //     image: 'values.description',
-        // })
-    }
+        const handleSubmitProduct = async () => {
+
+            const { uploadFileData, uploadFileError } = await useFileUploadAlt({
+                name: productProps.title,
+                data: productProps.image
+            });
+
+
+            if (uploadFileError) return;
+
+            // setData({
+            //     title: productProps.title,
+            //     images: 'values.description',
+            // })
+        }
+
+        handleSubmitProduct();
+    }, [productProps])
 
     return (
         <View style={{
@@ -53,8 +61,8 @@ export function AddProduct() {
             <Formik
                 initialValues={initialValues}
                 validationSchema={productValidation}
-                onSubmit={async (values: ProductProps) => {
-                    handleSubmitProduct(values);
+                onSubmit={(values: ProductProps) => {
+                    setProductProps(values);
                 }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
