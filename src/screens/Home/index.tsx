@@ -22,6 +22,33 @@ export function Home() {
         console.log(error, 'buckets error');
     }
 
+    async function getAllCategories() {
+        const { data, error } = await supaDb.from('categories').select();
+
+        console.log(data, 'buckets data');
+        console.log(error, 'buckets error');
+    }
+
+    async function deleteCategories() {
+        const { data, error } = await supaDb
+            .from('categories')
+            .delete()
+            .match({ slug: 'brincos' })
+
+        console.log(data, 'buckets data');
+        console.log(error, 'buckets error');
+    }
+
+    async function updateCategories() {
+        const { data, error } = await supaDb
+            .from('categories')
+            .update({ slug: 'shorts' })
+            .match({ slug: 'Auckland' })
+
+        console.log(data, 'buckets data');
+        console.log(error, 'buckets error');
+    }
+
     return (
         <View
             style={[
@@ -30,7 +57,7 @@ export function Home() {
             ]} >
             <Button
                 style={styles.button}
-                onPress={getAllBucketsFolders}
+                onPress={updateCategories}
             >Start Function</Button>
         </View>
     );

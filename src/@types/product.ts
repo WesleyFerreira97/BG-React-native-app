@@ -3,4 +3,5 @@ export type ProductProps = {
     description?: string,
     categories?: string[],
     images: string,
+    product_categories: string,
 }

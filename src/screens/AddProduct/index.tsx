@@ -16,6 +16,7 @@ const initialValues: ProductProps = {
     title: "",
     description: "",
     images: "",
+    product_categories: "",
 }
 
 const productValidation = Yup.object().shape({
@@ -43,19 +44,30 @@ export function AddProduct() {
 
             if (uploadFileError) return;
 
-            // setData({
-            //     title: productProps.title,
-            //     images: 'values.description',
-            // })
+            console.log(uploadFileData, 'buckets uploadFileData');
+
+            setData({
+                title: productProps.title,
+                images: 'photo',
+                product_categories: 'shorts'
+            })
         }
 
         handleSubmitProduct();
     }, [productProps])
 
+    useEffect(() => {
+        console.log(dataResponse, 'buckets dataResponse');
+
+    }, [dataResponse]);
+
     return (
         <View style={{
             ...styles.container,
-            backgroundColor: theme.colors.secondary
+            backgroundColor: theme.colors.secondary,
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
         }}>
             <HeaderScreen />
             <Formik
@@ -66,12 +78,13 @@ export function AddProduct() {
                 }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1, width: '90%' }}>
                         <TextInput
                             onChangeText={handleChange('title')}
                             onBlur={handleBlur('title')}
                             value={values.title}
                             placeholder="Titulo"
+                            mode='outlined'
                         />
 
                         {errors.title && touched.title ? (
@@ -86,9 +99,6 @@ export function AddProduct() {
                     </View>
                 )}
             </Formik>
-
-
-
         </View>
     );
 }

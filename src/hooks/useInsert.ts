@@ -28,5 +28,12 @@ export function useInsert<T>(
     return { dataResponse, setData };
 }
 
+// export async function useFileUploadAlt(file: FileProps): Promise<ResponseUploadProps> {
 
-// supaDb.storage.from("products-images")
+//     const { data, error } = await supaDb
+//         .storage
+//         .from("photo")
+//         .upload(`public/${file?.name}/${file?.data._parts[0][1].name}`, file?.data)
+
+//     return { uploadFileData: data, uploadFileError: error }
+// }
