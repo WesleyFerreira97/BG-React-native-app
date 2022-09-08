@@ -1,5 +1,5 @@
 import { PostgrestError } from "@supabase/supabase-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
 type CategoriesProps = {
@@ -15,20 +15,24 @@ type CategoriesHookProps = {
 }
 
 export function useCategories() {
-    const [categoriesData, setCategoriesData] = useState<CategoriesHookProps>();
+    const [categoriesResponse, setCategoriesResponse] = useState<CategoriesHookProps>();
 
-    async function getAllCategories() {
-        const { data, error } = await supaDb
-            .from<any>('categories')
-            .select();
+    useEffect(() => {
+        async function getAllCategories() {
+            const data = await supaDb
+                .from('categories')
+                .select();
+            return data;
+        }
 
-        setCategoriesData({
-            allCategories: data,
-            categoriesError: error,
-        })
-    }
+        getAllCategories().then(res => {
 
-    getAllCategories();
+            setCategoriesResponse({
+                allCategories: res.data,
+                categoriesError: res.error
+            });
+        });
+    }, [])
 
-    return { categoriesData }
+    return { ...categoriesResponse };
 }

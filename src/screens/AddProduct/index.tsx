@@ -33,7 +33,8 @@ export function AddProduct() {
     const { theme } = useTheme();
     const { dataResponse, setData } = useInsert<ProductProps>("products");
     const [productProps, setProductProps] = useState<any>();
-    const { categoriesData } = useCategories();
+    const { allCategories, categoriesError } = useCategories();
+
 
     useEffect(() => {
         if (!productProps) return;
