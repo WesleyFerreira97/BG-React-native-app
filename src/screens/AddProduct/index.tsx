@@ -11,12 +11,15 @@ import { useInsert } from '../../hooks/useInsert';
 import type { ProductProps } from '../../@types/product'
 import { ImageInput } from '../../components/ImageInput';
 import { useFileUploadAlt } from '../../hooks/useFileUpload';
+import { Picker } from '@react-native-picker/picker';
+import { useCategories } from '../../hooks/useCategories';
 
 const initialValues: ProductProps = {
     title: "",
     description: "",
-    images: "",
     product_categories: "",
+    bucket: "",
+    bucket_folder: "",
 }
 
 const productValidation = Yup.object().shape({
@@ -30,36 +33,32 @@ export function AddProduct() {
     const { theme } = useTheme();
     const { dataResponse, setData } = useInsert<ProductProps>("products");
     const [productProps, setProductProps] = useState<any>();
+    const { categoriesData } = useCategories();
 
     useEffect(() => {
         if (!productProps) return;
 
         const handleSubmitProduct = async () => {
 
-            const { uploadFileData, uploadFileError } = await useFileUploadAlt({
-                name: productProps.title,
-                data: productProps.image
-            });
+            // const { uploadFileData, uploadFileError } = await useFileUploadAlt({
+            //     name: productProps.title,
+            //     data: productProps.image
+            // });
 
+            // if (uploadFileError) return;
 
-            if (uploadFileError) return;
-
-            console.log(uploadFileData, 'buckets uploadFileData');
+            // console.log(uploadFileData, 'buckets uploadFileData');
 
             setData({
                 title: productProps.title,
-                images: 'photo',
-                product_categories: 'shorts'
+                product_categories: 'shorts',
+                bucket: 'photo',
+                bucket_folder: `products/${productProps.title}`,
             })
         }
 
         handleSubmitProduct();
     }, [productProps])
-
-    useEffect(() => {
-        console.log(dataResponse, 'buckets dataResponse');
-
-    }, [dataResponse]);
 
     return (
         <View style={{
@@ -91,9 +90,14 @@ export function AddProduct() {
                             <Text style={{ color: 'red' }}>{errors.title}</Text>
                         ) : null}
 
-                        <ImageInput
+                        <Picker
+
+                        >
+
+                        </Picker>
+                        {/* <ImageInput
                             name="image"
-                        />
+                        /> */}
 
                         <Button onPress={handleSubmit}> Submit </Button>
                     </View>
@@ -104,7 +108,4 @@ export function AddProduct() {
 }
 
 // Fluxo do submit
-// Inserir bucket de imagem
-// Aguardar a resposta do servidor
-// Dependendo da resposta inserir a table com os dados relacionados a imagem/bucket
-// Ou mostrar mensagem de erro 
+// Cadastrar os produtos 

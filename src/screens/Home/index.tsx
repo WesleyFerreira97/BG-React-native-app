@@ -4,6 +4,7 @@ import { useTheme } from '../../providers/ThemeContext';
 import { ThemeProps } from '../../providers/ThemeContext';
 import { supaDb } from '../../services/supadb';
 import { styles } from './styles';
+import React, { PropsWithChildren } from 'react';
 
 export function Home() {
     const { theme, setTheme } = useTheme();
@@ -57,7 +58,7 @@ export function Home() {
             ]} >
             <Button
                 style={styles.button}
-                onPress={updateCategories}
+                onPress={getAllCategories}
             >Start Function</Button>
         </View>
     );
