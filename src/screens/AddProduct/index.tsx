@@ -13,6 +13,7 @@ import { ImageInput } from '../../components/ImageInput';
 import { useFileUploadAlt } from '../../hooks/useFileUpload';
 import { Picker } from '@react-native-picker/picker';
 import { useCategories } from '../../hooks/useCategories';
+import { SelectInput } from '../../components/SelectInput';
 
 const initialValues: ProductProps = {
     title: "",
@@ -74,7 +75,9 @@ export function AddProduct() {
                 initialValues={initialValues}
                 validationSchema={productValidation}
                 onSubmit={(values: ProductProps) => {
-                    setProductProps(values);
+                    // setProductProps(values);
+                    console.log(values, 'values submit log');
+
                 }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
@@ -91,15 +94,16 @@ export function AddProduct() {
                             <Text style={{ color: 'red' }}>{errors.title}</Text>
                         ) : null}
 
-                        <Picker
+                        {!categoriesError && (
+                            <SelectInput
+                                name="product_categories"
+                                items={allCategories}
+                            />
+                        )}
 
-                        >
-
-                        </Picker>
                         {/* <ImageInput
                             name="image"
                         /> */}
-
                         <Button onPress={handleSubmit}> Submit </Button>
                     </View>
                 )}
