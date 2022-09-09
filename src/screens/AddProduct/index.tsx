@@ -36,7 +36,6 @@ export function AddProduct() {
     const [productProps, setProductProps] = useState<any>();
     const { allCategories, categoriesError } = useCategories();
 
-
     useEffect(() => {
         if (!productProps) return;
 
@@ -97,8 +96,17 @@ export function AddProduct() {
                         {!categoriesError && (
                             <SelectInput
                                 name="product_categories"
-                                items={allCategories}
-                            />
+                                style={{ color: theme.colors.neutral }}
+                            >
+                                {allCategories?.map((item, index) => (
+                                    <SelectInput.Item
+                                        key={index}
+                                        label={item.title}
+                                        value={item.slug}
+                                        style={{ color: theme.colors.secondary }}
+                                    />
+                                ))}
+                            </SelectInput>
                         )}
 
                         {/* <ImageInput
