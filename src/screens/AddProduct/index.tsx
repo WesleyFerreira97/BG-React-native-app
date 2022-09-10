@@ -37,6 +37,11 @@ export function AddProduct() {
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
+        console.log(dataResponse, 'dataResponse ');
+
+    }, [dataResponse])
+
+    useEffect(() => {
         if (!productProps) return;
 
         const handleSubmitProduct = async () => {
@@ -46,15 +51,16 @@ export function AddProduct() {
             //     data: productProps.image
             // });
 
-            // if (uploadFileError) return;
+            // if (uploadFileError) return;aaaaaa
 
             // console.log(uploadFileData, 'buckets uploadFileData');
 
             setData({
                 title: productProps.title,
-                product_categories: 'shorts',
+                description: productProps.description,
+                product_categories: productProps.product_categories,
                 bucket: 'photo',
-                bucket_folder: `products/${productProps.title}`,
+                bucket_folder: `products/${productProps.product_categories}/${productProps.title}`,
             })
         }
 
@@ -88,6 +94,13 @@ export function AddProduct() {
                             placeholder="Titulo"
                             mode='outlined'
                         />
+                        <TextInput
+                            onChangeText={handleChange('description')}
+                            onBlur={handleBlur('description')}
+                            value={values.description}
+                            placeholder="Descrição"
+                            mode='outlined'
+                        />
 
                         {errors.title && touched.title ? (
                             <Text style={{ color: 'red' }}>{errors.title}</Text>
@@ -109,9 +122,6 @@ export function AddProduct() {
                             </SelectInput>
                         )}
 
-                        {/* <ImageInput
-                            name="image"
-                        /> */}
                         <Button onPress={handleSubmit}> Submit </Button>
                     </View>
                 )}
@@ -120,5 +130,3 @@ export function AddProduct() {
     );
 }
 
-// Fluxo do submit
-// Cadastrar os produtos 
