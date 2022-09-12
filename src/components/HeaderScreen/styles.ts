@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         marginBottom: 25,
     },
     title: {
-        fontSize: 24,
+        fontSize: 26,
         fontFamily: 'Aquire',
         marginLeft: 10,
     }

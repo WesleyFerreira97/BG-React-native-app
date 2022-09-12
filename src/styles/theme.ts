@@ -7,6 +7,11 @@ export const theme = {
         tertiary: '#DF0054',
         neutral: '#fff',
         neutralAlt: '#EDEDED',
+    },
+    fonts: {
+        primary: "Aquire",
+        secondary: "Poppins",
+        secondaryAlt: "Poppins-semibold"
     }
 }
 

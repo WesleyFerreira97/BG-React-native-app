@@ -79,23 +79,22 @@ export function AddProduct() {
         }}>
             <HeaderScreen />
 
-            <HeaderSection>
-                1º Etapa - Cadastro
-            </HeaderSection>
-
             <Formik
                 initialValues={initialValues}
                 validationSchema={productValidation}
                 onSubmit={(values: ProductProps) => {
                     // setProductProps(values);
                     console.log(values, 'values submit log');
-
-                }}
-            >
+                }} >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                     <View style={{ flex: 1, width: '100%', alignItems: 'center' }}>
 
                         <View style={{ flex: 1, width: '90%' }}>
+
+                            <HeaderSection>
+                                1º Etapa - Cadastro
+                            </HeaderSection>
+
                             <TextInput
                                 name='title'
                                 label='Title'
