@@ -116,14 +116,12 @@ export function AddProduct() {
                             {!categoriesError && (
                                 <SelectInput
                                     name="product_categories"
-                                    style={{ color: theme.colors.neutral }}
                                 >
                                     {allCategories?.map((item, index) => (
                                         <SelectInput.Item
                                             key={index}
                                             label={item.title}
                                             value={item.slug}
-                                            style={{ color: theme.colors.secondary }}
                                         />
                                     ))}
                                 </SelectInput>

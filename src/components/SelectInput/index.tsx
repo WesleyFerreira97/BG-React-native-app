@@ -27,26 +27,22 @@ const Item = ({ label, value, style }: SelectItemProps) => {
 
 function SelectInput({ name, children, style }: PropsWithChildren<SelectInputProps>) {
     const [field, meta, helpers] = useField(name);
-    const [selectedValue, setSelectValue] = useState();
+    const [selectedValue, setSelectValue] = useState<string>();
 
-    useEffect(() => {
-        console.log(selectedValue, 'selected value');
-
-        helpers.setValue(selectedValue)
-    }, [selectedValue])
+    const handleSelect = (selectedItem: string) => {
+        setSelectValue(selectedItem);
+        helpers.setValue(selectedItem);
+    }
 
     return (
         <View style={styles.container}>
-
             <Picker
-                style={style}
+                style={styles.selectedLabel}
                 selectedValue={selectedValue}
                 onValueChange={(itemValue, itemIndex) =>
-                    setSelectValue(itemValue)
+                    handleSelect(itemValue)
                 }>
-
                 {children}
-
             </Picker>
         </View>
     );
