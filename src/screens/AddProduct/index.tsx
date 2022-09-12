@@ -24,6 +24,7 @@ const initialValues: ProductProps = {
     product_categories: "",
     bucket: "",
     bucket_folder: "",
+    price: 0,
 }
 
 const productValidation = Yup.object().shape({
@@ -56,6 +57,7 @@ export function AddProduct() {
                 product_categories: productProps.product_categories,
                 bucket: 'photo',
                 bucket_folder: `products/${productProps.product_categories}/${productProps.title}`,
+                price: productProps.price,
             })
         }
 
@@ -87,47 +89,49 @@ export function AddProduct() {
                     console.log(values, 'values submit log');
                 }} >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
-                    <View style={{ flex: 1, width: '100%', alignItems: 'center' }}>
 
-                        <View style={{ flex: 1, width: '90%' }}>
+                    <View style={{ flex: 1, width: '90%' }}>
 
-                            <HeaderSection>
-                                1º Etapa - Cadastro
-                            </HeaderSection>
+                        <HeaderSection>
+                            1º Etapa - Cadastro
+                        </HeaderSection>
 
-                            <TextInput
-                                name='title'
-                                label='Title'
-                                placeholder='Titulo do produto'
-                            />
+                        <TextInput
+                            name='title'
+                            label='Title'
+                            placeholder='Titulo do produto'
+                        />
 
-                            <TextInput
-                                name='description'
-                                label='Descrição'
-                                placeholder='Descrição do produto'
-                                multiline={true}
-                                numberOfLines={5}
-                            />
+                        <TextInput
+                            name='description'
+                            label='Descrição'
+                            placeholder='Descrição do produto'
+                            multiline={true}
+                            numberOfLines={5}
+                        />
 
-                            {errors.title && touched.title ? (
-                                <Text style={{ color: 'red' }}>{errors.title}</Text>
-                            ) : null}
+                        {errors.title && touched.title ? (
+                            <Text style={{ color: 'red' }}>{errors.title}</Text>
+                        ) : null}
 
-                            {!categoriesError && (
-                                <SelectInput
-                                    name="product_categories"
-                                >
-                                    {allCategories?.map((item, index) => (
-                                        <SelectInput.Item
-                                            key={index}
-                                            label={item.title}
-                                            value={item.slug}
-                                        />
-                                    ))}
-                                </SelectInput>
-                            )}
+                        {!categoriesError && (
+                            <SelectInput name="product_categories" >
+                                {allCategories?.map((item, index) => (
+                                    <SelectInput.Item
+                                        key={index}
+                                        label={item.title}
+                                        value={item.slug}
+                                    />
+                                ))}
+                            </SelectInput>
+                        )}
 
-                        </View>
+                        <TextInput
+                            name='price'
+                            label='Price'
+                            placeholder='Preço'
+                            keyboardType='number-pad'
+                        />
 
                         <Provider >
                             <Portal>
@@ -147,8 +151,8 @@ export function AddProduct() {
                             </Button>
                         </Provider>
 
-
                         <Button onPress={handleSubmit}> Submit </Button>
+
                     </View>
                 )}
             </Formik>

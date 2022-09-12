@@ -5,4 +5,5 @@ export type ProductProps = {
     product_categories: string,
     bucket: string,
     bucket_folder: string,
+    price: number,
 }

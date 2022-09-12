@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, KeyboardTypeOptions } from 'react-native';
 import { useField } from 'formik';
 import { styles } from './styles';
 import { Button, TextInput as TextInputPaper } from 'react-native-paper';
@@ -11,6 +11,7 @@ type TextInputProps = {
     placeholder?: string;
     multiline?: boolean;
     numberOfLines?: number;
+    keyboardType?: KeyboardTypeOptions;
 }
 
 export function TextInput({ name, ...props }: TextInputProps) {
@@ -25,6 +26,7 @@ export function TextInput({ name, ...props }: TextInputProps) {
         <View style={styles.container}>
             {/* <Text style={styles.label}>{props.label}</Text> */}
             <TextInputPaper
+                keyboardType={props.keyboardType}
                 onChangeText={(e) => handleOnChange(e)}
                 value={textValue}
                 mode='outlined'
