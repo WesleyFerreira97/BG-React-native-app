@@ -2,5 +2,13 @@ import { StyleSheet } from 'react-native';
 import { theme } from '../../styles/theme';
 
 export const styles = StyleSheet.create({
-    container: {},
+    container: {
+        paddingTop: 0,
+        paddingBottom: 10,
+    },
+    label: {
+        fontFamily: theme.fonts.secondary,
+        fontSize: 15,
+        color: theme.colors.darkGray
+    }
 });

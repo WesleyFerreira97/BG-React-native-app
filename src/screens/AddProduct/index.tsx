@@ -105,6 +105,8 @@ export function AddProduct() {
                                 name='description'
                                 label='Descrição'
                                 placeholder='Descrição do produto'
+                                multiline={true}
+                                numberOfLines={5}
                             />
 
                             {errors.title && touched.title ? (

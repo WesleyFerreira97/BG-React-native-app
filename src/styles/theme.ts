@@ -7,6 +7,7 @@ export const theme = {
         tertiary: '#DF0054',
         neutral: '#fff',
         neutralAlt: '#EDEDED',
+        darkGray: '#A8A8A8',
     },
     fonts: {
         primary: "Aquire",
