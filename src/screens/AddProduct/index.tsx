@@ -14,6 +14,7 @@ import { useFileUploadAlt } from '../../hooks/useFileUpload';
 import { Picker } from '@react-native-picker/picker';
 import { useCategories } from '../../hooks/useCategories';
 import { SelectInput } from '../../components/SelectInput';
+import { CheckboxInput } from '../../components/CheckboxInput';
 
 const initialValues: ProductProps = {
     title: "",
@@ -37,23 +38,9 @@ export function AddProduct() {
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
-        console.log(dataResponse, 'dataResponse ');
-
-    }, [dataResponse])
-
-    useEffect(() => {
         if (!productProps) return;
 
         const handleSubmitProduct = async () => {
-
-            // const { uploadFileData, uploadFileError } = await useFileUploadAlt({
-            //     name: productProps.title,
-            //     data: productProps.image
-            // });
-
-            // if (uploadFileError) return;aaaaaa
-
-            // console.log(uploadFileData, 'buckets uploadFileData');
 
             setData({
                 title: productProps.title,
@@ -65,17 +52,25 @@ export function AddProduct() {
         }
 
         handleSubmitProduct();
-    }, [productProps])
+    }, [productProps]);
+
+    const product_sizes: { [key: string]: string } = {
+        sizeP: 'Tamanho P',
+        sizeM: 'Tamanho M',
+        sizeG: 'Tamanho G',
+        sizeGG: 'Tamanho GG',
+    }
 
     return (
         <View style={{
             ...styles.container,
-            backgroundColor: theme.colors.secondary,
+            // backgroundColor: theme.colors.neutralAlt,
+            backgroundColor: "navy",
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
         }}>
-            <HeaderScreen />
+            {/* <HeaderScreen /> */}
             <Formik
                 initialValues={initialValues}
                 validationSchema={productValidation}
@@ -122,6 +117,13 @@ export function AddProduct() {
                             </SelectInput>
                         )}
 
+                        {Object.keys(product_sizes).map((value, key) => (
+                            <CheckboxInput
+                                key={key}
+                                name={value}
+                                label={product_sizes[value]}
+                            />
+                        ))}
                         <Button onPress={handleSubmit}> Submit </Button>
                     </View>
                 )}
