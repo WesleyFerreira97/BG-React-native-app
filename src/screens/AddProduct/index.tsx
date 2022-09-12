@@ -5,7 +5,7 @@ import { styles } from './styles';
 import { HeaderScreen } from '../../components/HeaderScreen';
 import { useTheme } from '../../providers/ThemeContext';
 import { Formik } from 'formik';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, Modal, Portal, Provider } from 'react-native-paper';
 import * as Yup from 'yup';
 import { useInsert } from '../../hooks/useInsert';
 import type { ProductProps } from '../../@types/product'
@@ -15,6 +15,8 @@ import { Picker } from '@react-native-picker/picker';
 import { useCategories } from '../../hooks/useCategories';
 import { SelectInput } from '../../components/SelectInput';
 import { CheckboxInput } from '../../components/CheckboxInput';
+import { TextInput } from '../../components/TextInput';
+import { HeaderSection } from '../../components/HeaderSection';
 
 const initialValues: ProductProps = {
     title: "",
@@ -36,6 +38,12 @@ export function AddProduct() {
     const { dataResponse, setData } = useInsert<ProductProps>("products");
     const [productProps, setProductProps] = useState<any>();
     const { allCategories, categoriesError } = useCategories();
+
+    const [visible, setVisible] = useState(false);
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
+    const containerStyle = { backgroundColor: '#fff', padding: 20 };
+
 
     useEffect(() => {
         if (!productProps) return;
@@ -64,13 +72,17 @@ export function AddProduct() {
     return (
         <View style={{
             ...styles.container,
-            // backgroundColor: theme.colors.neutralAlt,
-            backgroundColor: "navy",
+            backgroundColor: theme.colors.neutralAlt,
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
         }}>
-            {/* <HeaderScreen /> */}
+            <HeaderScreen />
+
+            <HeaderSection>
+                1º Etapa - Cadastro
+            </HeaderSection>
+
             <Formik
                 initialValues={initialValues}
                 validationSchema={productValidation}
@@ -81,49 +93,62 @@ export function AddProduct() {
                 }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
-                    <View style={{ flex: 1, width: '90%' }}>
-                        <TextInput
-                            onChangeText={handleChange('title')}
-                            onBlur={handleBlur('title')}
-                            value={values.title}
-                            placeholder="Titulo"
-                            mode='outlined'
-                        />
-                        <TextInput
-                            onChangeText={handleChange('description')}
-                            onBlur={handleBlur('description')}
-                            value={values.description}
-                            placeholder="Descrição"
-                            mode='outlined'
-                        />
+                    <View style={{ flex: 1, width: '100%', alignItems: 'center' }}>
 
-                        {errors.title && touched.title ? (
-                            <Text style={{ color: 'red' }}>{errors.title}</Text>
-                        ) : null}
-
-                        {!categoriesError && (
-                            <SelectInput
-                                name="product_categories"
-                                style={{ color: theme.colors.neutral }}
-                            >
-                                {allCategories?.map((item, index) => (
-                                    <SelectInput.Item
-                                        key={index}
-                                        label={item.title}
-                                        value={item.slug}
-                                        style={{ color: theme.colors.secondary }}
-                                    />
-                                ))}
-                            </SelectInput>
-                        )}
-
-                        {Object.keys(product_sizes).map((value, key) => (
-                            <CheckboxInput
-                                key={key}
-                                name={value}
-                                label={product_sizes[value]}
+                        <View style={{ flex: 1, width: '90%' }}>
+                            <TextInput
+                                name='title'
+                                label='Title'
+                                placeholder='Titulo do produto'
                             />
-                        ))}
+
+                            <TextInput
+                                name='description'
+                                label='Descrição'
+                                placeholder='Descrição do produto'
+                            />
+
+                            {errors.title && touched.title ? (
+                                <Text style={{ color: 'red' }}>{errors.title}</Text>
+                            ) : null}
+
+                            {!categoriesError && (
+                                <SelectInput
+                                    name="product_categories"
+                                    style={{ color: theme.colors.neutral }}
+                                >
+                                    {allCategories?.map((item, index) => (
+                                        <SelectInput.Item
+                                            key={index}
+                                            label={item.title}
+                                            value={item.slug}
+                                            style={{ color: theme.colors.secondary }}
+                                        />
+                                    ))}
+                                </SelectInput>
+                            )}
+
+                        </View>
+
+                        <Provider >
+                            <Portal>
+                                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+
+                                    {Object.keys(product_sizes).map((value, key) => (
+                                        <CheckboxInput
+                                            key={key}
+                                            name={value}
+                                            label={product_sizes[value]}
+                                        />
+                                    ))}
+                                </Modal>
+                            </Portal>
+                            <Button style={{ marginTop: 30 }} onPress={showModal}>
+                                Tamanhos
+                            </Button>
+                        </Provider>
+
+
                         <Button onPress={handleSubmit}> Submit </Button>
                     </View>
                 )}

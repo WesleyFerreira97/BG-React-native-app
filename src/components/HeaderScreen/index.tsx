@@ -11,16 +11,16 @@ export function HeaderScreen() {
     return (
         <View style={{
             ...styles.container,
-            backgroundColor: theme.colors.secondaryAlt
+            backgroundColor: theme.colors.primary
         }}>
-            <PlusCircle color={theme.colors.neutralAlt} weight="regular" size={28} />
+            {/* <PlusCircle color={theme.colors.neutralAlt} weight="regular" size={28} /> */}
             <Text
                 style={{
                     ...styles.title,
                     color: theme.colors.neutralAlt
                 }}>
 
-                Adicionar Produto
+                Add Produto
             </Text>
         </View>
     );

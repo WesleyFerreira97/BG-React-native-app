@@ -7,6 +7,6 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     label: {
-        color: "#fff",
+        color: "gray",
     }
 });
