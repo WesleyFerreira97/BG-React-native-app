@@ -5,18 +5,16 @@ import { styles } from './styles';
 import { HeaderScreen } from '../../components/HeaderScreen';
 import { useTheme } from '../../providers/ThemeContext';
 import { Formik } from 'formik';
-import { Button, Modal, Portal, Provider } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
 import { useInsert } from '../../hooks/useInsert';
 import type { ProductProps } from '../../@types/product'
-import { ImageInput } from '../../components/ImageInput';
-import { useFileUploadAlt } from '../../hooks/useFileUpload';
-import { Picker } from '@react-native-picker/picker';
 import { useCategories } from '../../hooks/useCategories';
 import { SelectInput } from '../../components/SelectInput';
-import { CheckboxInput } from '../../components/CheckboxInput';
 import { TextInput } from '../../components/TextInput';
 import { HeaderSection } from '../../components/HeaderSection';
+import { Modal } from '../../components/Modal';
+import { CheckboxInput } from '../../components/CheckboxInput';
 
 const initialValues: ProductProps = {
     title: "",
@@ -39,12 +37,6 @@ export function AddProduct() {
     const { dataResponse, setData } = useInsert<ProductProps>("products");
     const [productProps, setProductProps] = useState<any>();
     const { allCategories, categoriesError } = useCategories();
-
-    const [visible, setVisible] = useState(false);
-    const showModal = () => setVisible(true);
-    const hideModal = () => setVisible(false);
-    const containerStyle = { backgroundColor: '#fff', padding: 20 };
-
 
     useEffect(() => {
         if (!productProps) return;
@@ -133,25 +125,21 @@ export function AddProduct() {
                             keyboardType='number-pad'
                         />
 
-                        <Provider >
-                            <Portal>
-                                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                        <Modal
+                            modalLabel='Tamanhos : '
+                            value={'default value'}
+                        >
+                            {Object.keys(product_sizes).map((value, key) => (
+                                <CheckboxInput
+                                    key={key}
+                                    name={value}
+                                    label={product_sizes[value]}
+                                />
+                            ))}
+                        </Modal>
 
-                                    {Object.keys(product_sizes).map((value, key) => (
-                                        <CheckboxInput
-                                            key={key}
-                                            name={value}
-                                            label={product_sizes[value]}
-                                        />
-                                    ))}
-                                </Modal>
-                            </Portal>
-                            <Button style={{ marginTop: 30 }} onPress={showModal}>
-                                Tamanhos
-                            </Button>
-                        </Provider>
 
-                        <Button onPress={handleSubmit}> Submit </Button>
+                        <Button onPress={handleSubmit} mode="contained"> Submit </Button>
 
                     </View>
                 )}
