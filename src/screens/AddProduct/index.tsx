@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { styles } from './styles';
 
 import { HeaderScreen } from '../../components/HeaderScreen';
@@ -20,6 +20,7 @@ const initialValues: ProductProps = {
     title: "",
     description: "",
     product_categories: "",
+    product_sizes: "",
     bucket: "",
     bucket_folder: "",
     price: 0,
@@ -37,6 +38,7 @@ export function AddProduct() {
     const { dataResponse, setData } = useInsert<ProductProps>("products");
     const [productProps, setProductProps] = useState<any>();
     const { allCategories, categoriesError } = useCategories();
+    const [stateTest, setStateTest] = useState<any>('Initial State');
 
     useEffect(() => {
         if (!productProps) return;
@@ -47,6 +49,7 @@ export function AddProduct() {
                 title: productProps.title,
                 description: productProps.description,
                 product_categories: productProps.product_categories,
+                product_sizes: productProps.product_sizes,
                 bucket: 'photo',
                 bucket_folder: `products/${productProps.product_categories}/${productProps.title}`,
                 price: productProps.price,
@@ -68,8 +71,7 @@ export function AddProduct() {
             ...styles.container,
             backgroundColor: theme.colors.neutralAlt,
             flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
+
         }}>
             <HeaderScreen />
 
@@ -81,66 +83,80 @@ export function AddProduct() {
                     console.log(values, 'values submit log');
                 }} >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
+                    <View style={{
+                        // width: '100%',
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
 
-                    <View style={{ flex: 1, width: '90%' }}>
+                        <ScrollView style={{ flex: 1, width: '90%' }}>
+                            <HeaderSection>
+                                1º Etapa - Cadastro
+                            </HeaderSection>
 
-                        <HeaderSection>
-                            1º Etapa - Cadastro
-                        </HeaderSection>
+                            <TextInput
+                                name='title'
+                                label='Title'
+                                placeholder='Titulo do produto'
+                            />
 
-                        <TextInput
-                            name='title'
-                            label='Title'
-                            placeholder='Titulo do produto'
-                        />
+                            <TextInput
+                                name='description'
+                                label='Descrição'
+                                placeholder='Descrição do produto'
+                                multiline={true}
+                                numberOfLines={5}
+                            />
 
-                        <TextInput
-                            name='description'
-                            label='Descrição'
-                            placeholder='Descrição do produto'
-                            multiline={true}
-                            numberOfLines={5}
-                        />
+                            {errors.title && touched.title ? (
+                                <Text style={{ color: 'red' }}>{errors.title}</Text>
+                            ) : null}
 
-                        {errors.title && touched.title ? (
-                            <Text style={{ color: 'red' }}>{errors.title}</Text>
-                        ) : null}
+                            {!categoriesError && (
+                                <SelectInput name="product_categories" >
+                                    {allCategories?.map((item, index) => (
+                                        <SelectInput.Item
+                                            key={index}
+                                            label={item.title}
+                                            value={item.slug}
+                                        />
+                                    ))}
+                                </SelectInput>
+                            )}
 
-                        {!categoriesError && (
-                            <SelectInput name="product_categories" >
-                                {allCategories?.map((item, index) => (
-                                    <SelectInput.Item
-                                        key={index}
-                                        label={item.title}
-                                        value={item.slug}
+                            <TextInput
+                                name='price'
+                                label='Price'
+                                placeholder='Preço'
+                                keyboardType='number-pad'
+                            />
+
+                            <Text>{stateTest}</Text>
+                            <Modal
+                                label='Tamanhos Disponíveis : '
+                                value={values.product_sizes}
+                            >
+                                {Object.keys(product_sizes).map((value, key) => (
+                                    <CheckboxInput
+                                        key={key}
+                                        name={value}
+                                        label={product_sizes[value]}
                                     />
                                 ))}
-                            </SelectInput>
-                        )}
+                                <Button onPress={() => setStateTest("Valor Alterado")}>
+                                    Change State
+                                </Button>
+                            </Modal>
+                        </ScrollView>
 
-                        <TextInput
-                            name='price'
-                            label='Price'
-                            placeholder='Preço'
-                            keyboardType='number-pad'
-                        />
-
-                        <Modal
-                            modalLabel='Tamanhos : '
-                            value={'default value'}
+                        <Button
+                            onPress={handleSubmit}
+                            mode="contained"
+                            style={styles.submitButton}
                         >
-                            {Object.keys(product_sizes).map((value, key) => (
-                                <CheckboxInput
-                                    key={key}
-                                    name={value}
-                                    label={product_sizes[value]}
-                                />
-                            ))}
-                        </Modal>
-
-
-                        <Button onPress={handleSubmit} mode="contained"> Submit </Button>
-
+                            Cadastrar
+                        </Button>
                     </View>
                 )}
             </Formik>

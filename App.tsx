@@ -7,6 +7,7 @@ import { ThemeContextProvider } from './src/providers/ThemeContext';
 import 'react-native-url-polyfill/auto';
 import { useFonts } from 'expo-font';
 import { PaperProvider } from './src/providers/PaperProvider';
+import { theme } from './src/styles/theme';
 
 export default function App() {
 
@@ -28,7 +29,7 @@ export default function App() {
             <SafeAreaView style={{ flex: 1 }}>
               <StatusBar
                 style="light"
-                backgroundColor='#000'
+                backgroundColor={theme.colors.primary}
                 translucent
               />
               <NavigationContainer>

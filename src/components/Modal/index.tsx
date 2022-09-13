@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native';
-import { Button, Portal, Provider } from 'react-native-paper';
-import { Modal as ModalPaper } from 'react-native-paper';
+import { Text, TouchableOpacity, Modal as ModalNative, View } from 'react-native';
 import { styles } from './styles';
 
 type ModalProps = {
     children: React.ReactNode | null,
-    modalLabel: string,
+    label: string,
     value?: string | number,
 }
 
-export function Modal({ children, modalLabel, ...props }: ModalProps) {
-    const [visible, setVisible] = useState(false);
-    const showModal = () => setVisible(true);
-    const hideModal = () => setVisible(false);
+export function Modal({ children, label, ...props }: ModalProps) {
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
-        <Provider>
-            <Portal>
-                <ModalPaper visible={visible} onDismiss={hideModal} contentContainerStyle={styles.container}>
+        <>
+            <ModalNative
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}>
+                <View style={styles.modalContent}>
                     {children}
-                </ModalPaper>
-            </Portal>
-
-            <Button style={{ marginTop: 30 }} onPress={showModal}>
-                <Text style={styles.modalLabel}>
-                    {modalLabel}
-                    &nbsp;
-                    {props.value}
-                </Text>
-            </Button>
-        </Provider>
+                    <TouchableOpacity onPress={() => setModalVisible(false)}>
+                        <Text>Show Modal</Text>
+                    </TouchableOpacity>
+                </View>
+            </ModalNative>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <Text>Show Modal</Text>
+            </TouchableOpacity>
+        </>
     );
 }
