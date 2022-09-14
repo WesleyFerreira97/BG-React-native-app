@@ -8,7 +8,7 @@ import { Formik } from 'formik';
 import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
 import { useInsert } from '../../hooks/useInsert';
-import type { ProductProps } from '../../@types/product'
+import type { ProductProps, ProductSizes } from '../../@types/product'
 import { useCategories } from '../../hooks/useCategories';
 import { SelectInput } from '../../components/SelectInput';
 import { TextInput } from '../../components/TextInput';
@@ -20,7 +20,12 @@ const initialValues: ProductProps = {
     title: "",
     description: "",
     product_categories: "",
-    product_sizes: "",
+    product_sizes: {
+        P: 'size P Value ',
+        M: 'size M Value ',
+        G: 'size G Value ',
+        GG: 'size GG Value ',
+    },
     bucket: "",
     bucket_folder: "",
     price: 0,
@@ -58,13 +63,6 @@ export function AddProduct() {
 
         handleSubmitProduct();
     }, [productProps]);
-
-    const product_sizes: { [key: string]: string } = {
-        sizeP: 'Tamanho P',
-        sizeM: 'Tamanho M',
-        sizeG: 'Tamanho G',
-        sizeGG: 'Tamanho GG',
-    }
 
     return (
         <View style={{
@@ -131,19 +129,27 @@ export function AddProduct() {
                                 placeholder='Preço'
                                 keyboardType='number-pad'
                             />
-
                             <Text>{stateTest}</Text>
                             <Modal
                                 label='Tamanhos Disponíveis : '
-                                value={values.product_sizes}
+                            // value={values.product_sizes}
                             >
-                                {Object.keys(product_sizes).map((value, key) => (
-                                    <CheckboxInput
-                                        key={key}
-                                        name={value}
-                                        label={product_sizes[value]}
-                                    />
-                                ))}
+                                {Object.values<ProductSizes[]>(values.product_sizes)
+                                    .map((inputName, key, obj) => {
+                                        console.log(inputName, 'inside map');
+
+                                        return (
+                                            <>
+                                                {/* <CheckboxInput
+                                            key={key}
+                                            name={inputName}
+                                            value={values.product_sizes.inputName}
+                                            label={product_sizes[inputName]}
+                                        /> */}
+                                            </>
+                                        )
+                                    })}
+                                <Text>{stateTest}</Text>
                                 <Button onPress={() => setStateTest("Valor Alterado")}>
                                     Change State
                                 </Button>

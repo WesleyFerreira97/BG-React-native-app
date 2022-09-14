@@ -19,12 +19,12 @@ export const styles = StyleSheet.create({
     },
     label: {
         fontFamily: theme.fonts.secondary,
-        color: theme.colors.darkGray,
+        color: theme.colors.secondaryAlt,
         paddingVertical: 5,
     },
     modalContent: {
-        backgroundColor: 'black',
-        opacity: .5,
+        backgroundColor: '#000',
+        opacity: .8,
         height: '100%',
         width: '100%',
     }

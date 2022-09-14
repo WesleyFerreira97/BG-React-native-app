@@ -7,7 +7,8 @@ import { styles } from './styles';
 
 type CheckboxProps = {
     name: string;
-    label: string
+    label: string;
+    value?: string | number;
 }
 
 export function CheckboxInput({ name, ...props }: CheckboxProps) {

@@ -28,7 +28,9 @@ export function Modal({ children, label, ...props }: ModalProps) {
                 </View>
             </ModalNative>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Text>Show Modal</Text>
+                <Text style={styles.label}>
+                    {label} &nbsp; {props.value}
+                </Text>
             </TouchableOpacity>
         </>
     );
