@@ -43,7 +43,6 @@ export function AddProduct() {
     const { dataResponse, setData } = useInsert<ProductProps>("products");
     const [productProps, setProductProps] = useState<any>();
     const { allCategories, categoriesError } = useCategories();
-    const [stateTest, setStateTest] = useState<any>('Initial State');
 
     useEffect(() => {
         if (!productProps) return;
@@ -129,28 +128,24 @@ export function AddProduct() {
                                 placeholder='Preço'
                                 keyboardType='number-pad'
                             />
-                            <Text>{stateTest}</Text>
                             <Modal
                                 label='Tamanhos Disponíveis : '
                             // value={values.product_sizes}
                             >
-                                {Object.values<ProductSizes[]>(values.product_sizes)
+                                {Object.keys(values.product_sizes)
                                     .map((inputName, key, obj) => {
-                                        console.log(inputName, 'inside map');
+                                        const currentInputValue = values.product_sizes[inputName as keyof ProductSizes];
 
                                         return (
-                                            <>
-                                                {/* <CheckboxInput
-                                            key={key}
-                                            name={inputName}
-                                            value={values.product_sizes.inputName}
-                                            label={product_sizes[inputName]}
-                                        /> */}
-                                            </>
+                                            <CheckboxInput
+                                                key={key}
+                                                name={inputName}
+                                                value={currentInputValue}
+                                                label={inputName}
+                                            />
                                         )
                                     })}
-                                <Text>{stateTest}</Text>
-                                <Button onPress={() => setStateTest("Valor Alterado")}>
+                                <Button onPress={() => console.log(values)}>
                                     Change State
                                 </Button>
                             </Modal>
@@ -164,9 +159,10 @@ export function AddProduct() {
                             Cadastrar
                         </Button>
                     </View>
-                )}
-            </Formik>
-        </View>
+                )
+                }
+            </Formik >
+        </View >
     );
 }
 
