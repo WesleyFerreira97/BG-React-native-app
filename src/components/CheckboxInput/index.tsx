@@ -7,24 +7,31 @@ import { styles } from './styles';
 
 type CheckboxProps = {
     name: string;
-    label: string;
-    value?: string | number;
+    label: string | number;
+    value?: number | boolean;
 }
 
 export function CheckboxInput({ name, ...props }: CheckboxProps) {
     const [field, meta, helpers] = useField(name);
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState<number | boolean>(false);
 
     useEffect(() => {
-        helpers.setValue(checked);
-    }, [checked])
+        if (props.value) {
+            setChecked(props.value);
+        }
+
+    }, [])
+
+    const handleOnChecked = (value: number | boolean) => {
+        helpers.setValue(value);
+    }
 
     return (
         <View style={styles.container}>
             <Checkbox
                 status={checked ? 'checked' : 'unchecked'}
                 onPress={() => {
-                    setChecked(!checked);
+                    handleOnChecked(!checked);
                 }}
             />
             <Text style={styles.label}>

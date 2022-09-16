@@ -17,26 +17,19 @@ import { Modal } from '../../components/Modal';
 import { CheckboxInput } from '../../components/CheckboxInput';
 import { ToggleGroup } from '../../components/ToggleGroup';
 
-
-const size_letter = ["P", "M", "G", "GG"];
-const size_number = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43];
-
-const setDefaultValues = (value: number | string) => {
-    return value.reduce((prevItem, currentItem) => ({ ...prevItem, [currentItem]: false }), {});
-}
-
 const initialValues: ProductProps = {
     title: "",
     description: "",
     product_categories: "",
     type_product_sizes: "letter",
-    product_sizes: {
-        letter: setDefaultValues(size_letter),
-    },
+    product_sizes: [],
     bucket: "",
     bucket_folder: "",
     price: 0,
 }
+
+const size_letter = ["P", "M", "G", "GG"];
+const size_number = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43];
 
 const productValidation = Yup.object().shape({
     title: Yup.string()
@@ -99,7 +92,7 @@ export function AddProduct() {
                                 1º Etapa - Cadastro
                             </HeaderSection>
 
-                            {/* <TextInput
+                            <TextInput
                                 name='title'
                                 label='Title'
                                 placeholder='Titulo do produto'
@@ -111,7 +104,7 @@ export function AddProduct() {
                                 placeholder='Descrição do produto'
                                 multiline={true}
                                 numberOfLines={5}
-                            /> */}
+                            />
 
                             {errors.title && touched.title ? (
                                 <Text style={{ color: 'red' }}>{errors.title}</Text>
@@ -138,29 +131,29 @@ export function AddProduct() {
 
 
                             <ToggleGroup />
-                            <Field name="product_sizes" >
-                                {() => (
+                            <FieldArray name="product_sizes">
+                                {({ insert, remove, push }) => (
                                     <>
-                                        {values.type_product_sizes === 'letter' &&
-                                            size_letter.map((inputName, key, obj) => {
-                                                // const currentInputValue =
-                                                // values.product_sizes[0][inputName as keyof ProductTypes];
-                                                console.log(inputName, '  inside loop ')
+                                        {values.type_product_sizes === 'number' &&
+                                            Object.keys(values.product_sizes[0]).map((inputName, key, obj) => {
+                                                const currentInputValue =
+                                                    values.product_sizes[0][inputName as keyof ProductTypes];
+
                                                 return (
-                                                    <CheckboxInput
-                                                        key={key}
-                                                        name={`product_sizes.${inputName}`}
-                                                        // value={currentInputValue}
-                                                        value={true}
-                                                        label={inputName}
-                                                    />
+                                                    <>
+                                                        <CheckboxInput
+                                                            key={key}
+                                                            name={`product_sizes.${inputName}`}
+                                                            value={currentInputValue}
+                                                            label={inputName}
+                                                        />
+                                                    </>
                                                 )
                                             })}
                                     </>
                                 )}
-                            </Field>
+                            </FieldArray>
 
-                            <Button onPress={() => console.log(values)}>Valor atual do formulário</Button>
                         </ScrollView>
 
                         <Button

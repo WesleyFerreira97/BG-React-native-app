@@ -20,13 +20,19 @@ export function Modal({ children, label, ...props }: ModalProps) {
                 onRequestClose={() => {
                     setModalVisible(!modalVisible);
                 }}>
-                <View style={styles.modalContent}>
-                    {children}
-                    <TouchableOpacity onPress={() => setModalVisible(false)}>
-                        <Text>Show Modal</Text>
-                    </TouchableOpacity>
+                <View style={styles.container}>
+                    <View style={styles.modalOverlay}></View>
+                    <View style={styles.modalContent}>
+                        {children}
+                        <TouchableOpacity onPress={() => setModalVisible(false)}>
+                            <Text>Hide Modal</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
+
             </ModalNative>
+
+
             <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <Text style={styles.label}>
                     {label} &nbsp; {props.value}
