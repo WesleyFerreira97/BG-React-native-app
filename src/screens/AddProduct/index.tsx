@@ -17,11 +17,12 @@ import { Modal } from '../../components/Modal';
 import { CheckboxInput } from '../../components/CheckboxInput';
 import { ToggleGroup } from '../../components/ToggleGroup';
 
+type DefaultSizesValues = string[] | number[];
 
 const size_letter = ["P", "M", "G", "GG"];
-const size_number = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43];
+const size_numeric = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43];
 
-const setDefaultValues = (value: number | string) => {
+const setDefaultValues = (value: DefaultSizesValues) => {
     return value.reduce((prevItem, currentItem) => ({ ...prevItem, [currentItem]: false }), {});
 }
 
@@ -32,6 +33,7 @@ const initialValues: ProductProps = {
     type_product_sizes: "letter",
     product_sizes: {
         letter: setDefaultValues(size_letter),
+        numeric: setDefaultValues(size_numeric),
     },
     bucket: "",
     bucket_folder: "",
@@ -136,8 +138,16 @@ export function AddProduct() {
                                 keyboardType='number-pad'
                             />
 
+                            <ToggleGroup
+                                label="Tamanhos disponíveis :"
+                                name="type_product_sizes"
+                                toggleValues={[
+                                    { label: 'Letras', value: 'letter' },
+                                    { label: 'Numérico', value: 'numeric' }
+                                ]}
+                                value={values.type_product_sizes}
+                            />
 
-                            <ToggleGroup />
                             <Field name="product_sizes" >
                                 {() => (
                                     <>
@@ -151,11 +161,17 @@ export function AddProduct() {
                                                         key={key}
                                                         name={`product_sizes.${inputName}`}
                                                         // value={currentInputValue}
-                                                        value={true}
+                                                        // value={true}
                                                         label={inputName}
                                                     />
                                                 )
                                             })}
+
+                                        {values.type_product_sizes === 'numeric' && (
+                                            <>
+                                                <Text>PRoduct size Number</Text>
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </Field>
