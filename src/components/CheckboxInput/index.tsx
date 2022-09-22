@@ -16,13 +16,12 @@ export function CheckboxInput({ name, ...props }: CheckboxProps) {
     const [checked, setChecked] = useState<number | boolean>(false);
 
     useEffect(() => {
-        if (props.value) {
-            setChecked(props.value);
-        }
+        if (props.value) setChecked(props.value);
 
     }, [])
 
     const handleOnChecked = (value: number | boolean) => {
+        setChecked(value);
         helpers.setValue(value);
     }
 

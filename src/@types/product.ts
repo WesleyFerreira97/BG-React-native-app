@@ -15,11 +15,13 @@ export type ProductProps = {
     description?: string,
     categories?: string[],
     type_product_sizes?: string,
-    product_categories: string | number,
     // product_sizes: ProductTypes[],
-    product_sizes: any,
-    bucket: string,
-    bucket_folder: string,
+    product_categories: string | number,
+    sizes_available: any,
     price: number,
 }
 
+export type BucketProps = {
+    bucket_name: string;
+    bucket_folder: string;
+}

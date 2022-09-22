@@ -1,5 +1,5 @@
 import { useField } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Button, ToggleButton } from 'react-native-paper';
 import { styles } from './styles';
@@ -16,9 +16,15 @@ type ToggleGroupTypes = {
     value?: string;
 }
 
-export function ToggleGroup({ name, toggleValues, ...props }: ToggleGroupTypes) {
+export function ToggleGroup({ name, toggleValues, value, ...props }: ToggleGroupTypes) {
     const [field, meta, helpers] = useField(name);
     const [currentValue, setCurrentValue] = React.useState<string | null>(null);
+
+    useEffect(() => {
+        // Set initial value
+        if (value) setCurrentValue(value)
+
+    }, [])
 
     const handleToggle = (value: string) => {
         setCurrentValue(value)

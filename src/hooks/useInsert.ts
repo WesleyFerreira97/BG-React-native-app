@@ -1,17 +1,23 @@
-import type { PostgrestResponse } from "@supabase/supabase-js";
+import type { PostgrestError, PostgrestResponse } from "@supabase/supabase-js";
 import React, { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
+type InsertResponseProps = {
+    error: PostgrestError | null;
+    status: number
+}
+
 type DbInsertReturn<T> = {
-    dataResponse: PostgrestResponse<T> | undefined,
-    setData: React.Dispatch<T>
+    dataResponse?: InsertResponseProps;
+    setData: React.Dispatch<T>;
 };
 
 export function useInsert<T>(
     table: string
 ): DbInsertReturn<T> {
 
-    const [dataResponse, setDataResponse] = useState<PostgrestResponse<T>>();
+    // const [dataResponse, setDataResponse] = useState<PostgrestResponse<T>>();
+    const [dataResponse, setDataResponse] = useState<InsertResponseProps>();
     const [data, setData] = useState<T | null>(null);
 
     useEffect(() => {
@@ -20,7 +26,7 @@ export function useInsert<T>(
         supaDb.from(table)
             .insert(data)
             .then((res) => {
-                setDataResponse(res);
+                setDataResponse({ error: res.error, status: res.status });
             });
 
     }, [data]);
