@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
 type InsertResponseProps = {
+    id?: string | null;
     error: PostgrestError | null;
     status: number
 }
@@ -26,7 +27,11 @@ export function useInsert<T>(
         supaDb.from(table)
             .insert(data)
             .then((res) => {
-                setDataResponse({ error: res.error, status: res.status });
+                setDataResponse({
+                    id: res.data[0].id,
+                    error: res.error,
+                    status: res.status
+                });
             });
 
     }, [data]);

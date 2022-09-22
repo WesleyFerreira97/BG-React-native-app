@@ -53,6 +53,7 @@ export function AddProduct() {
 
     useEffect(() => {
         console.log(dataResponse, 'Response data insert');
+        // Navigate to second step form, dataResponse now have id
     }, [dataResponse]);
 
 
