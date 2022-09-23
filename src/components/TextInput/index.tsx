@@ -4,6 +4,7 @@ import { useField } from 'formik';
 import { styles } from './styles';
 import { Button, TextInput as TextInputPaper } from 'react-native-paper';
 import { theme } from '../../styles/theme';
+import { ErrorForm } from '../ErrorForm';
 
 type TextInputProps = {
     name: string;
@@ -45,6 +46,8 @@ export function TextInput({ name, ...props }: TextInputProps) {
                     },
                 }}
             />
+
+            <ErrorForm meta={meta} />
         </View>
     );
 }

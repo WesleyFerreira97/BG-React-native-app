@@ -4,7 +4,7 @@ import { theme } from '../../styles/theme';
 export const styles = StyleSheet.create({
     container: {
         paddingTop: 0,
-        paddingBottom: 10,
+        paddingBottom: 8,
     },
     label: {
         fontFamily: theme.fonts.secondary,

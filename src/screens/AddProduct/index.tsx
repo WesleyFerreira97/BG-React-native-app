@@ -116,10 +116,6 @@ export function AddProduct() {
                                 numberOfLines={5}
                             />
 
-                            {errors.title && touched.title ? (
-                                <Text style={{ color: 'red' }}>{errors.title}</Text>
-                            ) : null}
-
                             {!categoriesError && (
                                 <SelectInput name="product_categories" >
                                     {allCategories?.map((item, index) => (

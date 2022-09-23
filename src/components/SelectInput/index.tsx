@@ -3,6 +3,7 @@ import { View, StyleProp, TextStyle } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useField } from 'formik';
 import { styles } from './styles';
+import { ErrorForm } from '../ErrorForm';
 
 type SelectInputProps = {
     name: string;
@@ -44,6 +45,8 @@ function SelectInput({ name, children, style }: PropsWithChildren<SelectInputPro
                 }>
                 {children}
             </Picker>
+
+            <ErrorForm meta={meta} />
         </View>
     );
 }

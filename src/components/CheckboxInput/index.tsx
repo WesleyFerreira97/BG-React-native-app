@@ -2,6 +2,7 @@ import { useField } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { Checkbox } from 'react-native-paper';
+import { ErrorForm } from '../ErrorForm';
 
 import { styles } from './styles';
 
@@ -36,6 +37,8 @@ export function CheckboxInput({ name, ...props }: CheckboxProps) {
             <Text style={styles.label}>
                 {props.label}
             </Text>
+
+            <ErrorForm meta={meta} />
         </View>
     );
 }

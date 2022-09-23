@@ -2,6 +2,7 @@ import { useField } from 'formik';
 import React, { useEffect } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Button, ToggleButton } from 'react-native-paper';
+import { ErrorForm } from '../ErrorForm';
 import { styles } from './styles';
 
 type ItemProps = {
@@ -64,6 +65,8 @@ export function ToggleGroup({ name, toggleValues, value, ...props }: ToggleGroup
                     ))
                 }
             </View>
+
+            <ErrorForm meta={meta} />
         </View>
     );
 }

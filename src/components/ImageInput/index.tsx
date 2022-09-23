@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { styles } from './styles';
 import { useField } from 'formik';
 import { supaDb } from '../../services/supadb';
+import { ErrorForm } from '../ErrorForm';
 
 type FileFormatProps = {
     uri: string,
@@ -56,6 +57,7 @@ export function ImageInput({ label, ...props }: any) {
                 <Text style={{ color: "red" }}>{meta.error}</Text>
             ) : null}
 
+            <ErrorForm meta={meta} />
         </View>
     );
 }
