@@ -16,13 +16,14 @@ import { HeaderSection } from '../../components/HeaderSection';
 import { Modal } from '../../components/Modal';
 import { CheckboxInput } from '../../components/CheckboxInput';
 import { ToggleGroup } from '../../components/ToggleGroup';
+import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 
-type DefaultSizesValues = string[] | number[];
+type DefaultSizesValues = Array<string | number>;
 
 const size_letter = ["P", "M", "G", "GG"];
 const size_numeric = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43];
 
-const setDefaultValues = (value: DefaultSizesValues) => {
+function setDefaultValues(value: DefaultSizesValues) {
     return value.reduce((prevItem, currentItem) => ({ ...prevItem, [currentItem]: false }), {});
 }
 
