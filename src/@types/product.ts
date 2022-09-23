@@ -13,8 +13,8 @@ export type ProductTypes = ProductSizesNumber | ProductSizesLetter;
 export type ProductProps = {
     title: string,
     description?: string,
-    categories: string[],
-    type_product_sizes: string,
+    categories?: string[],
+    asdfsd?: string,
     // product_sizes: ProductTypes[],
     product_categories: string | number,
     sizes_available: any,

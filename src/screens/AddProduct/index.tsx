@@ -157,17 +157,24 @@ export function AddProduct() {
                                                         key={key}
                                                         name={`sizes_available.letter.${inputName}`}
                                                         value={currentInputValue}
-                                                        // value={true}
                                                         label={inputName}
                                                     />
                                                 )
                                             })}
 
-                                        {values.type_product_sizes === 'numeric' && (
-                                            <>
-                                                <Text>Product size Number</Text>
-                                            </>
-                                        )}
+                                        {values.type_product_sizes === 'numeric' &&
+                                            Object.keys(values.sizes_available.numeric).map((inputName, key, obj) => {
+                                                const currentInputValue = values.sizes_available.numeric[inputName]
+
+                                                return (
+                                                    <CheckboxInput
+                                                        key={key}
+                                                        name={`sizes_available.numeric.${inputName}`}
+                                                        value={currentInputValue}
+                                                        label={inputName}
+                                                    />
+                                                )
+                                            })}
                                     </>
                                 )}
                             </Field>
