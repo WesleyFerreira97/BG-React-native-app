@@ -57,10 +57,16 @@ export function AddProduct() {
         // Navigate to second step form, dataResponse now have id
     }, [dataResponse]);
 
+    const getSizesSelected = (productProps: ProductProps) => {
+        const productSizeSelected = productProps.type_product_sizes == "letter"
+            ? productProps.sizes_available.letter
+            : productProps.sizes_available.numeric;
+
+        return productSizeSelected;
+    }
 
     const handleSubmitProduct = async (productProps: ProductProps) => {
-        // Need Refact
-        const productSizeSelected = productProps.type_product_sizes == "letter" ? productProps.sizes_available.letter : productProps.sizes_available.numeric;
+        const productSizeSelected = getSizesSelected(productProps);
 
         setData({
             title: productProps.title,
