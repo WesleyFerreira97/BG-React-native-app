@@ -6,8 +6,8 @@ type UseSelectProps = {
     match: string;
 }
 
-export function useSelect({ select, match }: UseSelectProps) {
-    const [selectResponse, setSelectResponse] = useState();
+export function useSelect<T>({ select, match }: UseSelectProps) {
+    const [selectResponse, setSelectResponse] = useState<T | null>(null);
     const [selectResponseError, setSelectResponseError] = useState();
 
     const selectedColumns = select.join(',');
@@ -19,7 +19,7 @@ export function useSelect({ select, match }: UseSelectProps) {
                 .select(selectedColumns)
                 .match({ id: '3ecf95f9-8c69-42e6-8c99-38ba6dcc6bdf' })
 
-            setSelectResponse(data);
+            setSelectResponse(data as T);
             setSelectResponseError(error);
         }
 

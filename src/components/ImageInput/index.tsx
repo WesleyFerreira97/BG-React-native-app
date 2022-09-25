@@ -6,6 +6,7 @@ import { styles } from './styles';
 import { useField } from 'formik';
 import { supaDb } from '../../services/supadb';
 import { ErrorForm } from '../ErrorForm';
+import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types'
 
 type FileFormatProps = {
     uri: string,
@@ -22,22 +23,24 @@ export function ImageInput({ label, ...props }: any) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             // allowsEditing: true,
             // aspect: [4, 3],
+            allowsMultipleSelection: true,
             quality: .3,
         });
 
         if (!result.cancelled) {
-            const ext = result.uri.substring(result.uri.lastIndexOf(".") + 1);
-            const fileName = result.uri.replace(/^.*[\\\/]/, "");
+            const { uri } = result as unknown as ImageInfo
+            const ext = uri.substring(uri.lastIndexOf(".") + 1);
+            const fileName = uri.replace(/^.*[\\\/]/, "");
 
             let formData: any = new FormData();
 
             await formData.append("files", {
-                uri: result.uri,
+                uri: uri,
                 name: fileName,
                 type: `image/${ext}`,
             })
 
-            setImageSrc(result.uri);
+            setImageSrc(uri);
             helpers.setValue(formData)
         }
     };
