@@ -15,7 +15,7 @@ const AddProductScreenStack = createStackNavigator();
 const AddProductStack = () => {
     return (
         <AddProductScreenStack.Navigator
-            initialRouteName="PaymentDates"
+            initialRouteName="addProductStepOne"
             screenOptions={{
                 headerShown: false
             }}
