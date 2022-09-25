@@ -44,17 +44,25 @@ const productValidation = Yup.object().shape({
         .min(2, 'Titulo muito curto!')
         .max(50, 'Titulo muito grande!')
         .required('Titulo é obrigatório'),
+    product_categories: Yup.string()
+        .required('Escolha uma categoria'),
+    price: Yup.string()
+        .min(2, 'Preço inválido')
+        .max(10, 'Preço inválido!')
+        .required('Preço é obrigatório'),
 });
 
-export function AddProduct() {
+export function AddProduct({ navigation }) {
+
     const { theme } = useTheme();
     const { dataResponse, setData } = useInsert<ProductProps & BucketProps>("products");
-    const [productProps, setProductProps] = useState<any>();
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
-        console.log(dataResponse, 'Response data insert');
-        // Navigate to second step form, dataResponse now have id
+        if (dataResponse?.error) return
+        // Go to next register product step
+        navigation.navigate('addProductStepTwo', { productId: dataResponse?.id })
+
     }, [dataResponse]);
 
     const getSizesSelected = (productProps: ProductProps) => {

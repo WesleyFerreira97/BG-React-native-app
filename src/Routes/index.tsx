@@ -6,8 +6,25 @@ import { Home } from '../screens/Home';
 import { Pedidos } from '../screens/Pedidos';
 import { House, List, ClipboardText, PlusCircle } from 'phosphor-react-native';
 import { AddProduct } from '../screens/AddProduct';
+import { createStackNavigator } from '@react-navigation/stack';
+import { AddProductStepTwo } from '../screens/AddProduct/AddProductStepTwo';
 
 const Tab = createMaterialBottomTabNavigator();
+const AddProductScreenStack = createStackNavigator();
+
+const AddProductStack = () => {
+    return (
+        <AddProductScreenStack.Navigator
+            initialRouteName="PaymentDates"
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <AddProductScreenStack.Screen name='addProductStepOne' component={AddProduct} />
+            <AddProductScreenStack.Screen name='addProductStepTwo' component={AddProductStepTwo} />
+        </AddProductScreenStack.Navigator>
+    )
+}
 
 export function Routes() {
     const { theme } = useTheme();
@@ -23,9 +40,9 @@ export function Routes() {
             >
                 <Tab.Screen
                     name="addProduct"
-                    component={AddProduct}
+                    component={AddProductStack}
                     options={{
-                        tabBarLabel: 'Add Product',
+                        tabBarLabel: 'Add Produto',
                         tabBarIcon: ({ color }) => (
                             <PlusCircle color={color} weight="regular" size={22} />
                         ),
