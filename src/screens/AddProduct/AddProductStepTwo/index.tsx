@@ -28,7 +28,9 @@ export function AddProductStepTwo({ route }) {
             >
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
                     <View>
-                        <ImageInput />
+                        <ImageInput
+                            name="image"
+                        />
                         <Button onPress={handleSubmit}>Submit</Button>
                     </View>
                 )}

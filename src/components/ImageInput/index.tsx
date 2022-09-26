@@ -14,9 +14,13 @@ type FileFormatProps = {
     type: string,
 }
 
-export function ImageInput({ label, ...props }: any) {
+type ImageInputProps = {
+    name: string;
+}
+
+export function ImageInput({ name, ...props }: any) {
     const [imageSrc, setImageSrc] = useState<string | null>(null);
-    const [field, meta, helpers] = useField(props);
+    const [field, meta, helpers] = useField(name);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -28,8 +32,9 @@ export function ImageInput({ label, ...props }: any) {
         });
 
         if (!result.cancelled) {
-            const { uri } = result as unknown as ImageInfo
-            const ext = uri.substring(uri.lastIndexOf(".") + 1);
+            const { uri } = result as unknown as ImageInfo;
+
+            const fileExtension = uri.substring(uri.lastIndexOf(".") + 1);
             const fileName = uri.replace(/^.*[\\\/]/, "");
 
             let formData: any = new FormData();
@@ -37,7 +42,7 @@ export function ImageInput({ label, ...props }: any) {
             await formData.append("files", {
                 uri: uri,
                 name: fileName,
-                type: `image/${ext}`,
+                type: `image/${fileExtension}`,
             })
 
             setImageSrc(uri);
