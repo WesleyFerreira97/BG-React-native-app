@@ -46,7 +46,7 @@ export function ImageInput({ name, ...props }: any) {
             })
 
             setImageSrc(uri);
-            helpers.setValue(formData)
+            helpers.setValue(formData);
         }
     };
 
@@ -57,7 +57,7 @@ export function ImageInput({ name, ...props }: any) {
             {imageSrc && (
                 <Image
                     source={{ uri: imageSrc }}
-                    style={{ width: '90%', height: '60%' }}
+                    style={{ width: '90%', height: '30%' }}
                 />
             )}
 

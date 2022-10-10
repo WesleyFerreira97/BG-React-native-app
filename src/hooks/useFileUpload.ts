@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
 type FileProps = {
-    name: string;
+    path: string;
     // data: HTMLFormElement;
-    data: any;
+    file: any;
 }
 
 type ResponseUploadProps = {
@@ -25,11 +25,10 @@ export function useFileUpload<T>() {
         async function asyncUpload() {
             await supaDb.storage
                 .from("photo")
-                .upload(`public/${file?.name}/${file?.data._parts[0][1].name}`, file?.data)
+                .upload(`${file?.path}/${file?.file._parts[0][1].name}`, file?.file)
                 .then((res) => {
                     setFileUploadResponse(res);
                     console.log(res, 'res log');
-
                 });
         }
 
@@ -44,7 +43,7 @@ export async function useFileUploadAlt(file: FileProps): Promise<ResponseUploadP
     const { data, error } = await supaDb
         .storage
         .from("photo")
-        .upload(`products/${file?.name}/${file?.data._parts[0][1].name}`, file?.data)
+        .upload(`products/${file?.path}/${file?.file._parts[0][1].name}`, file?.file)
 
     return { uploadFileData: data, uploadFileError: error }
 }

@@ -17,7 +17,7 @@ export function useSelect<T>({ select, match }: UseSelectProps) {
             const { data, error } = await supaDb
                 .from('products')
                 .select(selectedColumns)
-                .match({ id: '3ecf95f9-8c69-42e6-8c99-38ba6dcc6bdf' })
+                .match({ id: 'fff4b9a3-bdea-4689-8df2-a98bbbcfe2f5' })
 
             setSelectResponse(data as T);
             setSelectResponseError(error);

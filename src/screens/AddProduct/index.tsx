@@ -82,7 +82,7 @@ export function AddProduct({ navigation }) {
             product_categories: productProps.product_categories,
             sizes_available: productSizeSelected,
             bucket_name: 'photo',
-            bucket_folder: `products/${productProps.product_categories}/${productProps.title}`,
+            bucket_folder: `${productProps.product_categories}/${productProps.title}`,
             price: productProps.price,
         })
     }
@@ -208,4 +208,3 @@ export function AddProduct({ navigation }) {
         </View >
     );
 }
-
