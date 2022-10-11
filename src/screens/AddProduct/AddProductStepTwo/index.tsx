@@ -1,11 +1,14 @@
-import { Formik } from 'formik';
+import { FieldArray, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { BucketProps } from '../../../@types/product';
+import { HeaderScreen } from '../../../components/HeaderScreen';
 import { ImageInput } from '../../../components/ImageInput';
+import { Modal } from '../../../components/Modal';
 import { useFileUpload } from '../../../hooks/useFileUpload';
 import { useSelect } from '../../../hooks/useSelect';
+import { theme } from '../../../styles/theme';
 
 import { styles } from './styles';
 
@@ -31,35 +34,47 @@ export function AddProductStepTwo({ route }) {
     }
 
     return (
-        <View style={styles.container}>
-            {/* <ScrollView style={{ flex: 1, width: '90%', backgroundColor: 'black' }}> */}
-            <Text>Step Two</Text>
-            <Formik
-                initialValues={{
-                    blue: [],
-                    green: [],
-                }}
-                onSubmit={values => handleSubmit(values)}
-            >
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
-                    <View>
-                        <ImageInput
-                            name="blue[0]"
-                        />
-                        <ImageInput
-                            name="blue[1]"
-                        />
+        <>
+            <HeaderScreen />
+            <ScrollView style={styles.scrollViewStyle}>
+                <View style={styles.formWrap}>
+                    <Formik
+                        initialValues={{
+                            blue: [],
+                            green: [],
+                        }}
+                        onSubmit={values => handleSubmit(values)}
 
+                    >
+                        {({ handleChange, handleBlur, handleSubmit, values }) => (
+                            <>
 
-                        <Button onPress={handleSubmit}>Submit</Button>
-                    </View>
-                )}
-            </Formik>
-            {/* </ScrollView> */}
-        </View>
+                                <View style={styles.form}>
+                                    <Modal label="Adicionar nova Cor" >
+                                        <Text>Conteudo de texto</Text>
+                                    </Modal>
+                                </View>
+                                <View style={styles.footer}>
+                                    <Button
+                                        onPress={handleSubmit}
+                                        mode="contained"
+                                        color={theme.colors.primary}
+                                    >
+                                        Concluir
+                                    </Button>
+                                </View>
+
+                            </>
+                        )}
+                    </Formik>
+                </View>
+            </ScrollView>
+        </>
     );
 }
 
 // 1º Recebe o Id do produto
 // 2º Com o Id faz uma requisição no banco e retorna o bucket folder
 // 3º Cria um path para upload do arquivo com base no bucket folder e a cor selecionada
+
+

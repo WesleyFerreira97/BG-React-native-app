@@ -13,7 +13,7 @@ export function HeaderScreen() {
             ...styles.container,
             backgroundColor: theme.colors.primary
         }}>
-            {/* <PlusCircle color={theme.colors.neutralAlt} weight="regular" size={28} /> */}
+            <PlusCircle color={theme.colors.neutralAlt} weight="regular" size={28} />
             <Text
                 style={{
                     ...styles.title,
