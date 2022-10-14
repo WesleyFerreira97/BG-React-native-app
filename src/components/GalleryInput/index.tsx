@@ -51,8 +51,6 @@ export function GalleryInput({ name, ...props }: any) {
             setImageSrc((prevState) => ([...prevState, uri]));
             // helpers.setValue(formData);
             // console.log(imageSrc, 'imagesrc');
-
-
         }
     };
 
@@ -80,12 +78,16 @@ export function GalleryInput({ name, ...props }: any) {
 
                 {imageSrc &&
                     imageSrc.map((image, index) => (
-                        <View key={index} style={styles.gridItem} >
+                        <TouchableOpacity
+                            key={index}
+                            style={styles.gridItem}
+                        >
+
                             <Image
                                 source={{ uri: image }}
                                 style={styles.gridImage}
                             />
-                        </View>
+                        </TouchableOpacity>
                     ))}
             </View>
             <ErrorForm meta={meta} />

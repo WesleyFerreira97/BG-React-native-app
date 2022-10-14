@@ -8,12 +8,6 @@ export const styles = StyleSheet.create({
       flexDirection: 'row',    
       flexWrap: 'wrap',
     },
-    gridItem: {
-        width: '33%',  
-        height: 100,
-        backgroundColor: 'black',
-        overflow: 'hidden',
-    },
     galleryHeader: {
         justifyContent: 'space-between',
         flexDirection: "row",
@@ -31,6 +25,12 @@ export const styles = StyleSheet.create({
         color: theme.colors.neutral,
         fontSize: 14,
         fontFamily: theme.fonts.secondaryAlt
+    },
+    gridItem: {
+        width: '33%',  
+        height: 100,
+        backgroundColor: 'black',
+        overflow: 'hidden',
     },
     gridImage: {
         width: '100%',
