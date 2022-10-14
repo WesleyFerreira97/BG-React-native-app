@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     scrollViewStyle: {
         backgroundColor: theme.colors.neutralAlt,
     },
-    formWrap: { 
+    formWrap: {
         alignItems: "center",
     },
     form: {
@@ -19,23 +19,6 @@ export const styles = StyleSheet.create({
     },
     galleryByColor: {
         backgroundColor: theme.colors.neutral,
-    },
-    galleryHeader: {
-        justifyContent: 'space-between',
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: theme.colors.primary,
-        borderTopEndRadius: 5,
-        borderTopStartRadius: 5,
-        padding: 7,
-    },
-    galleryTitle: {
-        color: theme.colors.neutral,
-        fontSize: 14,
-        fontFamily: theme.fonts.secondaryAlt
-    },
-    galleryOptions: {
-        flexDirection: "row",
-        alignItems: "center",
+        marginVertical: 10,
     }
 });
