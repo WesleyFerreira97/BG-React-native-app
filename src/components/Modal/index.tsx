@@ -4,6 +4,8 @@ import { styles } from './styles';
 
 type ModalButtonProps = {
     label: string,
+    imgSrc: string,
+    style: any
 };
 
 type ModalStateProps = {
@@ -20,7 +22,6 @@ const ModalState = createContext<ModalStateProps>(initialValue);
 
 const ModalContent = ({ children }: PropsWithChildren) => {
     const { modalVisible, setModalVisible } = useContext(ModalState);
-
 
     return (
         <ModalNative
@@ -52,7 +53,7 @@ const ModalContent = ({ children }: PropsWithChildren) => {
     )
 }
 
-const ModalButton = ({ label }: ModalButtonProps) => {
+const ModalButton = ({ children }: PropsWithChildren) => {
     const { modalVisible, setModalVisible } = useContext(ModalState);
 
     return (
@@ -60,10 +61,7 @@ const ModalButton = ({ label }: ModalButtonProps) => {
             onPress={() => setModalVisible(true)}
             style={styles.labelContainer}
         >
-            <Text style={styles.label}>
-                {label}
-                {/* &nbsp; {props.value} */}
-            </Text>
+            {children}
         </TouchableOpacity>
     )
 }
@@ -78,8 +76,8 @@ function Modal({ children }: PropsWithChildren) {
     );
 }
 
-Modal.ModalContent = ModalContent;
-Modal.ModalButton = ModalButton;
+Modal.Content = ModalContent;
+Modal.Button = ModalButton;
 
 export { Modal };
 

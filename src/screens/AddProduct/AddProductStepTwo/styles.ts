@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
     },
     form: {
-        height: height,
+        height: height / 1.5,
         width: "90%",
     },
     footer: {

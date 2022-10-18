@@ -5,8 +5,8 @@ export const styles = StyleSheet.create({
     container: {
     },
     galleryGrid: {
-      flexDirection: 'row',    
-      flexWrap: 'wrap',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     },
     galleryHeader: {
         justifyContent: 'space-between',
@@ -27,12 +27,16 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.secondaryAlt
     },
     gridItem: {
-        width: '33%',  
+        width: '33%',
         height: 100,
         backgroundColor: 'black',
         overflow: 'hidden',
     },
     gridImage: {
+        width: '100%',
+        height: '100%',
+    },
+    gridImageFull: {
         width: '100%',
         height: '100%',
     },

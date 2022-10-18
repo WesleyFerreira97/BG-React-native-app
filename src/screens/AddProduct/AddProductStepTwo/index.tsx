@@ -53,16 +53,17 @@ export function AddProductStepTwo({ route }) {
                             <>
                                 <View style={styles.form}>
                                     <Modal>
-                                        <Modal.ModalContent>
+                                        <Modal.Content>
                                             <Text>Selecione uma cor : </Text>
+                                            {/* Cada botão deve dicionar uma nova GalleryInput  */}
+                                            <Button>Azul</Button>
+                                            <Button onPress={() => console.log('Vemelho')}>Vermelho</Button>
+                                            <Button>Branco</Button>
 
-                                        </Modal.ModalContent>
-                                        {/* <Button>Azul</Button>
-                                        <Button onPress={() => console.log('Vemelho')}>Vermelho</Button>
-                                        <Button>Branco</Button> */}
-                                        <Modal.ModalButton
-                                            label="Show Image"
-                                        />
+                                        </Modal.Content>
+                                        <Modal.Button>
+                                            <Text>Adicionar nova Cor</Text>
+                                        </Modal.Button>
                                     </Modal>
 
                                     <View style={styles.galleryByColor}>

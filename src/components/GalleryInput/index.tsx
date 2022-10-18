@@ -9,6 +9,7 @@ import { ErrorForm } from '../ErrorForm';
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types'
 import { FilePlus } from 'phosphor-react-native';
 import { theme } from '../../styles/theme';
+import { Modal } from '../Modal';
 
 type FileFormatProps = {
     uri: string,
@@ -78,16 +79,33 @@ export function GalleryInput({ name, ...props }: any) {
 
                 {imageSrc &&
                     imageSrc.map((image, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            style={styles.gridItem}
-                        >
+                        <Modal>
+                            <TouchableOpacity
+                                key={index}
+                                style={styles.gridItem}
+                            >
+                                <Modal.Content>
+                                    <Image
+                                        source={{ uri: image }}
+                                        style={styles.gridImageFull}
+                                    />
+                                    <Button onPress={() => console.log(index)}>
+                                        Remover Imagem
+                                    </Button>
+                                    {/* 
+                                        Exibir a imagem
+                                        Adicionar botão de remover imagem
+                                    */}
+                                </Modal.Content>
 
-                            <Image
-                                source={{ uri: image }}
-                                style={styles.gridImage}
-                            />
-                        </TouchableOpacity>
+                                <Modal.Button>
+                                    <Image
+                                        source={{ uri: image }}
+                                        style={styles.gridImage}
+                                    />
+                                </Modal.Button>
+                            </TouchableOpacity>
+                        </Modal>
                     ))}
             </View>
             <ErrorForm meta={meta} />
