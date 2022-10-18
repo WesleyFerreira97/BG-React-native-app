@@ -1,12 +1,6 @@
-import React, { createContext, useContext, useState, PropsWithChildren } from 'react';
+import React, { createContext, useContext, useState, PropsWithChildren, useEffect } from 'react';
 import { Text, TouchableOpacity, Modal as ModalNative, View } from 'react-native';
 import { styles } from './styles';
-
-type ModalProps = {
-    children: React.ReactNode | null,
-    label: string,
-    value?: string | number,
-}
 
 type ModalButtonProps = {
     label: string,
@@ -75,8 +69,10 @@ const ModalButton = ({ label }: ModalButtonProps) => {
 }
 
 function Modal({ children }: PropsWithChildren) {
+    const [modalVisible, setModalVisible] = useState(initialValue.modalVisible);
+
     return (
-        <ModalState.Provider value={initialValue}>
+        <ModalState.Provider value={{ modalVisible, setModalVisible }}>
             {children}
         </ModalState.Provider>
     );
