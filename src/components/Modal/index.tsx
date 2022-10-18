@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { createContext, useContext, useState, PropsWithChildren } from 'react';
 import { Text, TouchableOpacity, Modal as ModalNative, View } from 'react-native';
 import { styles } from './styles';
 
@@ -8,7 +8,25 @@ type ModalProps = {
     value?: string | number,
 }
 
-const ModalContent = () => {
+type ModalButtonProps = {
+    label: string,
+};
+
+type ModalStateProps = {
+    modalVisible: boolean,
+    setModalVisible: (value: boolean) => void,
+}
+
+const initialValue = {
+    modalVisible: false,
+    setModalVisible: () => { }
+}
+
+const ModalState = createContext<ModalStateProps>(initialValue);
+
+const ModalContent = ({ children }: PropsWithChildren) => {
+    const { modalVisible, setModalVisible } = useContext(ModalState);
+
 
     return (
         <ModalNative
@@ -40,8 +58,8 @@ const ModalContent = () => {
     )
 }
 
-const ModalButton = () => {
-    const [modalVisible, setModalVisible] = useState(false);
+const ModalButton = ({ label }: ModalButtonProps) => {
+    const { modalVisible, setModalVisible } = useContext(ModalState);
 
     return (
         <TouchableOpacity
@@ -49,17 +67,23 @@ const ModalButton = () => {
             style={styles.labelContainer}
         >
             <Text style={styles.label}>
-                {label} &nbsp; {props.value}
+                {label}
+                {/* &nbsp; {props.value} */}
             </Text>
         </TouchableOpacity>
     )
 }
 
-function Modal({ children, label, ...props }: ModalProps) {
-    return { children };
+function Modal({ children }: PropsWithChildren) {
+    return (
+        <ModalState.Provider value={initialValue}>
+            {children}
+        </ModalState.Provider>
+    );
 }
 
 Modal.ModalContent = ModalContent;
 Modal.ModalButton = ModalButton;
 
 export { Modal };
+
