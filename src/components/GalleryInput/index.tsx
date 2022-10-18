@@ -48,12 +48,16 @@ export function GalleryInput({ name, ...props }: any) {
                 type: `image/${fileExtension}`,
             })
 
-            // setImageSrc(uri);
             setImageSrc((prevState) => ([...prevState, uri]));
-            // helpers.setValue(formData);
-            // console.log(imageSrc, 'imagesrc');
+
         }
     };
+
+    // Use callback detectando alteração no imageSrc e upando para o form?
+
+    const setImagesToFormData = (galleryImages: any) => {
+        // helpers.setValue(formData);
+    }
 
     return (
         <View style={styles.container}>
