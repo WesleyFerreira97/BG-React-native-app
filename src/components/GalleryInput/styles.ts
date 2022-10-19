@@ -42,7 +42,6 @@ export const styles = StyleSheet.create({
     },
     gridImageFull: {
         width: '75%',
-        // height: '100%',
         aspectRatio: 2 / 3,
         marginVertical: 15,
     }

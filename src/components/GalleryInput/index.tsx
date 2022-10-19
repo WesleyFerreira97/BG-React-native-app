@@ -59,6 +59,12 @@ export function GalleryInput({ name, ...props }: any) {
         // helpers.setValue(formData);
     }
 
+    const removeImagesByIndex = (items, index: number) => {
+        const remainingImages = items.filter((item, indexItems) => indexItems != index);
+
+        setImageSrc(remainingImages);
+    }
+
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -93,7 +99,7 @@ export function GalleryInput({ name, ...props }: any) {
                                         style={styles.gridImageFull}
                                     />
                                     <Button
-                                        onPress={() => console.log(index)}
+                                        onPress={() => removeImagesByIndex(imageSrc, index)}
                                         mode="contained"
                                     >
                                         Remover Imagem

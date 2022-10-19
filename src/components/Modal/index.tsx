@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, PropsWithChildren, useEffect } from 'react';
 import { Text, TouchableOpacity, Modal as ModalNative, View, TouchableHighlightComponent, TouchableHighlight } from 'react-native';
+import { theme } from '../../styles/theme';
 import { styles } from './styles';
 
 type ModalButtonProps = {
@@ -42,7 +43,7 @@ const ModalContent = ({ children }: PropsWithChildren) => {
                     <View style={styles.modalFooter}>
                         <TouchableOpacity onPress={() => setModalVisible(false)}>
                             <View style={styles.closeButton}>
-                                <Text>Fechar</Text>
+                                <Text style={{ fontFamily: theme.fonts.secondary }}>Fechar</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -55,7 +56,6 @@ const ModalContent = ({ children }: PropsWithChildren) => {
 
 const ModalButton = ({ children, ...props }: PropsWithChildren<Partial<ModalButtonProps>>) => {
     const { modalVisible, setModalVisible } = useContext(ModalState);
-    console.log(props, 'the props');
 
     return (
         <TouchableHighlight
