@@ -52,6 +52,5 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.secondary,
         color: theme.colors.neutral,
         paddingVertical: 5,
-    },
-
+    }
 });

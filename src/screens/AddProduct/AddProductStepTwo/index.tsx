@@ -16,7 +16,6 @@ import { styles } from './styles';
 
 
 export function AddProductStepTwo({ route }) {
-    // const { } = useFormik({})
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
         select: ['bucket_name', 'bucket_folder'],
         match: route.params.productId,
@@ -29,7 +28,6 @@ export function AddProductStepTwo({ route }) {
         console.log(values);
 
         // const mainDirectory = "product";
-
 
         // setFile({
         //     file: values.image,

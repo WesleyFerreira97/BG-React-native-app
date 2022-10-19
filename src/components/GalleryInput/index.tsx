@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
@@ -24,6 +24,10 @@ type ImageInputProps = {
 export function GalleryInput({ name, ...props }: any) {
     const [imageSrc, setImageSrc] = useState<any>([]);
     const [field, meta, helpers] = useField(name);
+
+    useEffect(() => {
+        setImagesToFormData(imageSrc);
+    }, [imageSrc]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -53,10 +57,8 @@ export function GalleryInput({ name, ...props }: any) {
         }
     };
 
-    // Use callback detectando alteração no imageSrc e upando para o form?
-
     const setImagesToFormData = (galleryImages: any) => {
-        // helpers.setValue(formData);
+        helpers.setValue(galleryImages);
     }
 
     const removeImagesByIndex = (items, index: number) => {
