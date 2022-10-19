@@ -27,10 +27,10 @@ export const styles = StyleSheet.create({
         width: '90%',
         borderRadius: 7,
         overflow: 'hidden',
+        maxHeight: '70%',
     },
     modalContent: {
         padding: 10,
-
     },
     modalFooter: {
         marginTop: 10,

@@ -87,17 +87,18 @@ export function GalleryInput({ name, ...props }: any) {
                             key={index}
                         >
                             <Modal.Content>
-                                <Image
-                                    source={{ uri: image }}
-                                    style={styles.gridImageFull}
-                                />
-                                <Button onPress={() => console.log(index)}>
-                                    Remover Imagem
-                                </Button>
-                                {/* 
-                                        Exibir a imagem
-                                        Adicionar botão de remover imagem
-                                    */}
+                                <View style={styles.galleryModalContent}>
+                                    <Image
+                                        source={{ uri: image }}
+                                        style={styles.gridImageFull}
+                                    />
+                                    <Button
+                                        onPress={() => console.log(index)}
+                                        mode="contained"
+                                    >
+                                        Remover Imagem
+                                    </Button>
+                                </View>
                             </Modal.Content>
 
                             <Modal.Button

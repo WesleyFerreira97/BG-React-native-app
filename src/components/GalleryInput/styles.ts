@@ -7,6 +7,10 @@ export const styles = StyleSheet.create({
     container: {
         width: '100%',
     },
+    galleryModalContent: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     galleryGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -37,7 +41,9 @@ export const styles = StyleSheet.create({
         height: '100%',
     },
     gridImageFull: {
-        width: '100%',
-        height: '100%',
+        width: '75%',
+        // height: '100%',
+        aspectRatio: 2 / 3,
+        marginVertical: 15,
     }
 });
