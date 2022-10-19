@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { styles } from './styles';
 import { useField } from 'formik';
-import { supaDb } from '../../services/supadb';
 import { ErrorForm } from '../ErrorForm';
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types'
 import { FilePlus } from 'phosphor-react-native';
@@ -20,6 +19,7 @@ type FileFormatProps = {
 type ImageInputProps = {
     name: string;
 }
+
 
 export function GalleryInput({ name, ...props }: any) {
     const [imageSrc, setImageSrc] = useState<any>([]);
@@ -83,32 +83,33 @@ export function GalleryInput({ name, ...props }: any) {
 
                 {imageSrc &&
                     imageSrc.map((image, index) => (
-                        <Modal>
-                            <TouchableOpacity
-                                key={index}
-                                style={styles.gridItem}
-                            >
-                                <Modal.Content>
-                                    <Image
-                                        source={{ uri: image }}
-                                        style={styles.gridImageFull}
-                                    />
-                                    <Button onPress={() => console.log(index)}>
-                                        Remover Imagem
-                                    </Button>
-                                    {/* 
+                        <Modal
+                            key={index}
+                        >
+                            <Modal.Content>
+                                <Image
+                                    source={{ uri: image }}
+                                    style={styles.gridImageFull}
+                                />
+                                <Button onPress={() => console.log(index)}>
+                                    Remover Imagem
+                                </Button>
+                                {/* 
                                         Exibir a imagem
                                         Adicionar botão de remover imagem
                                     */}
-                                </Modal.Content>
+                            </Modal.Content>
 
-                                <Modal.Button>
-                                    <Image
-                                        source={{ uri: image }}
-                                        style={styles.gridImage}
-                                    />
-                                </Modal.Button>
-                            </TouchableOpacity>
+                            <Modal.Button
+                                width="33%"
+                                height={100}
+                                aspectRatio={2 / 3}
+                            >
+                                <Image
+                                    source={{ uri: image }}
+                                    style={styles.gridImage}
+                                />
+                            </Modal.Button>
                         </Modal>
                     ))}
             </View>

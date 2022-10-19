@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState, PropsWithChildren, useEffect } from 'react';
-import { Text, TouchableOpacity, Modal as ModalNative, View } from 'react-native';
+import { Text, TouchableOpacity, Modal as ModalNative, View, TouchableHighlightComponent, TouchableHighlight } from 'react-native';
 import { styles } from './styles';
 
 type ModalButtonProps = {
-    label: string,
-    imgSrc: string,
-    style: any
+    width: string | number,
+    height: string | number,
+    aspectRatio: number,
 };
 
 type ModalStateProps = {
@@ -53,18 +53,20 @@ const ModalContent = ({ children }: PropsWithChildren) => {
     )
 }
 
-const ModalButton = ({ children }: PropsWithChildren) => {
+const ModalButton = ({ children, ...props }: PropsWithChildren<Partial<ModalButtonProps>>) => {
     const { modalVisible, setModalVisible } = useContext(ModalState);
+    console.log(props, 'the props');
 
     return (
-        <TouchableOpacity
+        <TouchableHighlight
             onPress={() => setModalVisible(true)}
-            style={styles.labelContainer}
+            style={{ ...props, ...styles.modalButton }}
         >
             {children}
-        </TouchableOpacity>
+        </TouchableHighlight>
     )
 }
+
 
 function Modal({ children }: PropsWithChildren) {
     const [modalVisible, setModalVisible] = useState(initialValue.modalVisible);

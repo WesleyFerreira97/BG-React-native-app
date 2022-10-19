@@ -1,12 +1,18 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from '../../styles/theme';
+
+const { height, width, scale } = Dimensions.get("screen");
 
 export const styles = StyleSheet.create({
     container: {
+        width: '100%',
     },
     galleryGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
+        // backgroundColor: 'black',
+        minHeight: 150,
+        width: '100%',
     },
     galleryHeader: {
         justifyContent: 'space-between',
@@ -26,12 +32,6 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: theme.fonts.secondaryAlt
     },
-    gridItem: {
-        width: '33%',
-        height: 100,
-        backgroundColor: 'black',
-        overflow: 'hidden',
-    },
     gridImage: {
         width: '100%',
         height: '100%',
@@ -39,5 +39,5 @@ export const styles = StyleSheet.create({
     gridImageFull: {
         width: '100%',
         height: '100%',
-    },
+    }
 });

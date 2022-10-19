@@ -1,7 +1,7 @@
 import { FieldArray, Formik, useFormik } from 'formik';
 import { FilePlus } from 'phosphor-react-native';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Dimensions, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Button } from 'react-native-paper';
 import { BucketProps } from '../../../@types/product';
@@ -13,6 +13,7 @@ import { useSelect } from '../../../hooks/useSelect';
 import { theme } from '../../../styles/theme';
 
 import { styles } from './styles';
+
 
 export function AddProductStepTwo({ route }) {
     // const { } = useFormik({})

@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.neutralAlt,
     },
     formWrap: {
+        flex: 1,
         alignItems: "center",
     },
     form: {
@@ -20,5 +21,6 @@ export const styles = StyleSheet.create({
     galleryByColor: {
         backgroundColor: theme.colors.neutral,
         marginVertical: 10,
+        width: '100%',
     }
 });

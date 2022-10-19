@@ -11,11 +11,11 @@ export const styles = StyleSheet.create({
     },
     modalButton: {
         // Open button
-        width: '100%',
-        backgroundColor: theme.colors.neutral,
-        borderRadius: 7,
-        paddingVertical: 15,
-        paddingHorizontal: 15,
+        miWidth: '33%',
+        maxWidth: '100%',
+        // width: '100%',
+        // height: 100,
+        backgroundColor: theme.colors.primaryAlt,
     },
     container: {
         flex: 1,
