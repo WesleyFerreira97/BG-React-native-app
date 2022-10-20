@@ -61,7 +61,7 @@ export function AddProductStepTwo({ route }) {
 
                                         </Modal.Content>
                                         <Modal.Button>
-                                            <Text>Adicionar nova Cor</Text>
+                                            <Text style={{ color: 'white' }}>Adicionar galeria por cor</Text>
                                         </Modal.Button>
                                     </Modal>
 

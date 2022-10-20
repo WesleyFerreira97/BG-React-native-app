@@ -86,7 +86,11 @@ export function GalleryInput({ name, ...props }: any) {
 
             <View style={styles.galleryGrid}>
                 {imageSrc.length == 0 && (
-                    <Text>Adicione imagens</Text>
+                    <View style={styles.galleryWarning}>
+                        <TouchableOpacity onPress={pickImage}>
+                            <Text style={styles.galleryWarningText}>Adicione imagens</Text>
+                        </TouchableOpacity>
+                    </View>
                 )}
 
                 {imageSrc &&

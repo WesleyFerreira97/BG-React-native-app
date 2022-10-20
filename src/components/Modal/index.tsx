@@ -82,4 +82,3 @@ Modal.Content = ModalContent;
 Modal.Button = ModalButton;
 
 export { Modal };
-

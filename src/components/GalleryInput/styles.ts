@@ -11,12 +11,22 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    galleryWarning: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     galleryGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        // backgroundColor: 'black',
+
         minHeight: 150,
         width: '100%',
+    },
+    galleryWarningText: {
+        fontFamily: theme.fonts.secondary,
+        fontSize: 16,
+        color: theme.colors.darkGray,
     },
     galleryHeader: {
         justifyContent: 'space-between',
