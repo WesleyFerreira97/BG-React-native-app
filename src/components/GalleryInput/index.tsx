@@ -20,10 +20,44 @@ type ImageInputProps = {
     name: string;
 }
 
+type GalleryHeaderProps = {
+    pickImage: () => void,
+    name: string,
+    color: string,
+}
 
-export function GalleryInput({ name, ...props }: any) {
+const GalleryHeader = (props: GalleryHeaderProps) => {
+    const { pickImage, color, name } = props;
+
+    return (
+        <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={pickImage}
+            style={{
+                ...styles.galleryHeader,
+                backgroundColor: color
+            }}>
+            <View style={styles.galleryOptions}>
+                <FilePlus
+                    size={32}
+                    style={{ marginRight: 5 }}
+                    color={theme.colors.neutralAlt}
+                />
+                <Text style={styles.galleryTitle}>
+                    Editar
+                </Text>
+            </View>
+            <Text style={styles.galleryTitle}>
+                {name}
+            </Text>
+        </TouchableOpacity>
+    )
+}
+
+
+export function GalleryInput({ slug, ...props }: any) {
     const [imageSrc, setImageSrc] = useState<any>([]);
-    const [field, meta, helpers] = useField(name);
+    const [field, meta, helpers] = useField(slug);
 
     useEffect(() => {
         setImagesToFormData(imageSrc);
@@ -53,7 +87,6 @@ export function GalleryInput({ name, ...props }: any) {
             })
 
             setImageSrc((prevState) => ([...prevState, uri]));
-
         }
     };
 
@@ -69,20 +102,11 @@ export function GalleryInput({ name, ...props }: any) {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity
-                onPress={pickImage}
-                style={styles.galleryHeader}
-            >
-                <View style={styles.galleryOptions}>
-                    <FilePlus
-                        size={32}
-                        style={{ marginRight: 5 }}
-                        color={theme.colors.neutralAlt}
-                    />
-                    <Text style={styles.galleryTitle}>Editar</Text>
-                </View>
-                <Text style={styles.galleryTitle}>Rosa</Text>
-            </TouchableOpacity>
+            <GalleryHeader
+                color={props.color}
+                name={props.name}
+                pickImage={pickImage}
+            />
 
             <View style={styles.galleryGrid}>
                 {imageSrc.length == 0 && (
@@ -95,9 +119,7 @@ export function GalleryInput({ name, ...props }: any) {
 
                 {imageSrc &&
                     imageSrc.map((image, index) => (
-                        <Modal
-                            key={index}
-                        >
+                        <Modal key={index}>
                             <Modal.Content>
                                 <View style={styles.galleryModalContent}>
                                     <Image
@@ -130,5 +152,3 @@ export function GalleryInput({ name, ...props }: any) {
         </View>
     );
 }
-
-

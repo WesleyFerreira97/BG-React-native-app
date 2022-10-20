@@ -5,14 +5,15 @@ const { height, width } = Dimensions.get("screen");
 
 export const styles = StyleSheet.create({
     scrollViewStyle: {
+        flex: 1,
         backgroundColor: theme.colors.neutralAlt,
     },
     formWrap: {
-        flex: 1,
+        // flex: 1,
         alignItems: "center",
     },
     form: {
-        height: height / 1.5,
+        // height: height / 1.5,
         width: "90%",
     },
     footer: {

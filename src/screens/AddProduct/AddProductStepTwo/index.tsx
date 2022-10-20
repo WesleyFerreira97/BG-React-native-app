@@ -14,6 +14,11 @@ import { theme } from '../../../styles/theme';
 
 import { styles } from './styles';
 
+type GallerySectionProps = {
+    slug: string,
+    name: string,
+    color: string,
+}
 
 export function AddProductStepTwo({ route }) {
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
@@ -21,8 +26,26 @@ export function AddProductStepTwo({ route }) {
         match: route.params.productId,
     });
     const [bucketFolder, setBucketFolder] = useState<string | null>(null);
-
     const { fileUploadResponse, setFile } = useFileUpload();
+    const [gallerySections, setGallerySections] = useState<GallerySectionProps[] | null>(null);
+
+    useEffect(() => {
+        const blue = {
+            slug: 'blue',
+            name: 'Azul',
+            color: '#083AA9'
+        }
+
+        const white = {
+            slug: 'white',
+            name: "Branco",
+            color: '#B2B2B2',
+        }
+
+        setGallerySections([blue])
+
+        setGallerySections(prevstate => [...prevstate, white])
+    }, []);
 
     const handleSubmit = (values) => {
         console.log(values);
@@ -54,21 +77,21 @@ export function AddProductStepTwo({ route }) {
                                     <Modal>
                                         <Modal.Content>
                                             <Text>Selecione uma cor : </Text>
-                                            {/* Cada botão deve dicionar uma nova GalleryInput  */}
-                                            <Button>Azul</Button>
                                             <Button onPress={() => console.log('Vemelho')}>Vermelho</Button>
-                                            <Button>Branco</Button>
-
                                         </Modal.Content>
                                         <Modal.Button>
                                             <Text style={{ color: 'white' }}>Adicionar galeria por cor</Text>
                                         </Modal.Button>
                                     </Modal>
-
-                                    <View style={styles.galleryByColor}>
-                                        <GalleryInput name="galleryPink" />
-                                    </View>
-
+                                    {gallerySections &&
+                                        gallerySections.map((item, index) => (
+                                            <View
+                                                key={index}
+                                                style={styles.galleryByColor}
+                                            >
+                                                <GalleryInput {...item} />
+                                            </View>
+                                        ))}
                                 </View>
 
                                 <View style={styles.footer}>
