@@ -13,6 +13,7 @@ import { useSelect } from '../../../hooks/useSelect';
 import { theme } from '../../../styles/theme';
 
 import { styles } from './styles';
+import { SnackBar } from '../../../components/SnackBar';
 
 type GallerySectionProps = {
     slug: string,
@@ -20,38 +21,39 @@ type GallerySectionProps = {
     color: string,
 }
 
+const sectionColors = {
+    blue: {
+        slug: 'blue',
+        name: 'Azul',
+        color: '#083AA9'
+    },
+    white: {
+        slug: 'white',
+        name: "Branco",
+        color: '#B2B2B2',
+    }
+}
+
 export function AddProductStepTwo({ route }) {
+    const [bucketFolder, setBucketFolder] = useState<string | null>(null);
+    const { fileUploadResponse, setFile } = useFileUpload();
+    const [gallerySections, setGallerySections] = useState<GallerySectionProps[] | null>([sectionColors.blue]);
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
         select: ['bucket_name', 'bucket_folder'],
         match: route.params.productId,
     });
-    const [bucketFolder, setBucketFolder] = useState<string | null>(null);
-    const { fileUploadResponse, setFile } = useFileUpload();
-    const [gallerySections, setGallerySections] = useState<GallerySectionProps[] | null>(null);
 
-    useEffect(() => {
-        const blue = {
-            slug: 'blue',
-            name: 'Azul',
-            color: '#083AA9'
-        }
+    const handleSection = (sectionProps: GallerySectionProps) => {
+        // console.log(sectionProps);
 
-        const white = {
-            slug: 'white',
-            name: "Branco",
-            color: '#B2B2B2',
-        }
+        const isDuplicate = gallerySections.some(section => section.name === sectionProps.name);
+        console.log(isDuplicate);
 
-        setGallerySections([blue])
-
-        setGallerySections(prevstate => [...prevstate, white])
-    }, []);
+        setGallerySections(prevstate => [...prevstate, sectionProps]);
+    }
 
     const handleSubmit = (values) => {
-        console.log(values);
-
         // const mainDirectory = "product";
-
         // setFile({
         //     file: values.image,
         //     path: `product/${selectResponse[0].bucket_folder}`,
@@ -60,6 +62,7 @@ export function AddProductStepTwo({ route }) {
 
     return (
         <>
+            {console.log(gallerySections)}
             <HeaderScreen />
             <ScrollView style={styles.scrollViewStyle}>
                 <View style={styles.formWrap}>
@@ -77,12 +80,14 @@ export function AddProductStepTwo({ route }) {
                                     <Modal>
                                         <Modal.Content>
                                             <Text>Selecione uma cor : </Text>
-                                            <Button onPress={() => console.log('Vemelho')}>Vermelho</Button>
+                                            <Button onPress={() => handleSection(sectionColors.blue)}>Azul</Button>
+                                            <Button onPress={() => handleSection(sectionColors.white)}>Branco</Button>
                                         </Modal.Content>
                                         <Modal.Button>
                                             <Text style={{ color: 'white' }}>Adicionar galeria por cor</Text>
                                         </Modal.Button>
                                     </Modal>
+
                                     {gallerySections &&
                                         gallerySections.map((item, index) => (
                                             <View
