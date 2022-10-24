@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Snackbar } from 'react-native-paper';
 import { styles } from './styles'
 
 type SnackBarProps = {
     text: string,
+    snackState: boolean,
 }
 
 export function SnackBar(props: SnackBarProps) {
@@ -20,6 +21,7 @@ export function SnackBar(props: SnackBarProps) {
             <Snackbar
                 visible={visible}
                 onDismiss={onDismissSnackBar}
+                duration={3000}
                 action={{
                     label: 'Undo',
                     onPress: () => {

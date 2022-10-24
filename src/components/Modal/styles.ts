@@ -5,9 +5,10 @@ export const styles = StyleSheet.create({
     modalOverlay: {
         position: 'absolute',
         backgroundColor: '#000',
-        opacity: .8,
+        opacity: .5,
         height: '100%',
         width: '100%',
+        zIndex: -1,
     },
     modalButton: {
         // Open button
@@ -21,12 +22,13 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        position: 'relative',
     },
     modalWrap: {
         backgroundColor: theme.colors.neutralAlt,
         width: '90%',
         borderRadius: 7,
-        overflow: 'hidden',
+        // overflow: 'hidden',
         maxHeight: '70%',
     },
     modalContent: {

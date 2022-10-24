@@ -1,9 +1,9 @@
 import { FieldArray, Formik, useFormik } from 'formik';
 import { FilePlus } from 'phosphor-react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Button } from 'react-native-paper';
+import { Button, Snackbar } from 'react-native-paper';
 import { BucketProps } from '../../../@types/product';
 import { HeaderScreen } from '../../../components/HeaderScreen';
 import { GalleryInput } from '../../../components/GalleryInput';
@@ -13,12 +13,16 @@ import { useSelect } from '../../../hooks/useSelect';
 import { theme } from '../../../styles/theme';
 
 import { styles } from './styles';
-import { SnackBar } from '../../../components/SnackBar';
 
 type GallerySectionProps = {
     slug: string,
     name: string,
     color: string,
+}
+
+type SnackBarProps = {
+    state: boolean,
+    text: string | null,
 }
 
 const sectionColors = {
@@ -38,16 +42,24 @@ export function AddProductStepTwo({ route }) {
     const [bucketFolder, setBucketFolder] = useState<string | null>(null);
     const { fileUploadResponse, setFile } = useFileUpload();
     const [gallerySections, setGallerySections] = useState<GallerySectionProps[] | null>([sectionColors.blue]);
+
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
         select: ['bucket_name', 'bucket_folder'],
         match: route.params.productId,
     });
 
-    const handleSection = (sectionProps: GallerySectionProps) => {
-        // console.log(sectionProps);
+    const defaultSnackStatus = {
+        state: false,
+        text: null,
+    }
 
+    const [snackBarStatus, setSnackBarStatus] = useState<SnackBarProps>(defaultSnackStatus);
+    const onDismissSnackBar = () => setSnackBarStatus(defaultSnackStatus)
+
+    const handleSection = (sectionProps: GallerySectionProps) => {
         const isDuplicate = gallerySections.some(section => section.name === sectionProps.name);
-        console.log(isDuplicate);
+
+        if (isDuplicate) return setSnackBarStatus({ state: true, text: "Seção Já adicionada" });
 
         setGallerySections(prevstate => [...prevstate, sectionProps]);
     }
@@ -62,7 +74,6 @@ export function AddProductStepTwo({ route }) {
 
     return (
         <>
-            {console.log(gallerySections)}
             <HeaderScreen />
             <ScrollView style={styles.scrollViewStyle}>
                 <View style={styles.formWrap}>
@@ -78,10 +89,22 @@ export function AddProductStepTwo({ route }) {
                             <>
                                 <View style={styles.form}>
                                     <Modal>
+
                                         <Modal.Content>
                                             <Text>Selecione uma cor : </Text>
                                             <Button onPress={() => handleSection(sectionColors.blue)}>Azul</Button>
                                             <Button onPress={() => handleSection(sectionColors.white)}>Branco</Button>
+
+                                            <Snackbar
+                                                visible={snackBarStatus.state}
+                                                onDismiss={onDismissSnackBar}
+                                                duration={3000}
+                                                action={{
+                                                    label: 'Ok'
+                                                }}>
+                                                {snackBarStatus.text}
+                                            </Snackbar>
+
                                         </Modal.Content>
                                         <Modal.Button>
                                             <Text style={{ color: 'white' }}>Adicionar galeria por cor</Text>
@@ -112,6 +135,8 @@ export function AddProductStepTwo({ route }) {
                             </>
                         )}
                     </Formik>
+
+
                 </View>
             </ScrollView>
         </>
