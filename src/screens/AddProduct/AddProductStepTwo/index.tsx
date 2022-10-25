@@ -55,14 +55,15 @@ export function AddProductStepTwo({ route }) {
     }
 
     const handleSubmit = (values) => {
+        const bucketFolder = selectResponse[0].bucket_folder;
 
         Object.keys(values).forEach((currentColor) => {
-            const arrImages = values[currentColor];
             const mainDirectory = "product";
+            const arrImages = values[currentColor];
 
             setFiles({
                 file: arrImages,
-                path: `${mainDirectory}/${selectResponse[0].bucket_folder}`,
+                path: `${mainDirectory}/${bucketFolder}`,
             })
         })
     }

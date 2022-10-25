@@ -41,7 +41,6 @@ export function useFileUpload<T>() {
 
         files.file.forEach((item) => {
             const fileName = item?._parts[0][1].name;
-            // console.log(files, ' inside forEach');
 
             async function asyncUpload() {
                 await supaDb.storage
