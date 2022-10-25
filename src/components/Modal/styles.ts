@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.neutralAlt,
         width: '90%',
         borderRadius: 7,
-        // overflow: 'hidden',
+        overflow: 'hidden',
         maxHeight: '70%',
     },
     modalContent: {

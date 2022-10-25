@@ -86,7 +86,7 @@ export function GalleryInput({ slug, ...props }: any) {
                 type: `image/${fileExtension}`,
             })
 
-            setImageSrc((prevState) => ([...prevState, uri]));
+            setImageSrc((prevState) => ([...prevState, formData]));
         }
     };
 
@@ -118,35 +118,39 @@ export function GalleryInput({ slug, ...props }: any) {
                 )}
 
                 {imageSrc &&
-                    imageSrc.map((image, index) => (
-                        <Modal key={index}>
-                            <Modal.Content>
-                                <View style={styles.galleryModalContent}>
-                                    <Image
-                                        source={{ uri: image }}
-                                        style={styles.gridImageFull}
-                                    />
-                                    <Button
-                                        onPress={() => removeImagesByIndex(imageSrc, index)}
-                                        mode="contained"
-                                    >
-                                        Remover Imagem
-                                    </Button>
-                                </View>
-                            </Modal.Content>
+                    imageSrc.map((image, index) => {
+                        const fileImage = image?._parts[0][1].uri;
 
-                            <Modal.Button
-                                width="33%"
-                                height={100}
-                                aspectRatio={2 / 3}
-                            >
-                                <Image
-                                    source={{ uri: image }}
-                                    style={styles.gridImage}
-                                />
-                            </Modal.Button>
-                        </Modal>
-                    ))}
+                        return (
+                            <Modal key={index}>
+                                <Modal.Content>
+                                    <View style={styles.galleryModalContent}>
+                                        <Image
+                                            source={{ uri: image }}
+                                            style={styles.gridImageFull}
+                                        />
+                                        <Button
+                                            onPress={() => removeImagesByIndex(imageSrc, index)}
+                                            mode="contained"
+                                        >
+                                            Remover Imagem
+                                        </Button>
+                                    </View>
+                                </Modal.Content>
+
+                                <Modal.Button
+                                    width="33%"
+                                    height={100}
+                                    aspectRatio={2 / 3}
+                                >
+                                    <Image
+                                        source={{ uri: fileImage }}
+                                        style={styles.gridImage}
+                                    />
+                                </Modal.Button>
+                            </Modal>
+                        )
+                    })}
             </View>
             <ErrorForm meta={meta} />
         </View>

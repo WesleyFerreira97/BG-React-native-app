@@ -53,7 +53,6 @@ const productValidation = Yup.object().shape({
 });
 
 export function AddProduct({ navigation }) {
-
     const { theme } = useTheme();
     const { dataResponse, setData } = useInsert<ProductProps & BucketProps>("products");
     const { allCategories, categoriesError } = useCategories();
