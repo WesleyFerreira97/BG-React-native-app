@@ -6,7 +6,7 @@ import { supaDb } from '../../services/supadb';
 import { styles } from './styles';
 import React, { PropsWithChildren } from 'react';
 
-export function Home() {
+export function HomeScreen() {
     const { theme, setTheme } = useTheme();
 
     async function getAllBuckets() {

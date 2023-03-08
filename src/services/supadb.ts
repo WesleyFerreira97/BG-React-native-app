@@ -7,4 +7,3 @@ export const supaDb = createClient(
     SUPABASE_URL as string,
     SUPABASE_ANON_KEY as string
 );
-
