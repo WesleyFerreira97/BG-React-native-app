@@ -1,30 +1,13 @@
 import React, { useRef } from 'react';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useTheme } from '../providers/ThemeContext';
-
-import { Home } from '../screens/Home';
-import { Pedidos } from '../screens/Pedidos';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { House, List, ClipboardText, PlusCircle } from 'phosphor-react-native';
-import { AddProduct } from '../screens/AddProduct';
-import { createStackNavigator } from '@react-navigation/stack';
-import { AddProductStepTwo } from '../screens/AddProduct/AddProductStepTwo';
+
+import { HomeStack } from './HomeStack';
+import { AddProductStack } from './AddProductStack';
+import { OrdersStack } from './OrdersStack';
 
 const Tab = createMaterialBottomTabNavigator();
-const AddProductScreenStack = createStackNavigator();
-
-const AddProductStack = () => {
-    return (
-        <AddProductScreenStack.Navigator
-            initialRouteName="addProductStepOne"
-            screenOptions={{
-                headerShown: false
-            }}
-        >
-            <AddProductScreenStack.Screen name='addProductStepOne' component={AddProduct} />
-            <AddProductScreenStack.Screen name='addProductStepTwo' component={AddProductStepTwo} />
-        </AddProductScreenStack.Navigator>
-    )
-}
 
 export function Routes() {
     const { theme } = useTheme();
@@ -36,11 +19,12 @@ export function Routes() {
                     tabBarColor: theme.colors.secondaryAlt,
                 }}
                 shifting={true}
-                initialRouteName="addProduct"
+                initialRouteName="home"
             >
                 <Tab.Screen
                     name="addProduct"
                     component={AddProductStack}
+
                     options={{
                         tabBarLabel: 'Add Produto',
                         tabBarIcon: ({ color }) => (
@@ -50,7 +34,7 @@ export function Routes() {
                 />
                 <Tab.Screen
                     name="home"
-                    component={Home}
+                    component={HomeStack}
                     options={{
                         tabBarLabel: 'Início',
                         tabBarIcon: ({ color }) => (
@@ -60,7 +44,7 @@ export function Routes() {
                 />
                 <Tab.Screen
                     name="pedidos"
-                    component={Pedidos}
+                    component={OrdersStack}
                     options={{
                         tabBarLabel: 'Pedidos',
                         tabBarIcon: ({ color }) => (
