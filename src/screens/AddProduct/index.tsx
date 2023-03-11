@@ -29,14 +29,14 @@ function setDefaultValues(value: DefaultSizesValues) {
 
 const initialValues: ProductProps = {
     title: "",
-    description: "",
+    description: "asdasd",
     product_categories: "",
     type_product_sizes: "letter",
     sizes_available: {
         letter: setDefaultValues(size_letter),
         numeric: setDefaultValues(size_numeric),
     },
-    price: 0,
+    price: 10,
 }
 
 const productValidation = Yup.object().shape({
@@ -58,6 +58,8 @@ export function AddProduct({ navigation }) {
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
+        console.log("error : ", dataResponse);
+
         if (dataResponse?.error) return
         // Go to next register product step
         navigation.navigate('addProductStepTwo', { productId: dataResponse?.id })
@@ -74,6 +76,7 @@ export function AddProduct({ navigation }) {
 
     const handleSubmitProduct = async (productProps: ProductProps) => {
         const productSizeSelected = getSizesSelected(productProps);
+        console.log("Product Values : ", productProps);
 
         setData({
             title: productProps.title,
@@ -194,7 +197,7 @@ export function AddProduct({ navigation }) {
                         </ScrollView>
 
                         <Button
-                            onPress={handleSubmit}
+                            onPress={handleSubmit as () => void}
                             mode="contained"
                             style={styles.submitButton}
                         >

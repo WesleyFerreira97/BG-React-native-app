@@ -16,7 +16,6 @@ type DbInsertReturn<T> = {
 export function useInsert<T>(
     table: string
 ): DbInsertReturn<T> {
-
     // const [dataResponse, setDataResponse] = useState<PostgrestResponse<T>>();
     const [dataResponse, setDataResponse] = useState<InsertResponseProps>();
     const [data, setData] = useState<T | null>(null);
@@ -27,11 +26,12 @@ export function useInsert<T>(
         supaDb.from(table)
             .insert(data)
             .then((res) => {
+
                 setDataResponse({
-                    id: res.data[0].id,
                     error: res.error,
                     status: res.status
                 });
+
             });
 
     }, [data]);
