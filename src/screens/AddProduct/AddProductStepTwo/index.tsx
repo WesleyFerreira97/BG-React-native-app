@@ -122,7 +122,7 @@ export function AddProductStepTwo({ route }) {
 
                                 <View style={styles.footer}>
                                     <Button
-                                        onPress={handleSubmit}
+                                        onPress={handleSubmit as any}
                                         mode="contained"
                                         color={theme.colors.primary}
                                     >

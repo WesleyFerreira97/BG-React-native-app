@@ -29,7 +29,7 @@ function setDefaultValues(value: DefaultSizesValues) {
 
 const initialValues: ProductProps = {
     title: "",
-    description: "asdasd",
+    description: "",
     product_categories: "",
     type_product_sizes: "letter",
     sizes_available: {
@@ -58,7 +58,7 @@ export function AddProduct({ navigation }) {
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
-        console.log("error : ", dataResponse);
+        console.log("Bateu aqui no effect! ", dataResponse);
 
         if (dataResponse?.error) return
         // Go to next register product step
@@ -102,8 +102,9 @@ export function AddProduct({ navigation }) {
                 initialValues={initialValues}
                 validationSchema={productValidation}
                 onSubmit={(values: ProductProps) => {
+                    console.log("bateu no submit");
+
                     handleSubmitProduct(values);
-                    // setProductProps(values);
                 }} >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                     <View style={{
