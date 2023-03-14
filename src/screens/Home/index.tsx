@@ -54,7 +54,7 @@ export function HomeScreen() {
         <View
             style={[
                 styles.container,
-                { backgroundColor: theme.colors.primary }
+                // { backgroundColor: theme.colors.primary }
             ]} >
             <Button
                 style={styles.button}
