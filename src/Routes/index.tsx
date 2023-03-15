@@ -9,8 +9,7 @@ import { AddProductStack } from './AddProductStack';
 import { OrdersStack } from './OrdersStack';
 import { View } from 'react-native';
 
-
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 export function Routes() {
     const { theme } = useTheme();
@@ -18,49 +17,35 @@ export function Routes() {
     return (
         <>
             <Tab.Navigator
-                screenOptions={{
-                    tabBarColor: theme.colors.secondary,
-                    tabBarLabel: "sdfsdf",
-
-                }}
-                inactiveColor={theme.colors.neutral}
-                activeColor={theme.colors.neutralAlt}
-                barStyle={{ backgroundColor: theme.colors.primary }}
                 initialRouteName="home"
-                shifting={true}
-                labeled={false}
-            >
-                <Tab.Screen
-                    name="addProduct"
-                    component={AddProductStack}
-                    options={{
-                        tabBarColor: theme.colors.primary,
-                        tabBarIcon: ({ color, focused }) => (
-                            // <PlusCircle color={color} weight="regular" size={25} />
-                            <MaterialCommunityIcons name="plus-circle" color={color} size={26} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="home"
-                    component={HomeStack}
-                    options={{
-                        tabBarIcon: ({ color }) => (
-                            // <House color={color} weight="regular" size={22} />
-                            <MaterialCommunityIcons name="home" color={color} size={26} />
-                        ),
+                screenOptions={({ route }) => ({
+                    tabBarLabelStyle: { display: "none" },
+                    tabBarActiveTintColor: theme.colors.neutral,
+                    tabBarInactiveTintColor: theme.colors.neutral,
+                    tabBarStyle: { backgroundColor: theme.colors.primary, },
+                    tabBarActiveBackgroundColor: theme.colors.primaryAlt,
+                    tabBarIcon: ({ focused, color, size }) => {
+                        let iconName = "";
 
-                    }}
-                />
-                <Tab.Screen
-                    name="pedidos"
-                    component={OrdersStack}
-                    options={{
-                        tabBarIcon: ({ color }) => (
-                            <ClipboardText color={color} weight="duotone" size={22} />
-                        ),
-                    }}
-                />
+                        switch (route.name) {
+                            case "addProduct":
+                                iconName = "plus-circle";
+                                break;
+                            case "home":
+                                iconName = "home";
+                                break;
+                            case "pedidos":
+                                iconName = "clipboard-edit";
+                                break;
+                        }
+
+                        return <MaterialCommunityIcons name={iconName} color={color} size={size} />
+                    },
+                })}
+            >
+                <Tab.Screen name="addProduct" component={AddProductStack} />
+                <Tab.Screen name="home" component={HomeStack} />
+                <Tab.Screen name="pedidos" component={OrdersStack} />
             </Tab.Navigator >
         </>
     );
