@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { styles } from './styles';
-
 import { HeaderScreen } from '../../components/HeaderScreen';
 import { useTheme } from '../../providers/ThemeContext';
-import { Field, FieldArray, Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
 import { useInsert } from '../../hooks/useInsert';
@@ -13,10 +12,8 @@ import { useCategories } from '../../hooks/useCategories';
 import { SelectInput } from '../../components/SelectInput';
 import { TextInput } from '../../components/TextInput';
 import { HeaderSection } from '../../components/HeaderSection';
-import { Modal } from '../../components/Modal';
 import { CheckboxInput } from '../../components/CheckboxInput';
 import { ToggleGroup } from '../../components/ToggleGroup';
-import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 
 type DefaultSizesValues = Array<string | number>;
 
@@ -36,7 +33,6 @@ const initialValues: ProductProps = {
         letter: setDefaultValues(size_letter),
         numeric: setDefaultValues(size_numeric),
     },
-    price: 10,
 }
 
 const productValidation = Yup.object().shape({
@@ -46,10 +42,6 @@ const productValidation = Yup.object().shape({
         .required('Titulo é obrigatório'),
     product_categories: Yup.string()
         .required('Escolha uma categoria'),
-    price: Yup.string()
-        .min(2, 'Preço inválido')
-        .max(10, 'Preço inválido!')
-        .required('Preço é obrigatório'),
 });
 
 export function AddProduct({ navigation }) {
@@ -58,12 +50,9 @@ export function AddProduct({ navigation }) {
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
-        console.log("Bateu aqui no effect! ", dataResponse);
+        if (dataResponse === undefined || dataResponse?.status != 201) return;
 
-        if (dataResponse?.error) return
-        // Go to next register product step
         navigation.navigate('addProductStepTwo', { productId: dataResponse?.id })
-
     }, [dataResponse]);
 
     const getSizesSelected = (productProps: ProductProps) => {

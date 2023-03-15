@@ -20,10 +20,11 @@ export function Routes() {
                 initialRouteName="home"
                 screenOptions={({ route }) => ({
                     tabBarLabelStyle: { display: "none" },
-                    tabBarActiveTintColor: theme.colors.neutral,
+                    tabBarActiveTintColor: theme.colors.primary,
                     tabBarInactiveTintColor: theme.colors.neutral,
                     tabBarStyle: { backgroundColor: theme.colors.primary, },
                     tabBarActiveBackgroundColor: theme.colors.primaryAlt,
+                    headerShown: false,
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName = "";
 
@@ -41,6 +42,7 @@ export function Routes() {
 
                         return <MaterialCommunityIcons name={iconName} color={color} size={size} />
                     },
+
                 })}
             >
                 <Tab.Screen name="addProduct" component={AddProductStack} />

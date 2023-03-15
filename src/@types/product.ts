@@ -17,7 +17,7 @@ export type ProductProps = {
     type_product_sizes?: string,
     // product_sizes: ProductTypes[],
     product_categories: string | number,
-    sizes_available: any,
+    sizes_available?: any,
     price?: number,
 }
 
