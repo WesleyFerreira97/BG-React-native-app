@@ -55,6 +55,8 @@ export function AddProductStepTwo({ route }) {
     }
 
     const handleSubmit = (values) => {
+        console.log("Valores do submit :", values);
+
         const bucketFolder = selectResponse[0].bucket_folder;
 
         Object.keys(values).forEach((currentColor) => {

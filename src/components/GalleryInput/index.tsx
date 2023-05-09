@@ -72,8 +72,9 @@ export function GalleryInput({ slug, ...props }: any) {
             quality: .3,
         });
 
-        if (!result.cancelled) {
-            const { uri } = result as unknown as ImageInfo;
+        if (!result.canceled) {
+            // const { uri } = result as unknown as ImageInfo;
+            const uri = result.assets[0].uri;
 
             const fileExtension = uri.substring(uri.lastIndexOf(".") + 1);
             const fileName = uri.replace(/^.*[\\\/]/, "");
@@ -143,10 +144,14 @@ export function GalleryInput({ slug, ...props }: any) {
                                     height={100}
                                     aspectRatio={2 / 3}
                                 >
-                                    <Image
+                                    <>
+                                        {console.log("File image aqui : ", fileImage)}
+                                        {/* <Image
                                         source={{ uri: fileImage }}
                                         style={styles.gridImage}
-                                    />
+                                    /> */}
+                                        <Text> No image here</Text>
+                                    </>
                                 </Modal.Button>
                             </Modal>
                         )

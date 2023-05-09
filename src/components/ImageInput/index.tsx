@@ -31,8 +31,9 @@ export function ImageInput({ name, ...props }: any) {
             quality: .3,
         });
 
-        if (!result.cancelled) {
-            const { uri } = result as unknown as ImageInfo;
+        if (!result.canceled) {
+            // const { uri } = result as unknown as ImageInfo;
+            const uri = result.assets[0].uri;
 
             const fileExtension = uri.substring(uri.lastIndexOf(".") + 1);
             const fileName = uri.replace(/^.*[\\\/]/, "");
