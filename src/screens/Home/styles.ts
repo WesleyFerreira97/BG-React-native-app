@@ -3,7 +3,7 @@ import { theme } from '../../styles/theme';
 
 export const styles = StyleSheet.create({
     container: {
-        // backgroundColor: theme.colors.primaryAlt,
+        // backgroundColor: theme.colors.primary,
         flex: 1,
         height: 100,
         alignItems: 'center',

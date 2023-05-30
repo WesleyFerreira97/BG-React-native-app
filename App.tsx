@@ -30,7 +30,8 @@ export default function App() {
             <SafeAreaView style={{ flex: 1 }}>
               <StatusBar
                 style="light"
-                backgroundColor={theme.colors.primary}
+                // backgroundColor={theme.colors.primary}
+                backgroundColor="#B30753"
                 translucent
               />
               <NavigationContainer>

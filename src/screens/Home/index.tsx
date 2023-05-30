@@ -8,58 +8,15 @@ import React, { PropsWithChildren } from 'react';
 
 export function HomeScreen() {
     const { theme, setTheme } = useTheme();
-
-    async function getAllBuckets() {
-        const { data, error } = await supaDb.storage.listBuckets()
-
-        console.log(data, 'buckets data');
-        console.log(error, 'buckets error');
-    }
-
-    async function getAllBucketsFolders() {
-        const { data, error } = await supaDb.storage.from("photo").list("public");
-
-        console.log(data, 'buckets data');
-        console.log(error, 'buckets error');
-    }
-
-    async function getAllCategories() {
-        const { data, error } = await supaDb.from('categories').select();
-
-        console.log(data, 'buckets data');
-        console.log(error, 'buckets error');
-    }
-
-    async function deleteCategories() {
-        const { data, error } = await supaDb
-            .from('categories')
-            .delete()
-            .match({ slug: 'brincos' })
-
-        console.log(data, 'buckets data');
-        console.log(error, 'buckets error');
-    }
-
-    async function updateCategories() {
-        const { data, error } = await supaDb
-            .from('categories')
-            .update({ slug: 'shorts' })
-            .match({ slug: 'Auckland' })
-
-        console.log(data, 'buckets data');
-        console.log(error, 'buckets error');
-    }
+    console.log(theme);
 
     return (
         <View
             style={[
                 styles.container,
-                // { backgroundColor: theme.colors.primary }
+                { backgroundColor: theme.colors.neutralAlt }
             ]} >
-            <Button
-                style={styles.button}
-                onPress={getAllCategories}
-            >Start Function</Button>
+            <Text>fsdfgfhgdfhde</Text>
         </View>
     );
 }
