@@ -79,31 +79,39 @@ export function AddProduct({ navigation }) {
     }
 
     return (
-        <View style={{
+        <ScrollView style={{
             ...styles.container,
             backgroundColor: theme.colors.neutralAlt,
-            flex: 1,
+        }}
+        >
+            <View style={{ flex: 1 }}>
+                <HeaderScreen />
+            </View>
+        </ScrollView>
+    );
+}
 
-        }}>
-            <HeaderScreen />
 
-            <Formik
-                initialValues={initialValues}
-                validationSchema={productValidation}
-                onSubmit={(values: ProductProps) => {
-                    console.log("bateu no submit");
 
-                    handleSubmitProduct(values);
-                }} >
-                {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
-                    <View style={{
-                        // width: '100%',
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
 
-                        <ScrollView style={{ flex: 1, width: '90%' }}>
+
+{/* <Formik
+                    initialValues={initialValues}
+                    validationSchema={productValidation}
+                    onSubmit={(values: ProductProps) => {
+                        handleSubmitProduct(values);
+                    }} >
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
+                        <View style={{
+                            width: '100%',
+                            height: '100%',
+                            flex: 1,
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+
+
                             <HeaderSection>
                                 1º Etapa - Cadastro
                             </HeaderSection>
@@ -184,19 +192,16 @@ export function AddProduct({ navigation }) {
                                     </>
                                 )}
                             </Field>
-                        </ScrollView>
 
-                        <Button
-                            onPress={handleSubmit as () => void}
-                            mode="contained"
-                            style={styles.submitButton}
-                        >
-                            Cadastrar
-                        </Button>
-                    </View>
-                )
-                }
-            </Formik >
-        </View >
-    );
-}
+
+                            <Button
+                                onPress={handleSubmit as () => void}
+                                mode="contained"
+                                style={styles.submitButton}
+                            >
+                                Cadastrar
+                            </Button>
+                        </View>
+                    )
+                    }
+                </Formik > */}
