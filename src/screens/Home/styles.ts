@@ -9,6 +9,9 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    headerContainer: {
+        width: "100%",
+    },
     button: {
         color: '#fff',
         backgroundColor: theme.colors.primaryAlt,

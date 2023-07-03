@@ -1,13 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useTheme } from '../providers/ThemeContext';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { House, List, ClipboardText, PlusCircle } from 'phosphor-react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { HomeStack } from './HomeStack';
 import { AddProductStack } from './AddProductStack';
 import { OrdersStack } from './OrdersStack';
-import { View } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -52,6 +49,3 @@ export function Routes() {
         </>
     );
 }
-
-
-
