@@ -65,7 +65,6 @@ export function AddProduct({ navigation }) {
 
     const handleSubmitProduct = async (productProps: ProductProps) => {
         const productSizeSelected = getSizesSelected(productProps);
-        console.log("Product Values : ", productProps);
 
         setData({
             title: productProps.title,
@@ -79,15 +78,108 @@ export function AddProduct({ navigation }) {
     }
 
     return (
-        <ScrollView style={{
-            ...styles.container,
-            backgroundColor: theme.colors.neutralAlt,
-        }}
-        >
-            <View style={{ flex: 1 }}>
-                <HeaderScreen />
-            </View>
-        </ScrollView>
+        <View style={styles.container}>
+            <HeaderScreen />
+            <Formik
+                initialValues={initialValues}
+                validationSchema={productValidation}
+                onSubmit={(values: ProductProps) => {
+                    handleSubmitProduct(values);
+                }} >
+                {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
+                    <ScrollView contentContainerStyle={styles.containerScrollView} >
+
+                        <HeaderSection>
+                            1º Etapa - Cadastro
+                        </HeaderSection>
+
+                        <TextInput
+                            name='title'
+                            label='Titulo'
+                            placeholder='Titulo do produto'
+                        />
+                        <TextInput
+                            name='description'
+                            label='Descrição'
+                            placeholder='Descrição do produto'
+                            multiline={true}
+                            numberOfLines={5}
+                        />
+
+                        {!categoriesError && (
+                            <SelectInput name="product_categories" >
+                                {allCategories?.map((item, index) => (
+                                    <SelectInput.Item
+                                        key={index}
+                                        label={item.title}
+                                        value={item.slug}
+                                    />
+                                ))}
+                            </SelectInput>
+                        )}
+                        <TextInput
+                            name='price'
+                            label='Price'
+                            placeholder='Preço'
+                            keyboardType='number-pad'
+                        />
+
+                        <ToggleGroup
+                            label="Tamanhos disponíveis :"
+                            name="type_product_sizes"
+                            toggleValues={[
+                                { label: 'Letras', value: 'letter' },
+                                { label: 'Numérico', value: 'numeric' }
+                            ]}
+                            value={values.type_product_sizes}
+                        />
+
+                        <Field name="sizes_available" >
+                            {() => (
+                                <>
+                                    {values.type_product_sizes === 'letter' &&
+                                        Object.keys(values.sizes_available.letter).map((inputName, key, obj) => {
+                                            const currentInputValue = values.sizes_available.letter[inputName]
+
+                                            return (
+                                                <CheckboxInput
+                                                    key={key}
+                                                    name={`sizes_available.letter.${inputName}`}
+                                                    value={currentInputValue}
+                                                    label={inputName}
+                                                />
+                                            )
+                                        })}
+
+                                    {values.type_product_sizes === 'numeric' &&
+                                        Object.keys(values.sizes_available.numeric).map((inputName, key, obj) => {
+                                            const currentInputValue = values.sizes_available.numeric[inputName]
+
+                                            return (
+                                                <CheckboxInput
+                                                    key={key}
+                                                    name={`sizes_available.numeric.${inputName}`}
+                                                    value={currentInputValue}
+                                                    label={inputName}
+                                                />
+                                            )
+                                        })}
+                                </>
+                            )}
+                        </Field>
+
+
+                        <Button
+                            onPress={handleSubmit as () => void}
+                            mode="contained"
+                            style={styles.submitButton}
+                        >
+                            Cadastrar
+                        </Button>
+                    </ScrollView>
+                )}
+            </Formik>
+        </View>
     );
 }
 
@@ -95,113 +187,4 @@ export function AddProduct({ navigation }) {
 
 
 
-{/* <Formik
-                    initialValues={initialValues}
-                    validationSchema={productValidation}
-                    onSubmit={(values: ProductProps) => {
-                        handleSubmitProduct(values);
-                    }} >
-                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
-                        <View style={{
-                            width: '100%',
-                            height: '100%',
-                            flex: 1,
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
 
-
-                            <HeaderSection>
-                                1º Etapa - Cadastro
-                            </HeaderSection>
-
-                            <TextInput
-                                name='title'
-                                label='Title'
-                                placeholder='Titulo do produto'
-                            />
-
-                            <TextInput
-                                name='description'
-                                label='Descrição'
-                                placeholder='Descrição do produto'
-                                multiline={true}
-                                numberOfLines={5}
-                            />
-
-                            {!categoriesError && (
-                                <SelectInput name="product_categories" >
-                                    {allCategories?.map((item, index) => (
-                                        <SelectInput.Item
-                                            key={index}
-                                            label={item.title}
-                                            value={item.slug}
-                                        />
-                                    ))}
-                                </SelectInput>
-                            )}
-
-                            <TextInput
-                                name='price'
-                                label='Price'
-                                placeholder='Preço'
-                                keyboardType='number-pad'
-                            />
-
-                            <ToggleGroup
-                                label="Tamanhos disponíveis :"
-                                name="type_product_sizes"
-                                toggleValues={[
-                                    { label: 'Letras', value: 'letter' },
-                                    { label: 'Numérico', value: 'numeric' }
-                                ]}
-                                value={values.type_product_sizes}
-                            />
-
-                            <Field name="sizes_available" >
-                                {() => (
-                                    <>
-                                        {values.type_product_sizes === 'letter' &&
-                                            Object.keys(values.sizes_available.letter).map((inputName, key, obj) => {
-                                                const currentInputValue = values.sizes_available.letter[inputName]
-
-                                                return (
-                                                    <CheckboxInput
-                                                        key={key}
-                                                        name={`sizes_available.letter.${inputName}`}
-                                                        value={currentInputValue}
-                                                        label={inputName}
-                                                    />
-                                                )
-                                            })}
-
-                                        {values.type_product_sizes === 'numeric' &&
-                                            Object.keys(values.sizes_available.numeric).map((inputName, key, obj) => {
-                                                const currentInputValue = values.sizes_available.numeric[inputName]
-
-                                                return (
-                                                    <CheckboxInput
-                                                        key={key}
-                                                        name={`sizes_available.numeric.${inputName}`}
-                                                        value={currentInputValue}
-                                                        label={inputName}
-                                                    />
-                                                )
-                                            })}
-                                    </>
-                                )}
-                            </Field>
-
-
-                            <Button
-                                onPress={handleSubmit as () => void}
-                                mode="contained"
-                                style={styles.submitButton}
-                            >
-                                Cadastrar
-                            </Button>
-                        </View>
-                    )
-                    }
-                </Formik > */}

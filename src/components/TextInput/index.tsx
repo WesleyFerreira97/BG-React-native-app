@@ -25,24 +25,22 @@ export function TextInput({ name, ...props }: TextInputProps) {
 
     return (
         <View style={styles.container}>
-            {/* <Text style={styles.label}>{props.label}</Text> */}
+            <Text style={styles.label}>{props.label}</Text>
             <TextInputPaper
                 keyboardType={props.keyboardType}
                 onChangeText={(e) => handleOnChange(e)}
                 value={textValue}
-                mode='outlined'
+                mode='flat'
                 placeholder={props.placeholder}
-                underlineColor='red'
-                activeOutlineColor='#A8A8A8'
-                outlineColor='#E2E1E5'
+                textColor={theme.colors.primaryAlt}
+                underlineColor={theme.colors.primaryAlt}
+                placeholderTextColor={theme.colors.darkGray}
+                underlineStyle={{ borderWidth: 1, borderColor: theme.colors.darkGray }}
                 multiline={props.multiline}
                 numberOfLines={props.numberOfLines}
                 theme={{
-                    roundness: 7,
                     colors: {
-                        primary: '#E2E1E5',
                         background: "#fff",
-                        placeholder: '#A8A8A8'
                     },
                 }}
             />

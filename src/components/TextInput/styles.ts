@@ -9,6 +9,8 @@ export const styles = StyleSheet.create({
     label: {
         fontFamily: theme.fonts.secondary,
         fontSize: 15,
-        color: theme.colors.darkGray
+        color: theme.colors.primaryAlt,
+        fontWeight: '700',
+        marginVertical: 8,
     }
 });

@@ -3,13 +3,14 @@ import { theme } from '../../styles/theme';
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        height: 100,
+        backgroundColor: theme.colors.neutralAlt,
+    },
+    containerScrollView: {
+        padding: 20,
     },
     submitButton: {
         width: '90%',
         marginVertical: 20,
-        // backgroundColor: "#EBEFF6",
-        backgroundColor: "#EBEFF6",
+        backgroundColor: theme.colors.primaryAlt,
     },
 });
