@@ -87,7 +87,7 @@ export function AddProduct({ navigation }) {
                     handleSubmitProduct(values);
                 }} >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
-                    <ScrollView contentContainerStyle={styles.containerScrollView} >
+                    <ScrollView contentContainerStyle={styles.containerScrollView}>
 
                         <HeaderSection>
                             1º Etapa - Cadastro
@@ -167,7 +167,6 @@ export function AddProduct({ navigation }) {
                                 </>
                             )}
                         </Field>
-
 
                         <Button
                             onPress={handleSubmit as () => void}

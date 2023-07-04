@@ -7,6 +7,8 @@ export const styles = StyleSheet.create({
     },
     containerScrollView: {
         padding: 20,
+        flexGrow: 1,
+        paddingBottom: 50,
     },
     submitButton: {
         width: '90%',
