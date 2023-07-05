@@ -26,9 +26,9 @@ function setDefaultValues(value: DefaultSizesValues) {
 }
 
 const initialValues: ProductProps = {
-    title: "",
+    title: "aaaaaaa",
     description: "",
-    product_categories: "",
+    product_categories: "Shorts",
     type_product_sizes: "letter",
     sizes_available: {
         letter: setDefaultValues(size_letter),
@@ -52,8 +52,6 @@ export function AddProduct({ navigation }) {
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
-        console.log(dataResponse, " data response");
-
         if (dataResponse === undefined || dataResponse?.status != 201) return;
 
         navigation.navigate('addProductStepTwo', { productId: dataResponse?.id })
@@ -180,12 +178,10 @@ export function AddProduct({ navigation }) {
                                     )}
                                 </Field>
 
-
                                 <SwitchInput
                                     name="product_available"
                                     label="Produto disponível"
                                 />
-
 
                                 <Button
                                     onPress={handleSubmit as () => void}

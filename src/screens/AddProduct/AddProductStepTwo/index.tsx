@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Formik } from 'formik';
 import { FilePlus } from 'phosphor-react-native';
-import { Button, Snackbar } from 'react-native-paper';
+import { Snackbar } from 'react-native-paper';
+import { Button } from '../../../components/Button';
 import { BucketProps } from '../../../@types/product';
 import { HeaderScreen } from '../../../components/HeaderScreen';
 import { GalleryInput } from '../../../components/GalleryInput';
@@ -13,6 +14,7 @@ import { theme } from '../../../styles/theme';
 import { sectionColors } from './sectionColors';
 import { styles } from './styles';
 import { ImageInput } from '../../../components/ImageInput';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type GallerySectionProps = {
     slug: string,
@@ -70,6 +72,7 @@ export function AddProductStepTwo({ route }) {
         })
     }
 
+
     return (
         <>
             <HeaderScreen />
@@ -85,13 +88,24 @@ export function AddProductStepTwo({ route }) {
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (
                             <>
                                 <View style={styles.form}>
-                                    {/* <ImageInput name="imageTest" /> */}
                                     <Modal>
 
                                         <Modal.Content>
                                             <Text>Selecione uma cor : </Text>
-                                            <Button onPress={() => handleSection(sectionColors.blue)}>Azul</Button>
-                                            <Button onPress={() => handleSection(sectionColors.white)}>Branco</Button>
+                                            {/* <Button
+        text='Azul'
+        onPress={() => handleSection(sectionColors.blue)}
+    /> */}
+
+                                            <Button
+                                                text='Branco'
+                                                onPress={() => handleSection(sectionColors.white)}
+                                            />
+                                            <TouchableOpacity
+                                                onPress={() => handleSection(sectionColors.white)}
+                                            >
+                                                <Text>~fpoghijk~gçhlkfjh~çtgj</Text>
+                                            </TouchableOpacity>
 
                                             <Snackbar
                                                 visible={snackBarStatus.state}
@@ -105,7 +119,10 @@ export function AddProductStepTwo({ route }) {
 
                                         </Modal.Content>
                                         <Modal.Button>
-                                            <Text style={{ color: 'white' }}>Adicionar galeria por cor</Text>
+                                            {/* <Button
+                                                text='Adicionar galeria por cor'
+                                            /> */}
+                                            <Text> Adiconar galeria</Text>
                                         </Modal.Button>
                                     </Modal>
 
@@ -123,13 +140,11 @@ export function AddProductStepTwo({ route }) {
                                 </View>
 
                                 <View style={styles.footer}>
-                                    <Button
-                                        onPress={handleSubmit as any}
-                                        mode="contained"
-                                        color={theme.colors.primary}
-                                    >
-                                        Concluir
-                                    </Button>
+
+
+                                    {/* <Button
+                                        onPress={handleSubmit as () => void}
+                                    >Fodase </Button> */}
                                 </View>
 
                             </>

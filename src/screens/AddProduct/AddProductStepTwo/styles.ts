@@ -9,15 +9,17 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.neutralAlt,
     },
     formWrap: {
-        // flex: 1,
         alignItems: "center",
     },
     form: {
-        // height: height / 1.5,
         width: "90%",
     },
     footer: {
+        width: "100%",
+        paddingHorizontal: 20,
         marginVertical: 10,
+        flexDirection: "row",
+        justifyContent: "space-evenly",
     },
     galleryByColor: {
         backgroundColor: theme.colors.neutral,
