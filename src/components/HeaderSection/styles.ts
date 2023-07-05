@@ -6,13 +6,13 @@ export const styles = StyleSheet.create({
         width: '100%',
         borderBottomColor: "#fff",
         borderBottomWidth: 1,
-        marginBottom: 30,
+        marginBottom: 20,
     },
     headerText: {
         fontSize: 20,
         fontFamily: theme.fonts.secondaryAlt,
         // color: '#786E73',
-        color: theme.colors.tertiary,
+        color: theme.colors.darkGray,
         paddingBottom: 10,
     }
 });

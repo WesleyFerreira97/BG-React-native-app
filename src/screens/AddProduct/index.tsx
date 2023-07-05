@@ -96,12 +96,10 @@ export function AddProduct({ navigation }) {
                         <TextInput
                             name='title'
                             label='Titulo'
-                            placeholder='Titulo do produto'
                         />
                         <TextInput
                             name='description'
                             label='Descrição'
-                            placeholder='Descrição do produto'
                             multiline={true}
                             numberOfLines={5}
                         />
@@ -120,7 +118,6 @@ export function AddProduct({ navigation }) {
                         <TextInput
                             name='price'
                             label='Price'
-                            placeholder='Preço'
                             keyboardType='number-pad'
                         />
 

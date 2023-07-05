@@ -32,10 +32,12 @@ export function TextInput({ name, ...props }: TextInputProps) {
                 value={textValue}
                 mode='flat'
                 placeholder={props.placeholder}
-                textColor={theme.colors.primaryAlt}
-                underlineColor={theme.colors.primaryAlt}
+                outlineColor='yellow'
                 placeholderTextColor={theme.colors.darkGray}
-                underlineStyle={{ borderWidth: 1, borderColor: theme.colors.darkGray }}
+                underlineStyle={{
+                    borderWidth: 1,
+                    borderColor: theme.colors.darkGray
+                }}
                 multiline={props.multiline}
                 numberOfLines={props.numberOfLines}
                 theme={{

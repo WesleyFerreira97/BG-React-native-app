@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     label: {
         fontFamily: theme.fonts.secondary,
         fontSize: 15,
-        color: theme.colors.primaryAlt,
+        color: theme.colors.darkGray,
         fontWeight: '700',
         marginVertical: 8,
     }

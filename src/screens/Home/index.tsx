@@ -16,6 +16,7 @@ export function HomeScreen() {
         inputRange: [0, headerMaxHeight - headerMinHeight],
         outputRange: [headerMaxHeight, headerMinHeight],
         extrapolate: "identity",
+
     })
 
     return (
@@ -41,7 +42,6 @@ export function HomeScreen() {
                 contentContainerStyle={{
                     alignItems: "center",
                 }}
-                scrollEventThrottle={300}
                 onScroll={(e) => {
                     const scrollY = e.nativeEvent.contentOffset.y;
                     StickyHeader.setValue(scrollY);
