@@ -1,5 +1,5 @@
 import React, { useEffect, useState, PropsWithChildren } from 'react';
-import { View, StyleProp, TextStyle } from 'react-native';
+import { View, StyleProp, TextStyle, Text } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useField } from 'formik';
 import { styles } from './styles';
@@ -8,6 +8,7 @@ import { ErrorForm } from '../ErrorForm';
 type SelectInputProps = {
     name: string;
     style?: StyleProp<TextStyle>
+    label: string,
 }
 
 type SelectItemProps = {
@@ -26,7 +27,7 @@ const Item = ({ label, value, style }: SelectItemProps) => {
     )
 }
 
-function SelectInput({ name, children, style }: PropsWithChildren<SelectInputProps>) {
+function SelectInput({ name, children, style, ...props }: PropsWithChildren<SelectInputProps>) {
     const [field, meta, helpers] = useField(name);
     const [selectedValue, setSelectValue] = useState<string>();
 
@@ -37,6 +38,9 @@ function SelectInput({ name, children, style }: PropsWithChildren<SelectInputPro
 
     return (
         <View style={styles.container}>
+            <Text style={styles.label}>
+                {props.label}
+            </Text>
             <Picker
                 style={styles.selectedLabel}
                 selectedValue={selectedValue}

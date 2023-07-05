@@ -3,10 +3,10 @@ import { theme } from '../../styles/theme';
 
 export const styles = StyleSheet.create({
     container: {
-        backgroundColor: theme.colors.neutralAlt,
+        backgroundColor: theme.colors.neutral,
+        position: 'relative',
     },
     containerScrollView: {
-        padding: 20,
         flexGrow: 1,
         paddingBottom: 50,
     },

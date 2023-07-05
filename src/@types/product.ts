@@ -19,6 +19,7 @@ export type ProductProps = {
     product_categories: string | number,
     sizes_available?: any,
     price?: number,
+    product_available: boolean,
 }
 
 export type BucketProps = {

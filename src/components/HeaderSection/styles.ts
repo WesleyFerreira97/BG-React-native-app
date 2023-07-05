@@ -3,16 +3,18 @@ import { theme } from '../../styles/theme';
 
 export const styles = StyleSheet.create({
     container: {
+        minHeight: 60,
         width: '100%',
-        borderBottomColor: "#fff",
-        borderBottomWidth: 1,
-        marginBottom: 20,
+        backgroundColor: theme.colors.secondaryAlt,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     headerText: {
-        fontSize: 20,
-        fontFamily: theme.fonts.secondaryAlt,
-        // color: '#786E73',
-        color: theme.colors.darkGray,
-        paddingBottom: 10,
+        fontSize: 16,
+        fontWeight: '200',
+        fontFamily: theme.fonts.secondary,
+        color: theme.colors.neutral,
+        // paddingLeft: 20,
     }
 });
