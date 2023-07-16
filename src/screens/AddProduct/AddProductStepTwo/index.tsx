@@ -2,19 +2,13 @@ import React, { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Formik } from 'formik';
 import { FilePlus } from 'phosphor-react-native';
-import { Snackbar } from 'react-native-paper';
-import { Button } from '../../../components/Button';
 import { BucketProps } from '../../../@types/product';
 import { HeaderScreen } from '../../../components/HeaderScreen';
 import { GalleryInput } from '../../../components/GalleryInput';
-import { Modal } from '../../../components/Modal';
 import { useFileUpload } from '../../../hooks/useFileUpload';
 import { useSelect } from '../../../hooks/useSelect';
-import { theme } from '../../../styles/theme';
 import { sectionColors } from './sectionColors';
 import { styles } from './styles';
-import { ImageInput } from '../../../components/ImageInput';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type GallerySectionProps = {
     slug: string,
@@ -88,43 +82,7 @@ export function AddProductStepTwo({ route }) {
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (
                             <>
                                 <View style={styles.form}>
-                                    <Modal>
 
-                                        <Modal.Content>
-                                            <Text>Selecione uma cor : </Text>
-                                            {/* <Button
-        text='Azul'
-        onPress={() => handleSection(sectionColors.blue)}
-    /> */}
-
-                                            <Button
-                                                text='Branco'
-                                                onPress={() => handleSection(sectionColors.white)}
-                                            />
-                                            <TouchableOpacity
-                                                onPress={() => handleSection(sectionColors.white)}
-                                            >
-                                                <Text>~fpoghijk~gçhlkfjh~çtgj</Text>
-                                            </TouchableOpacity>
-
-                                            <Snackbar
-                                                visible={snackBarStatus.state}
-                                                onDismiss={onDismissSnackBar}
-                                                duration={3000}
-                                                action={{
-                                                    label: 'Ok'
-                                                }}>
-                                                {snackBarStatus.text}
-                                            </Snackbar>
-
-                                        </Modal.Content>
-                                        <Modal.Button>
-                                            {/* <Button
-                                                text='Adicionar galeria por cor'
-                                            /> */}
-                                            <Text> Adiconar galeria</Text>
-                                        </Modal.Button>
-                                    </Modal>
 
                                     {gallerySections &&
                                         gallerySections.map((item, index) => (
@@ -144,7 +102,7 @@ export function AddProductStepTwo({ route }) {
 
                                     {/* <Button
                                         onPress={handleSubmit as () => void}
-                                    >Fodase </Button> */}
+                                    >Submit </Button> */}
                                 </View>
 
                             </>
