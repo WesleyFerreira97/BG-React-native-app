@@ -52,6 +52,7 @@ export function AddProduct({ navigation }) {
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
+        console.log(dataResponse, "Passou no effect");
         if (dataResponse === undefined || dataResponse?.status != 201) return;
 
         navigation.navigate('addProductStepTwo', { productId: dataResponse?.id })

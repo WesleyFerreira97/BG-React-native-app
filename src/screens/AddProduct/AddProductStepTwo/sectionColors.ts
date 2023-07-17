@@ -1,6 +1,12 @@
 type SectionColorsNames = 'blue' | 'white' | 'purple';
 
 export type SectionColorsProps = {
+    slug: string;
+    name: string;
+    color: string;
+}
+
+export type f = {
     [key in SectionColorsNames]: {
         slug: string,
         name: string,
@@ -8,7 +14,7 @@ export type SectionColorsProps = {
     }
 }
 
-export const sectionColors: SectionColorsProps = {
+export const sectionColors: Record<SectionColorsNames, SectionColorsProps> = {
     blue: {
         slug: 'blue',
         name: 'Azul',
