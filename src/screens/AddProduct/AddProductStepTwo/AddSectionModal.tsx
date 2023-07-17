@@ -6,6 +6,9 @@ import { Button } from '../../../components/Button';
 import { Snackbar } from 'react-native-paper';
 import { sectionColors } from './sectionColors';
 import type { SectionColorsProps } from './sectionColors';
+import { styles } from './styleModal';
+import { FilePlus } from 'phosphor-react-native';
+import { theme } from '../../../styles/theme';
 
 type SnackBarProps = {
     state: boolean,
@@ -15,6 +18,33 @@ type SnackBarProps = {
 type AddSectionProps = {
     currentGallerySections: SectionColorsProps[];
     addNewSection: (prop: SectionColorsProps) => void
+}
+
+type ModalItemProps = {
+    bgColor: string;
+    color: string;
+    label: string;
+}
+
+const ModalItem = (props: ModalItemProps) => {
+
+    return (
+        <View style={{
+            ...styles.menuItem,
+            backgroundColor: props.bgColor,
+        }}>
+            <FilePlus
+                color={props.color}
+                size={24}
+            />
+            <Text style={{
+                ...styles.menuItemTitle,
+                color: props.color
+            }}>
+                {props.label}
+            </Text>
+        </View>
+    )
 }
 
 export function AddSectionModal({ currentGallerySections, addNewSection }: AddSectionProps) {
@@ -37,43 +67,79 @@ export function AddSectionModal({ currentGallerySections, addNewSection }: AddSe
 
         addNewSection(sectionProps);
     }
+
     return (
         <>
             <Modal>
-
                 <Modal.Content>
-                    <Text>Selecione uma cor : </Text>
-                    <Button
-                        text='Azul'
-                        onPress={() => handleSection(sectionColors.blue)}
-                    />
+                    <View style={styles.modalContentWrap}>
+                        <Text style={styles.modalTitle}>
+                            Selecione uma cor
+                        </Text>
+                        <View style={styles.modalInnerContent}>
+                            <TouchableOpacity onPress={() => handleSection(sectionColors.white)} >
+                                <ModalItem
+                                    bgColor={theme.colors.secondary}
+                                    color={theme.colors.neutral}
+                                    label='Branco'
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => handleSection(sectionColors.white)} >
+                                <ModalItem
+                                    bgColor={theme.colors.secondary}
+                                    color={theme.colors.neutral}
+                                    label='Branco'
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => handleSection(sectionColors.white)} >
+                                <ModalItem
+                                    bgColor={theme.colors.secondary}
+                                    color={theme.colors.neutral}
+                                    label='Branco'
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => handleSection(sectionColors.white)} >
+                                <ModalItem
+                                    bgColor={theme.colors.secondary}
+                                    color={theme.colors.neutral}
+                                    label='Branco'
+                                />
+                            </TouchableOpacity>
 
-                    <Button
-                        text='Branco'
-                        onPress={() => handleSection(sectionColors.white)}
-                    />
-                    <TouchableOpacity
-                        onPress={() => handleSection(sectionColors.white)}
-                    >
-                        <Text>Branco Touchable Opacity</Text>
-                    </TouchableOpacity>
 
-                    <Snackbar
-                        visible={snackBarStatus.state}
-                        onDismiss={onDismissSnackBar}
-                        duration={3000}
-                        action={{
-                            label: 'Ok'
-                        }}>
-                        {snackBarStatus.text}
-                    </Snackbar>
 
+                            <TouchableOpacity onPress={() => handleSection(sectionColors.blue)} >
+                                <ModalItem
+                                    bgColor={theme.colors.secondary}
+                                    color={theme.colors.neutral}
+                                    label='Azul'
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => handleSection(sectionColors.purple)} >
+                                <ModalItem
+                                    bgColor={theme.colors.secondary}
+                                    color={theme.colors.neutral}
+                                    label='Roxo'
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <Snackbar
+                            visible={snackBarStatus.state}
+                            onDismiss={onDismissSnackBar}
+                            duration={3000}
+                            action={{
+                                label: 'Ok'
+                            }}>
+                            {snackBarStatus.text}
+                        </Snackbar>
+                    </View>
                 </Modal.Content >
                 <Modal.Button>
-                    {/* <Button
-                                                text='Adicionar galeria por cor'
-                                            /> */}
-                    <Text> Adiconar galeria</Text>
+                    <>
+                        <Button
+                            text='Adicionar galeria por cor'
+                        />
+                    </>
                 </Modal.Button>
             </Modal >
         </>

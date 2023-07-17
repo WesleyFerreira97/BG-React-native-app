@@ -60,7 +60,7 @@ const ModalButton = ({ children, ...props }: PropsWithChildren<Partial<ModalButt
     return (
         <TouchableHighlight
             onPress={() => setModalVisible(true)}
-            style={{ ...props, ...styles.modalButton }}
+            style={{ ...props, ...styles.modalButton, overflow: 'hidden' }}
         >
             {children}
         </TouchableHighlight>

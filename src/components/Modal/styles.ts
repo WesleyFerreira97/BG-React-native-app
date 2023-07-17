@@ -11,18 +11,16 @@ export const styles = StyleSheet.create({
         zIndex: -1,
     },
     modalButton: {
-        // Open button
         miWidth: '33%',
         maxWidth: '100%',
-        // width: '100%',
-        // height: 100,
-        backgroundColor: theme.colors.primaryAlt,
+        overflow: 'hidden',
     },
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
+        overflow: 'hidden',
     },
     modalWrap: {
         backgroundColor: theme.colors.neutralAlt,

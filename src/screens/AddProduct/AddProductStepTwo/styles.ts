@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     },
     formWrap: {
         alignItems: "center",
+        marginVertical: 14,
     },
     form: {
         width: "90%",

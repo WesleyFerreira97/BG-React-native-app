@@ -3,10 +3,12 @@ import { Text, View } from 'react-native';
 import { styles } from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { TouchableRipple } from 'react-native-paper';
+import { theme } from '../../styles/theme';
 
 type ButtonProps = {
     text: string;
     onPress?: () => void;
+    bgColor?: string;
 }
 
 export function Button({ text, ...props }: ButtonProps) {
@@ -19,10 +21,15 @@ export function Button({ text, ...props }: ButtonProps) {
 
     return (
         <TouchableOpacity
-            style={styles.container}
+            style={{
+                ...styles.container,
+                backgroundColor: props.bgColor
+                    ? props.bgColor
+                    : theme.colors.secondary
+            }}
             onPress={() => handleOnPress()}
         >
-            <Text>{text}</Text>
+            <Text style={styles.text}>{text}</Text>
         </TouchableOpacity>
     );
 }
