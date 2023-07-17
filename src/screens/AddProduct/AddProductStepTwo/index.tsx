@@ -10,6 +10,7 @@ import { useSelect } from '../../../hooks/useSelect';
 import { SectionColorsProps, sectionColors } from './sectionColors';
 import { styles } from './styles';
 import { AddSectionModal } from './AddSectionModal';
+import { Button } from '../../../components/Button';
 
 
 export function AddProductStepTwo({ route }) {
@@ -72,9 +73,9 @@ export function AddProductStepTwo({ route }) {
                                         ))}
                                 </View>
                                 <View style={styles.footer}>
-                                    {/* <Button
+                                    <Button
                                         onPress={handleSubmit as () => void}
-                                    >Submit </Button> */}
+                                    >Submit </Button>
                                 </View>
                             </>
                         )}

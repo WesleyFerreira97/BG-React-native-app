@@ -127,7 +127,7 @@ export function GalleryInput({ slug, ...props }: any) {
                                 <Modal.Content>
                                     <View style={styles.galleryModalContent}>
                                         <Image
-                                            source={{ uri: image }}
+                                            source={{ uri: fileImage }}
                                             style={styles.gridImageFull}
                                         />
                                         <Button
@@ -146,10 +146,10 @@ export function GalleryInput({ slug, ...props }: any) {
                                 >
                                     <>
                                         {console.log("File image aqui : ", fileImage)}
-                                        {/* <Image
-                                        source={{ uri: fileImage }}
-                                        style={styles.gridImage}
-                                    /> */}
+                                        <Image
+                                            source={{ uri: fileImage }}
+                                            style={styles.gridImage}
+                                        />
                                         <Text> No image here</Text>
                                     </>
                                 </Modal.Button>
