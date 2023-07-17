@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Formik } from 'formik';
 import { FilePlus } from 'phosphor-react-native';
@@ -7,48 +7,24 @@ import { HeaderScreen } from '../../../components/HeaderScreen';
 import { GalleryInput } from '../../../components/GalleryInput';
 import { useFileUpload } from '../../../hooks/useFileUpload';
 import { useSelect } from '../../../hooks/useSelect';
-import { sectionColors } from './sectionColors';
+import { SectionColorsProps, sectionColors } from './sectionColors';
 import { styles } from './styles';
+import { AddSectionModal } from './AddSectionModal';
 
-type GallerySectionProps = {
-    slug: string,
-    name: string,
-    color: string,
-}
-
-type SnackBarProps = {
-    state: boolean,
-    text: string | null,
-}
 
 export function AddProductStepTwo({ route }) {
     const [bucketFolder, setBucketFolder] = useState<string | null>(null);
     const { fileUploadResponse, setFiles, setFile } = useFileUpload();
-    const [gallerySections, setGallerySections] = useState<GallerySectionProps[] | null>([sectionColors.blue]);
+    const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | null>([sectionColors.blue]);
 
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
         select: ['bucket_name', 'bucket_folder'],
         match: route.params.productId,
     });
 
-    const defaultSnackStatus = {
-        state: false,
-        text: null,
-    }
-
-    const [snackBarStatus, setSnackBarStatus] = useState<SnackBarProps>(defaultSnackStatus);
-    const onDismissSnackBar = () => setSnackBarStatus(defaultSnackStatus)
-
-    const handleSection = (sectionProps: GallerySectionProps) => {
-        const isDuplicate = gallerySections.some(section => section.name === sectionProps.name);
-
-        if (isDuplicate) return setSnackBarStatus({
-            state: true,
-            text: "Seção Já adicionada"
-        });
-
-        setGallerySections(prevstate => [...prevstate, sectionProps]);
-    }
+    const addNewSection = useCallback((newSection: SectionColorsProps) => {
+        setGallerySections(prevState => [...prevState, newSection])
+    }, [gallerySections])
 
     const handleSubmit = (values) => {
         console.log("Valores do submit :", values);
@@ -66,7 +42,6 @@ export function AddProductStepTwo({ route }) {
         })
     }
 
-
     return (
         <>
             <HeaderScreen />
@@ -81,9 +56,11 @@ export function AddProductStepTwo({ route }) {
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (
                             <>
+                                <AddSectionModal
+                                    addNewSection={addNewSection}
+                                    currentGallerySections={gallerySections}
+                                />
                                 <View style={styles.form}>
-
-
                                     {gallerySections &&
                                         gallerySections.map((item, index) => (
                                             <View
@@ -93,23 +70,15 @@ export function AddProductStepTwo({ route }) {
                                                 <GalleryInput {...item} />
                                             </View>
                                         ))}
-
-
                                 </View>
-
                                 <View style={styles.footer}>
-
-
                                     {/* <Button
                                         onPress={handleSubmit as () => void}
                                     >Submit </Button> */}
                                 </View>
-
                             </>
                         )}
                     </Formik>
-
-
                 </View>
             </ScrollView>
         </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Modal } from '../../../components/Modal';
 import { Text } from 'react-native';
@@ -7,11 +7,36 @@ import { Snackbar } from 'react-native-paper';
 import { sectionColors } from './sectionColors';
 import type { SectionColorsProps } from './sectionColors';
 
-type AddSectionProps = {
-    handleSection: (prop: SectionColorsProps) => void
+type SnackBarProps = {
+    state: boolean,
+    text: string | null,
 }
 
-export function AddSectionModal({ handleSection }: AddSectionProps) {
+type AddSectionProps = {
+    currentGallerySections: SectionColorsProps[];
+    addNewSection: (prop: SectionColorsProps) => void
+}
+
+export function AddSectionModal({ currentGallerySections, addNewSection }: AddSectionProps) {
+
+    const defaultSnackStatus = {
+        state: false,
+        text: null,
+    }
+
+    const [snackBarStatus, setSnackBarStatus] = useState<SnackBarProps>(defaultSnackStatus);
+    const onDismissSnackBar = () => setSnackBarStatus(defaultSnackStatus)
+
+    const handleSection = (sectionProps: SectionColorsProps) => {
+        const isDuplicate = currentGallerySections.some(section => section.name === sectionProps.name);
+
+        if (isDuplicate) return setSnackBarStatus({
+            state: true,
+            text: "Seção Já adicionada"
+        });
+
+        addNewSection(sectionProps);
+    }
     return (
         <>
             <Modal>
