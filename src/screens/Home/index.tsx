@@ -1,8 +1,9 @@
 import { ScrollView, Text, View, Animated } from 'react-native';
 import { useTheme } from '../../providers/ThemeContext';
 import { styles } from './styles';
+import { theme } from '../../styles/theme';
 
-const headerMaxHeight = 250;
+const headerMaxHeight = 230;
 const headerMinHeight = 190;
 
 export function HomeScreen() {
@@ -18,20 +19,33 @@ export function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <Animated.View style={[
-                styles.headerContainer,
-                {
-                    height: AnimatedHeader,
-                }
-            ]}>
-                <Text style={styles.homeTitle}>Bela Garota</Text>
-                <Text style={styles.homeSubtitle}>Administrativo</Text>
+            <Animated.View style={{
+                ...styles.headerContainer,
+                height: AnimatedHeader
+            }}>
+                <View style={styles.headerContent}>
+                    <Text style={styles.homeTitle}>Bela Garota</Text>
+                    <Text style={styles.homeSubtitle}>Administrativo</Text>
+                </View>
+
+                <View style={styles.searchBar}>
+                    <View style={{
+                        height: 56,
+                        width: "80%",
+                        backgroundColor: theme.colors.primaryAlt,
+                    }} />
+                    <View style={{
+                        height: 56,
+                        flex: 1,
+                        backgroundColor: theme.colors.secondary,
+                    }} />
+                </View>
+
             </Animated.View>
             <ScrollView
                 style={{
                     flex: 1,
                     width: "100%",
-                    backgroundColor: theme.colors.tertiary,
                 }}
                 contentContainerStyle={{
                     alignItems: "center",
@@ -60,7 +74,7 @@ const ListView = () => {
         <View style={{
             width: "90%",
             height: 200,
-            backgroundColor: "black",
+            backgroundColor: theme.colors.darkGray,
         }}>
             <Text style={{ color: "#fff" }}>List Item</Text>
 
