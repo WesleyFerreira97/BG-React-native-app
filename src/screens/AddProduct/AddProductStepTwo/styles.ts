@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     formWrap: {
         alignItems: "center",
         marginVertical: 14,
+        minHeight: height,
     },
     form: {
         width: "90%",

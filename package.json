@@ -2,7 +2,7 @@
   "name": "bg-react-native-app",
   "version": "1.0.0",
   "scripts": {
-    "dev": "expo start --dev-client",
+    "dev": "expo start --dev-client --localhost --android",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web"

@@ -3,14 +3,24 @@ import { theme } from '../../styles/theme';
 
 export const styles = StyleSheet.create({
     container: {
-        // backgroundColor: theme.colors.primary,
+        backgroundColor: theme.colors.primaryAlt,
         flex: 1,
-        height: 100,
         alignItems: 'center',
         justifyContent: 'center',
     },
     headerContainer: {
         width: "100%",
+        backgroundColor: theme.colors.primary,
+    },
+    homeTitle: {
+        color: theme.colors.neutral,
+        fontSize: 24,
+        fontFamily: theme.fonts.secondaryAlt
+    },
+    homeSubtitle: {
+        color: theme.colors.neutral,
+        fontSize: 18,
+        fontFamily: theme.fonts.secondary
     },
     button: {
         color: '#fff',

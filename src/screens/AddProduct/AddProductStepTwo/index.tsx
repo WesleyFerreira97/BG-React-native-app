@@ -11,6 +11,8 @@ import { SectionColorsProps, sectionColors } from './sectionColors';
 import { styles } from './styles';
 import { AddSectionModal } from './AddSectionModal';
 import { Button } from '../../../components/Button';
+import { HeaderSection } from '../../../components/HeaderSection';
+import { theme } from '../../../styles/theme';
 
 
 export function AddProductStepTwo({ route }) {
@@ -27,33 +29,41 @@ export function AddProductStepTwo({ route }) {
         setGallerySections(prevState => [...prevState, newSection])
     }, [gallerySections])
 
-    const handleSubmit = (values) => {
-        console.log("Valores do submit :", values);
+    const handleSubmitt = (valores: any = "Null data") => {
+        console.log("Valores do submit :", valores);
 
+        // Erro : Select response sempre null
         const bucketFolder = selectResponse[0].bucket_folder;
+        console.log("Bucket folder: ", bucketFolder);
 
-        Object.keys(values).forEach((currentColor) => {
-            const mainDirectory = "product";
-            const arrImages = values[currentColor];
+        // Object.keys(values).forEach((currentColor) => {
+        //     const mainDirectory = "product";
+        //     const arrImages = values[currentColor];
 
-            setFiles({
-                file: arrImages,
-                path: `${mainDirectory}/${bucketFolder}`,
-            })
-        })
+        //     setFiles({
+        //         file: arrImages,
+        //         path: `${mainDirectory}/${bucketFolder}`,
+        //     })
+        // })
+        console.log(selectResponse, "Select response");
     }
 
     return (
         <>
             <HeaderScreen />
+            <HeaderSection>
+                2º Etapa - Adicionar imagens
+            </HeaderSection>
             <ScrollView style={styles.scrollViewStyle}>
                 <View style={styles.formWrap}>
                     <Formik
                         initialValues={{
                             blue: [],
-                            green: [],
                         }}
-                        onSubmit={values => handleSubmit(values)}
+
+                        onSubmit={values => {
+                            handleSubmitt(values)
+                        }}
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (
                             <>
@@ -75,7 +85,9 @@ export function AddProductStepTwo({ route }) {
                                 <View style={styles.footer}>
                                     <Button
                                         onPress={handleSubmit as () => void}
-                                    >Submit </Button>
+                                        text="Concluir"
+                                        bgColor={theme.colors.primaryAlt}
+                                    />
                                 </View>
                             </>
                         )}
