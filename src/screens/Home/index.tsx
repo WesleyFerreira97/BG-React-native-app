@@ -2,20 +2,28 @@ import { ScrollView, Text, View, Animated } from 'react-native';
 import { useTheme } from '../../providers/ThemeContext';
 import { styles } from './styles';
 import { ListItem } from '../../components/ListItem';
+import { SearchInput } from '../../components/SearchInput';
+import { useState } from 'react';
 
 const headerMaxHeight = 230;
 const headerMinHeight = 190;
 
 export function HomeScreen() {
     const { theme, setTheme } = useTheme();
+    const [searchValue, setSearchValue] = useState('');
     const StickyHeader = new Animated.Value(0);
 
     const AnimatedHeader = StickyHeader.interpolate({
         inputRange: [headerMinHeight, headerMaxHeight],
         outputRange: [headerMaxHeight, headerMinHeight],
         extrapolate: "clamp",
-
     })
+
+    const handleSearch = (value: string) => {
+        setSearchValue(value);
+        console.log(searchValue);
+
+    }
 
     return (
         <View style={styles.container}>
@@ -29,11 +37,11 @@ export function HomeScreen() {
                 </View>
 
                 <View style={styles.searchBar}>
-                    <View style={{
-                        height: 56,
-                        width: "80%",
-                        backgroundColor: theme.colors.primaryAlt,
-                    }} />
+                    <SearchInput
+                        label='Buscar'
+                        value={searchValue}
+                        handleChange={(e) => handleSearch(e)}
+                    />
                     <View style={{
                         height: 56,
                         flex: 1,
