@@ -1,7 +1,7 @@
 import { ScrollView, Text, View, Animated } from 'react-native';
 import { useTheme } from '../../providers/ThemeContext';
 import { styles } from './styles';
-import { theme } from '../../styles/theme';
+import { ListItem } from '../../components/ListItem';
 
 const headerMaxHeight = 230;
 const headerMinHeight = 190;
@@ -55,29 +55,15 @@ export function HomeScreen() {
                     StickyHeader.setValue(scrollY);
                 }}
             >
-                <ListView />
-                <ListView />
-                <ListView />
-                <ListView />
-                <ListView />
-                <ListView />
-                <ListView />
-                <ListView />
-                <ListView />
+                <ListItem />
+                <ListItem />
+                <ListItem />
+                <ListItem />
+                <ListItem />
+                <ListItem />
+                <ListItem />
+                <ListItem />
             </ScrollView>
         </View>
     );
-}
-
-const ListView = () => {
-    return (
-        <View style={{
-            width: "90%",
-            height: 200,
-            backgroundColor: theme.colors.darkGray,
-        }}>
-            <Text style={{ color: "#fff" }}>List Item</Text>
-
-        </View>
-    )
 }
