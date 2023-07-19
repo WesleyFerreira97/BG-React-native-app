@@ -52,7 +52,9 @@ export function AddProduct({ navigation }) {
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
-        if (dataResponse === undefined || dataResponse?.status != 201) return;
+        let checkInvalidResponse = dataResponse === undefined || dataResponse?.status != 201;
+        if (checkInvalidResponse) return;
+        console.log(dataResponse.id, "Data Response");
 
         navigation.navigate('addProductStepTwo', { productId: dataResponse?.id })
     }, [dataResponse]);
