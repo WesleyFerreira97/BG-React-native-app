@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
 import { styles } from './styles';
+import { useTheme } from '../../providers/ThemeContext';
 
 type SearchProps = {
     label: string;
@@ -11,13 +12,26 @@ type SearchProps = {
 }
 
 export function SearchInput(props: SearchProps) {
+    const { theme } = useTheme();
+    const { label, value, handleChange } = props;
+
     return (
         <View style={styles.container}>
             <TextInput
-                label="Search"
-                value={props.value}
+                label={label}
+                value={value}
+                underlineColor='transparent'
+                mode='flat'
+                style={{
+                    backgroundColor: theme.colors.primaryAlt,
+                    borderBottomColor: "transparent",
+                    borderWidth: 0,
+                    borderRadius: 8,
+                    overflow: "hidden",
+                }}
+                textColor={theme.colors.neutral}
                 onChangeText={(e) => {
-                    props.handleChange(e);
+                    handleChange(e);
                 }}
             />
         </View>

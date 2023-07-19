@@ -32,11 +32,11 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.secondary
     },
     searchBar: {
-        backgroundColor: theme.colors.neutral,
         flexDirection: "row",
         overflow: "hidden",
         position: "absolute",
         bottom: -20,
+        borderRadius: 8,
     },
     button: {
         color: '#fff',
