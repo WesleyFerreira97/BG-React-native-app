@@ -15,6 +15,7 @@ import { HeaderSection } from '../../components/HeaderSection';
 import { CheckboxInput } from '../../components/CheckboxInput';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { SwitchInput } from '../../components/SwitchInput';
+import * as Crypto from 'expo-crypto';
 
 type DefaultSizesValues = Array<string | number>;
 
@@ -51,12 +52,15 @@ export function AddProduct({ navigation }) {
     const { dataResponse, setData } = useInsert<ProductProps & BucketProps>("products");
     const { allCategories, categoriesError } = useCategories();
 
+    const productId = uuidv4();
+    console.log(productId, " Product ID");
+
     useEffect(() => {
         let checkInvalidResponse = dataResponse === undefined || dataResponse?.status != 201;
         if (checkInvalidResponse) return;
         console.log(dataResponse.id, "Data Response");
 
-        navigation.navigate('addProductStepTwo', { productId: dataResponse?.id })
+        navigation.navigate('addProductStepTwo', { productId: productId })
     }, [dataResponse]);
 
     const getSizesSelected = (productProps: ProductProps) => {
@@ -71,6 +75,7 @@ export function AddProduct({ navigation }) {
         const productSizeSelected = getSizesSelected(productProps);
 
         setData({
+            id: productId,
             title: productProps.title,
             description: productProps.description,
             product_categories: productProps.product_categories,

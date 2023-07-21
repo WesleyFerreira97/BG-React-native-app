@@ -1,4 +1,4 @@
-import type { PostgrestError, PostgrestResponse } from "@supabase/supabase-js";
+import type { PostgrestError, PostgrestResponse, PostgrestSingleResponse } from "@supabase/supabase-js";
 import React, { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
@@ -25,9 +25,11 @@ export function useInsert<T>(
 
         supaDb.from(table)
             .insert(data)
-            .then((res) => {
+            .then((res: any) => {
+                console.log(res);
 
                 setDataResponse({
+                    id: res?.id,
                     error: res.error,
                     status: res.status
                 });
