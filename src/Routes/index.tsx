@@ -14,7 +14,7 @@ export function Routes() {
     return (
         <>
             <Tab.Navigator
-                initialRouteName="home"
+                initialRouteName="addProduct"
                 screenOptions={({ route }) => ({
                     tabBarLabelStyle: { display: "none" },
                     tabBarActiveTintColor: theme.colors.primary,

@@ -2,7 +2,7 @@
   "name": "bg-react-native-app",
   "version": "1.0.0",
   "scripts": {
-    "dev": "expo start --dev-client --localhost --android",
+    "dev": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web"
@@ -41,7 +41,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.12",
     "yup": "^1.0.2",
-    "expo-crypto": "~12.2.1"
+    "expo-crypto": "~12.2.1",
+    "expo-auth-session": "~4.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
