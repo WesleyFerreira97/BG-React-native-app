@@ -24,27 +24,26 @@ export function AddProductStepTwo({ route }) {
         select: ['bucket_name', 'bucket_folder'],
         match: route.params.productId,
     });
+    console.log(route.params.productId, "log on step two");
 
     const addNewSection = useCallback((newSection: SectionColorsProps) => {
         setGallerySections(prevState => [...prevState, newSection])
     }, [gallerySections])
 
-    const handleSubmitt = (valores: any = "Null data") => {
-        console.log("Valores do submit :", valores);
+    const handleSubmitt = (values: any = "Null data") => {
 
         // Erro : Select response sempre null
         const bucketFolder = selectResponse[0].bucket_folder;
-        console.log("Bucket folder: ", bucketFolder);
 
-        // Object.keys(values).forEach((currentColor) => {
-        //     const mainDirectory = "product";
-        //     const arrImages = values[currentColor];
+        Object.keys(values).forEach((currentColor) => {
+            const mainDirectory = "product";
+            const arrImages = values[currentColor];
 
-        //     setFiles({
-        //         file: arrImages,
-        //         path: `${mainDirectory}/${bucketFolder}`,
-        //     })
-        // })
+            setFiles({
+                file: arrImages,
+                path: `${mainDirectory}/${bucketFolder}`,
+            })
+        })
         console.log(selectResponse, "Select response");
     }
 

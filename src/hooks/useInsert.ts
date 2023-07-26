@@ -25,15 +25,13 @@ export function useInsert<T>(
 
         supaDb.from(table)
             .insert(data)
+            .select("id")
             .then((res: any) => {
-                console.log(res);
-
                 setDataResponse({
-                    id: res?.id,
+                    id: res.data[0].id,
                     error: res.error,
                     status: res.status
                 });
-
             });
 
     }, [data]);

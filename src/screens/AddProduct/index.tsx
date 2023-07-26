@@ -15,7 +15,6 @@ import { HeaderSection } from '../../components/HeaderSection';
 import { CheckboxInput } from '../../components/CheckboxInput';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { SwitchInput } from '../../components/SwitchInput';
-import * as Crypto from 'expo-crypto';
 
 type DefaultSizesValues = Array<string | number>;
 
@@ -27,7 +26,7 @@ function setDefaultValues(value: DefaultSizesValues) {
 }
 
 const initialValues: ProductProps = {
-    title: "",
+    title: "wwwww",
     description: "",
     product_categories: "Shorts",
     type_product_sizes: "letter",
@@ -52,18 +51,12 @@ export function AddProduct({ navigation }) {
     const { dataResponse, setData } = useInsert<ProductProps & BucketProps>("products");
     const { allCategories, categoriesError } = useCategories();
 
-    const productId = Crypto.getRandomBytes(512);
-    console.log(productId, " Product ID");
+    useEffect(() => {
+        let checkInvalidResponse = dataResponse === undefined || dataResponse?.status != 201;
+        if (checkInvalidResponse) return;
 
-    // console.log(productId, " Product ID");
-
-    // useEffect(() => {
-    //     let checkInvalidResponse = dataResponse === undefined || dataResponse?.status != 201;
-    //     if (checkInvalidResponse) return;
-    //     console.log(dataResponse.id, "Data Response");
-
-    //     // navigation.navigate('addProductStepTwo', { productId: productId })
-    // }, [dataResponse]);
+        navigation.navigate('addProductStepTwo', { productId: dataResponse.id })
+    }, [dataResponse]);
 
     const getSizesSelected = (productProps: ProductProps) => {
         const productSizeSelected = productProps.type_product_sizes == "letter"
@@ -76,17 +69,16 @@ export function AddProduct({ navigation }) {
     const handleSubmitProduct = async (productProps: ProductProps) => {
         const productSizeSelected = getSizesSelected(productProps);
 
-        // setData({
-        //     id: productId,
-        //     title: productProps.title,
-        //     description: productProps.description,
-        //     product_categories: productProps.product_categories,
-        //     sizes_available: productSizeSelected,
-        //     bucket_name: 'photo',
-        //     bucket_folder: `${productProps.product_categories}/${productProps.title}`,
-        //     price: productProps.price,
-        //     product_available: productProps.product_available
-        // })
+        setData({
+            title: productProps.title,
+            description: productProps.description,
+            product_categories: productProps.product_categories,
+            sizes_available: productSizeSelected,
+            bucket_name: 'photo',
+            bucket_folder: `${productProps.product_categories}/${productProps.title}`,
+            price: productProps.price,
+            product_available: productProps.product_available
+        })
     }
 
     return (
