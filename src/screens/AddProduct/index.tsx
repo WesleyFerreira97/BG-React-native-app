@@ -52,10 +52,11 @@ export function AddProduct({ navigation }) {
     const { allCategories, categoriesError } = useCategories();
 
     useEffect(() => {
+        console.log(dataResponse, " data response");
         let checkInvalidResponse = dataResponse === undefined || dataResponse?.status != 201;
         if (checkInvalidResponse) return;
 
-        navigation.navigate('addProductStepTwo', { productId: dataResponse.id })
+        navigation.navigate('addProductStepTwo', { productID: dataResponse.id })
     }, [dataResponse]);
 
     const getSizesSelected = (productProps: ProductProps) => {
@@ -75,7 +76,7 @@ export function AddProduct({ navigation }) {
             product_categories: productProps.product_categories,
             sizes_available: productSizeSelected,
             bucket_name: 'photo',
-            bucket_folder: `${productProps.product_categories}/${productProps.title}`,
+            bucket_folder: `${productProps.product_categories}`,
             price: productProps.price,
             product_available: productProps.product_available
         })

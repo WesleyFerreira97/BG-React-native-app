@@ -16,23 +16,20 @@ import { theme } from '../../../styles/theme';
 
 
 export function AddProductStepTwo({ route }) {
-    const [bucketFolder, setBucketFolder] = useState<string | null>(null);
-    const { fileUploadResponse, setFiles, setFile } = useFileUpload();
+    const { fileUploadResponse, setFiles } = useFileUpload();
     const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | null>([sectionColors.blue]);
+    const productID = route.params.productID;
 
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
         select: ['bucket_name', 'bucket_folder'],
-        match: route.params.productId,
+        match: productID,
     });
-    console.log(route.params.productId, "log on step two");
 
     const addNewSection = useCallback((newSection: SectionColorsProps) => {
         setGallerySections(prevState => [...prevState, newSection])
     }, [gallerySections])
 
-    const handleSubmitt = (values: any = "Null data") => {
-
-        // Erro : Select response sempre null
+    const handleSubmitt = (values: any) => {
         const bucketFolder = selectResponse[0].bucket_folder;
 
         Object.keys(values).forEach((currentColor) => {
@@ -41,10 +38,9 @@ export function AddProductStepTwo({ route }) {
 
             setFiles({
                 file: arrImages,
-                path: `${mainDirectory}/${bucketFolder}`,
+                path: `${mainDirectory}/${bucketFolder}/${productID}/${currentColor}`,
             })
         })
-        console.log(selectResponse, "Select response");
     }
 
     return (
