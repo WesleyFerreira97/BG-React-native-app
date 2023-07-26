@@ -15,11 +15,16 @@ type ResponseUploadProps = {
     uploadFileError: Error | null
 }
 
+type FileUploadResponseProps = {
+    data: {},
+    error: null | string;
+}
+
 export function useFileUpload<T>() {
+    const [fileUploadResponse, setFileUploadResponse] = useState<PostgrestResponse<T> | FileUploadResponseProps>(null);
     const [file, setFile] = useState<FileProps | null>(null);
     // Optional with array
     const [files, setFiles] = useState<FileProps | null>(null);
-    const [fileUploadResponse, setFileUploadResponse] = useState<PostgrestResponse<T> | unknown>(null);
 
     useEffect(() => {
         if (!file) return;
@@ -48,7 +53,7 @@ export function useFileUpload<T>() {
                     .upload(`${files?.path}/${fileName}`, item)
                     .then((res) => {
                         setFileUploadResponse(res);
-                        console.log(res, ' - Upload Response');
+                        // console.log(res, ' - Upload Response');
                     });
             }
             asyncUpload();

@@ -192,6 +192,7 @@ export function AddProduct({ navigation }) {
                                 >
                                     Cadastrar
                                 </Button>
+
                             </View>
                         )}
                     </Formik>

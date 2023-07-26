@@ -13,11 +13,13 @@ import { AddSectionModal } from './AddSectionModal';
 import { Button } from '../../../components/Button';
 import { HeaderSection } from '../../../components/HeaderSection';
 import { theme } from '../../../styles/theme';
+import { ActivityIndicator } from 'react-native-paper';
 
 
 export function AddProductStepTwo({ route }) {
     const { fileUploadResponse, setFiles } = useFileUpload();
     const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | null>([sectionColors.blue]);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const productID = route.params.productID;
 
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
@@ -26,7 +28,19 @@ export function AddProductStepTwo({ route }) {
     });
 
     useEffect(() => {
-        console.log(fileUploadResponse, "File Upload response");
+        setIsSubmitting(false);
+        // Navegar proseguir caso a pessoa não faça upload de imagem 
+        if (!fileUploadResponse) return
+
+        if (fileUploadResponse.error != null || 201) {
+            console.log(fileUploadResponse, " - Error");
+            // Set Snackbar Error
+            return;
+        }
+
+
+        // Set Snackbar Successful and navigate to home
+        console.log(fileUploadResponse, " - Upload response ok");
 
     }, [fileUploadResponse])
 
@@ -34,8 +48,10 @@ export function AddProductStepTwo({ route }) {
         setGallerySections(prevState => [...prevState, newSection])
     }, [gallerySections])
 
-    const handleSubmitt = (values: any) => {
+    const handleSubmit = (values: any) => {
         const bucketFolder = selectResponse[0].bucket_folder;
+
+        setIsSubmitting(true);
 
         Object.keys(values).forEach((currentColor) => {
             const mainDirectory = "product";
@@ -62,7 +78,7 @@ export function AddProductStepTwo({ route }) {
                         }}
 
                         onSubmit={values => {
-                            handleSubmitt(values)
+                            handleSubmit(values)
                         }}
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (
@@ -83,6 +99,7 @@ export function AddProductStepTwo({ route }) {
                                         ))}
                                 </View>
                                 <View style={styles.footer}>
+                                    <ActivityIndicator animating={isSubmitting} color={theme.colors.primary} />
                                     <Button
                                         onPress={handleSubmit as () => void}
                                         text="Concluir"

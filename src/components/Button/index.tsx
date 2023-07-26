@@ -12,7 +12,7 @@ type ButtonProps = {
 }
 
 export function Button({ text, ...props }: ButtonProps) {
-    const disabled = true;
+    const disabled = false;
 
     const handleOnPress = () => {
         if (props.onPress === undefined) return;
