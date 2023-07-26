@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Formik } from 'formik';
 import { FilePlus } from 'phosphor-react-native';
@@ -24,6 +24,11 @@ export function AddProductStepTwo({ route }) {
         select: ['bucket_name', 'bucket_folder'],
         match: productID,
     });
+
+    useEffect(() => {
+        console.log(fileUploadResponse, "File Upload response");
+
+    }, [fileUploadResponse])
 
     const addNewSection = useCallback((newSection: SectionColorsProps) => {
         setGallerySections(prevState => [...prevState, newSection])

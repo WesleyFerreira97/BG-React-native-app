@@ -12,6 +12,7 @@ type ButtonProps = {
 }
 
 export function Button({ text, ...props }: ButtonProps) {
+    const disabled = true;
 
     const handleOnPress = () => {
         if (props.onPress === undefined) return;
@@ -27,7 +28,7 @@ export function Button({ text, ...props }: ButtonProps) {
                     ? props.bgColor
                     : theme.colors.secondary
             }}
-            onPress={() => handleOnPress()}
+            onPress={disabled ? null : handleOnPress}
         >
             <Text style={styles.text}>{text}</Text>
         </TouchableOpacity>

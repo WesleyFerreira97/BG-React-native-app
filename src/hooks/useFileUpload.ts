@@ -48,7 +48,7 @@ export function useFileUpload<T>() {
                     .upload(`${files?.path}/${fileName}`, item)
                     .then((res) => {
                         setFileUploadResponse(res);
-                        console.log(res, 'res log');
+                        console.log(res, ' - Upload Response');
                     });
             }
             asyncUpload();
