@@ -29,7 +29,6 @@ export function AddProductStepTwo({ route }) {
 
     useEffect(() => {
         setIsLoading(false);
-        console.log(fileUploadResponse, " - FileUploadResponse");
 
         // Navegar proseguir caso a pessoa não faça upload de imagem 
         if (!fileUploadResponse) return
@@ -62,6 +61,10 @@ export function AddProductStepTwo({ route }) {
         })
     }
 
+    const handleNewSection = (value: any) => {
+        setGallerySections(prevState => [...prevState, value])
+    }
+
     return (
         <>
             <HeaderScreen />
@@ -72,7 +75,6 @@ export function AddProductStepTwo({ route }) {
                 <View style={styles.formWrap}>
                     <Formik
                         initialValues={null}
-
                         onSubmit={values => {
                             handleSubmit(values)
                         }}
@@ -80,24 +82,20 @@ export function AddProductStepTwo({ route }) {
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (
                             <>
                                 <AddSectionModal
-                                    addNewSection={ }
+                                    addNewSection={handleNewSection}
                                     currentGallerySections={gallerySections}
                                 />
                                 <View style={styles.form}>
                                     {(gallerySections.length > 0) &&
-                                        gallerySections.map((item, index) => {
-                                            console.log(item, "item innerSections");
-
-                                            return (
-                                                <View
-                                                    key={index}
-                                                    style={[styles.galleryByColor, { flexDirection: "row" }]}
-                                                >
-                                                    <Text>Section</Text>
-                                                    {/* <GalleryInput {...item} /> */}
-                                                </View>
-                                            )
-                                        })}
+                                        gallerySections.map((item, index) => (
+                                            <View
+                                                key={index}
+                                                style={[styles.galleryByColor, { flexDirection: "row" }]}
+                                            >
+                                                <GalleryInput {...item} />
+                                            </View>
+                                        )
+                                        )}
                                 </View>
                                 <View style={styles.footer}>
 

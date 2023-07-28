@@ -58,25 +58,18 @@ export function AddSectionModal({ currentGallerySections, addNewSection }: AddSe
     const onDismissSnackBar = () => setSnackBarStatus(defaultSnackStatus)
 
     const handleSection = (sectionProps: SectionColorsProps) => {
-        // const checkCurrentSectionsActive = (currentGallerySections.length === 0);
-        console.log(currentGallerySections.length === 0);
-        console.log(sectionProps, " Section Props");
+        const noActiveSections = (currentGallerySections.length === 0);
 
-        if (currentGallerySections.length === 0) {
-            addNewSection({
-                slug: 'white',
-                name: "Branco",
-                color: '#B2B2B2',
-            });
-            return
-        }
+        if (noActiveSections) return addNewSection(sectionProps)
 
-        // const isDuplicate = currentGallerySections.some(section => section.name === sectionProps.name);
+        const isDuplicate = currentGallerySections.some(
+            section => section.name === sectionProps.name
+        );
 
-        // if (isDuplicate) return setSnackBarStatus({
-        //     state: true,
-        //     text: "Seção Já adicionada"
-        // });
+        if (isDuplicate) return setSnackBarStatus({
+            state: true,
+            text: "Seção Já adicionada"
+        });
 
         addNewSection(sectionProps);
     }

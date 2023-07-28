@@ -44,7 +44,7 @@ const GalleryHeader = (props: GalleryHeaderProps) => {
                     color={theme.colors.neutralAlt}
                 />
                 <Text style={styles.galleryTitle}>
-                    Editar
+                    Adicionar Imagem
                 </Text>
             </View>
             <Text style={styles.galleryTitle}>
@@ -59,9 +59,9 @@ export function GalleryInput({ slug, ...props }: any) {
     const [imageSrc, setImageSrc] = useState<any>([]);
     const [field, meta, helpers] = useField(slug);
 
-    useEffect(() => {
-        setImagesToFormData(imageSrc);
-    }, [imageSrc]);
+    // useEffect(() => {
+    //     setImagesToFormData(imageSrc);
+    // }, [imageSrc]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -145,7 +145,6 @@ export function GalleryInput({ slug, ...props }: any) {
                                     aspectRatio={2 / 3}
                                 >
                                     <>
-                                        {console.log("File image aqui : ", fileImage)}
                                         <Image
                                             source={{ uri: fileImage }}
                                             style={styles.gridImage}
