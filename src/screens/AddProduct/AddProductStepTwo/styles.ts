@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     },
     form: {
         width: "90%",
+        marginVertical: 25,
     },
     footer: {
         width: "100%",

@@ -7,7 +7,7 @@ import { Snackbar } from 'react-native-paper';
 import { sectionColors } from './sectionColors';
 import type { SectionColorsProps } from './sectionColors';
 import { styles } from './styleModal';
-import { FilePlus } from 'phosphor-react-native';
+import { CurrencyNgn, FilePlus } from 'phosphor-react-native';
 import { theme } from '../../../styles/theme';
 
 type SnackBarProps = {
@@ -58,12 +58,25 @@ export function AddSectionModal({ currentGallerySections, addNewSection }: AddSe
     const onDismissSnackBar = () => setSnackBarStatus(defaultSnackStatus)
 
     const handleSection = (sectionProps: SectionColorsProps) => {
-        const isDuplicate = currentGallerySections.some(section => section.name === sectionProps.name);
+        // const checkCurrentSectionsActive = (currentGallerySections.length === 0);
+        console.log(currentGallerySections.length === 0);
+        console.log(sectionProps, " Section Props");
 
-        if (isDuplicate) return setSnackBarStatus({
-            state: true,
-            text: "Seção Já adicionada"
-        });
+        if (currentGallerySections.length === 0) {
+            addNewSection({
+                slug: 'white',
+                name: "Branco",
+                color: '#B2B2B2',
+            });
+            return
+        }
+
+        // const isDuplicate = currentGallerySections.some(section => section.name === sectionProps.name);
+
+        // if (isDuplicate) return setSnackBarStatus({
+        //     state: true,
+        //     text: "Seção Já adicionada"
+        // });
 
         addNewSection(sectionProps);
     }

@@ -18,8 +18,8 @@ import { ActivityIndicator } from 'react-native-paper';
 
 export function AddProductStepTwo({ route }) {
     const { fileUploadResponse, setFiles } = useFileUpload();
-    const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | null>([sectionColors.blue]);
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | []>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const productID = route.params.productID;
 
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
@@ -28,7 +28,9 @@ export function AddProductStepTwo({ route }) {
     });
 
     useEffect(() => {
-        setIsSubmitting(false);
+        setIsLoading(false);
+        console.log(fileUploadResponse, " - FileUploadResponse");
+
         // Navegar proseguir caso a pessoa não faça upload de imagem 
         if (!fileUploadResponse) return
 
@@ -37,21 +39,17 @@ export function AddProductStepTwo({ route }) {
             // Set Snackbar Error
             return;
         }
-
-
         // Set Snackbar Successful and navigate to home
         console.log(fileUploadResponse, " - Upload response ok");
 
     }, [fileUploadResponse])
 
-    const addNewSection = useCallback((newSection: SectionColorsProps) => {
-        setGallerySections(prevState => [...prevState, newSection])
-    }, [gallerySections])
+
 
     const handleSubmit = (values: any) => {
         const bucketFolder = selectResponse[0].bucket_folder;
 
-        setIsSubmitting(true);
+        setIsLoading(true);
 
         Object.keys(values).forEach((currentColor) => {
             const mainDirectory = "product";
@@ -73,9 +71,7 @@ export function AddProductStepTwo({ route }) {
             <ScrollView style={styles.scrollViewStyle}>
                 <View style={styles.formWrap}>
                     <Formik
-                        initialValues={{
-                            blue: [],
-                        }}
+                        initialValues={null}
 
                         onSubmit={values => {
                             handleSubmit(values)
@@ -84,26 +80,32 @@ export function AddProductStepTwo({ route }) {
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (
                             <>
                                 <AddSectionModal
-                                    addNewSection={addNewSection}
+                                    addNewSection={ }
                                     currentGallerySections={gallerySections}
                                 />
                                 <View style={styles.form}>
-                                    {gallerySections &&
-                                        gallerySections.map((item, index) => (
-                                            <View
-                                                key={index}
-                                                style={styles.galleryByColor}
-                                            >
-                                                <GalleryInput {...item} />
-                                            </View>
-                                        ))}
+                                    {(gallerySections.length > 0) &&
+                                        gallerySections.map((item, index) => {
+                                            console.log(item, "item innerSections");
+
+                                            return (
+                                                <View
+                                                    key={index}
+                                                    style={[styles.galleryByColor, { flexDirection: "row" }]}
+                                                >
+                                                    <Text>Section</Text>
+                                                    {/* <GalleryInput {...item} /> */}
+                                                </View>
+                                            )
+                                        })}
                                 </View>
                                 <View style={styles.footer}>
-                                    <ActivityIndicator animating={isSubmitting} color={theme.colors.primary} />
+
                                     <Button
-                                        onPress={handleSubmit as () => void}
+                                        onPress={handleSubmit}
                                         text="Concluir"
                                         bgColor={theme.colors.primaryAlt}
+                                        isLoading={isLoading}
                                     />
                                 </View>
                             </>

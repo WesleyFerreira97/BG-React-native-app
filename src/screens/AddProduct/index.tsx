@@ -4,7 +4,6 @@ import { styles } from './styles';
 import { HeaderScreen } from '../../components/HeaderScreen';
 import { useTheme } from '../../providers/ThemeContext';
 import { Field, Formik } from 'formik';
-import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
 import { useInsert } from '../../hooks/useInsert';
 import type { ProductProps, BucketProps } from '../../@types/product'
@@ -15,6 +14,7 @@ import { HeaderSection } from '../../components/HeaderSection';
 import { CheckboxInput } from '../../components/CheckboxInput';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { SwitchInput } from '../../components/SwitchInput';
+import { Button } from '../../components/Button';
 
 type DefaultSizesValues = Array<string | number>;
 
@@ -50,9 +50,11 @@ export function AddProduct({ navigation }) {
     const { theme } = useTheme();
     const { dataResponse, setData } = useInsert<ProductProps & BucketProps>("products");
     const { allCategories, categoriesError } = useCategories();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        console.log(dataResponse, " data response");
+        setIsLoading(false);
+
         let checkInvalidResponse = dataResponse === undefined || dataResponse?.status != 201;
         if (checkInvalidResponse) return;
 
@@ -69,6 +71,7 @@ export function AddProduct({ navigation }) {
 
     const handleSubmitProduct = async (productProps: ProductProps) => {
         const productSizeSelected = getSizesSelected(productProps);
+        setIsLoading(true);
 
         setData({
             title: productProps.title,
@@ -186,12 +189,10 @@ export function AddProduct({ navigation }) {
                                 />
 
                                 <Button
-                                    onPress={handleSubmit as () => void}
-                                    mode="contained"
-                                    style={styles.submitButton}
-                                >
-                                    Cadastrar
-                                </Button>
+                                    onPress={handleSubmit}
+                                    text='Cadastrar'
+                                    isLoading={isLoading}
+                                />
 
                             </View>
                         )}
