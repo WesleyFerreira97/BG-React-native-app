@@ -45,20 +45,22 @@ export function AddProductStepTwo({ route }) {
 
 
 
-    const handleSubmit = (values: any) => {
+    const handleSubmitImages = (values: any) => {
         const bucketFolder = selectResponse[0].bucket_folder;
 
         setIsLoading(true);
 
-        Object.keys(values).forEach((currentColor) => {
-            const mainDirectory = "product";
-            const arrImages = values[currentColor];
+        // Object.keys(values).forEach((currentColor) => {
+        //     const mainDirectory = "product";
+        //     const arrImages = values[currentColor];
 
-            setFiles({
-                file: arrImages,
-                path: `${mainDirectory}/${bucketFolder}/${productID}/${currentColor}`,
-            })
-        })
+        //     setFiles({
+        //         file: arrImages,
+        //         path: `${mainDirectory}/${bucketFolder}/${productID}/${currentColor}`,
+        //     })
+        // })
+        console.log(values, "Values submit");
+
     }
 
     const handleNewSection = (value: any) => {
@@ -76,7 +78,7 @@ export function AddProductStepTwo({ route }) {
                     <Formik
                         initialValues={null}
                         onSubmit={values => {
-                            handleSubmit(values)
+                            handleSubmitImages(values)
                         }}
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (

@@ -1,4 +1,3 @@
-import 'expo-dev-client';
 import 'react-native-url-polyfill/auto';
 import { StatusBar } from 'expo-status-bar';
 import { Routes } from './src/Routes';
