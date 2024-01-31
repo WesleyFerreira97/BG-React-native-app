@@ -3,7 +3,9 @@ import { useTheme } from '../../providers/ThemeContext';
 import { styles } from './styles';
 import { ListItem } from '../../components/ListItem';
 import { SearchInput } from '../../components/SearchInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { BucketProps } from '../../@types/product';
+import { useSelect } from '../../hooks/useSelect';
 
 const headerMaxHeight = 230;
 const headerMinHeight = 190;
@@ -12,6 +14,17 @@ export function HomeScreen() {
     const { theme, setTheme } = useTheme();
     const [searchValue, setSearchValue] = useState('');
     const StickyHeader = new Animated.Value(0);
+
+    const { selectResponse, selectResponseError } = useSelect<BucketProps>({
+        select: ['bucket_name', 'bucket_folder'],
+        match: "",
+    });
+
+    useEffect(() => {
+        console.log(selectResponse, " - selectResponse");
+        console.log(selectResponseError, " - selectResponseError");
+
+    }, [selectResponse, selectResponseError])
 
     const AnimatedHeader = StickyHeader.interpolate({
         inputRange: [headerMinHeight, headerMaxHeight],
