@@ -5,10 +5,10 @@ import * as ImagePicker from 'expo-image-picker';
 import { styles } from './styles';
 import { useField } from 'formik';
 import { ErrorForm } from '../ErrorForm';
-import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types'
 import { FilePlus } from 'phosphor-react-native';
 import { theme } from '../../styles/theme';
 import { Modal } from '../Modal';
+import { SectionColorsProps } from '../../screens/AddProduct/AddProductStepTwo/sectionColors';
 
 type FileFormatProps = {
     uri: string,
@@ -55,7 +55,7 @@ const GalleryHeader = (props: GalleryHeaderProps) => {
 }
 
 
-export function GalleryInput({ slug, ...props }: any) {
+export function GalleryInput({ slug, ...props }: SectionColorsProps) {
     const [imageSrc, setImageSrc] = useState<any>([]);
     const [field, meta, helpers] = useField(slug);
 

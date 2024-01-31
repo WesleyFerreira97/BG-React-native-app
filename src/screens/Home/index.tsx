@@ -22,7 +22,6 @@ export function HomeScreen() {
     const handleSearch = (value: string) => {
         setSearchValue(value);
         console.log(searchValue);
-
     }
 
     return (

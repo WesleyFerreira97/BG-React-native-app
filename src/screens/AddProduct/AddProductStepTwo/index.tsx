@@ -79,10 +79,7 @@ export function AddProductStepTwo({ route }) {
                         initialValues={{}}
                         onSubmit={(values) => {
                             handleSubmitImages(values)
-                            // console.log(values, "Valores no submit do formik");
-
-                        }}
-                    >
+                        }} >
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (
                             <>
                                 <AddSectionModal
@@ -90,6 +87,7 @@ export function AddProductStepTwo({ route }) {
                                     currentGallerySections={gallerySections}
                                 />
                                 <View style={styles.form}>
+                                    <GalleryInput color='#B4B4B3' name='Principal' slug='main' />
                                     {(gallerySections.length > 0) &&
                                         gallerySections.map((item, index) => (
                                             <View
