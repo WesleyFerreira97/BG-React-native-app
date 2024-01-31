@@ -50,15 +50,15 @@ export function AddProductStepTwo({ route }) {
 
         setIsLoading(true);
 
-        // Object.keys(values).forEach((currentColor) => {
-        //     const mainDirectory = "product";
-        //     const arrImages = values[currentColor];
+        Object.keys(values).forEach((currentColor) => {
+            const mainDirectory = "product";
+            const arrImages = values[currentColor];
 
-        //     setFiles({
-        //         file: arrImages,
-        //         path: `${mainDirectory}/${bucketFolder}/${productID}/${currentColor}`,
-        //     })
-        // })
+            setFiles({
+                file: arrImages,
+                path: `${mainDirectory}/${bucketFolder}/${productID}/${currentColor}`,
+            })
+        })
         console.log(values, "Values submit");
 
     }
@@ -76,9 +76,11 @@ export function AddProductStepTwo({ route }) {
             <ScrollView style={styles.scrollViewStyle}>
                 <View style={styles.formWrap}>
                     <Formik
-                        initialValues={null}
-                        onSubmit={values => {
+                        initialValues={{}}
+                        onSubmit={(values) => {
                             handleSubmitImages(values)
+                            // console.log(values, "Valores no submit do formik");
+
                         }}
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, }) => (

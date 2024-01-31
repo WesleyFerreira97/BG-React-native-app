@@ -26,7 +26,7 @@ function setDefaultValues(value: DefaultSizesValues) {
 }
 
 const initialValues: ProductProps = {
-    title: "wwwww",
+    title: "ww",
     description: "",
     product_categories: "Shorts",
     type_product_sizes: "letter",
@@ -202,9 +202,3 @@ export function AddProduct({ navigation }) {
         </>
     );
 }
-
-
-
-
-
-

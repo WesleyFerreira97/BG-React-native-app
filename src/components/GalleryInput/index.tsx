@@ -59,9 +59,9 @@ export function GalleryInput({ slug, ...props }: any) {
     const [imageSrc, setImageSrc] = useState<any>([]);
     const [field, meta, helpers] = useField(slug);
 
-    // useEffect(() => {
-    //     setImagesToFormData(imageSrc);
-    // }, [imageSrc]);
+    useEffect(() => {
+        setImagesToFormData(imageSrc);
+    }, [imageSrc]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
