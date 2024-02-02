@@ -1,16 +1,17 @@
 type ProductSizesNumber = {
     [key: number]: boolean | number;
 }
-export type ProductSizesLetter = {
+
+type ProductSizesLetter = {
     P: number | boolean,
     M: number | boolean,
     G: number | boolean,
     GG: number | boolean,
 }
 
-export type ProductTypes = ProductSizesNumber | ProductSizesLetter;
+type ProductTypes = ProductSizesNumber | ProductSizesLetter;
 
-export type ProductProps = {
+type ProductProps = {
     id?: string | number,
     title: string,
     description?: string,
@@ -23,7 +24,19 @@ export type ProductProps = {
     product_available: boolean,
 }
 
-export type BucketProps = {
+type BucketProps = {
     bucket_name: string;
     bucket_folder: string;
 }
+
+type AllProductProps = ProductProps & BucketProps;
+
+
+export type {
+    ProductProps,
+    BucketProps,
+    ProductTypes,
+    ProductSizesNumber,
+    ProductSizesLetter,
+    AllProductProps
+};

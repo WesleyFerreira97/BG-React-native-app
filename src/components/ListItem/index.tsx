@@ -5,7 +5,11 @@ import { NotePencil } from 'phosphor-react-native';
 import { theme } from '../../styles/theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export function ListItem() {
+type ListItemProps = {
+    title: string;
+}
+
+export function ListItem({ title, ...props }: ListItemProps) {
     const defaultImage = require("../../../assets/images/default.jpg");
 
     return (
@@ -19,7 +23,7 @@ export function ListItem() {
                     style={styles.thumbnail}
                 />
                 <Text style={styles.title}>
-                    List Item
+                    {title}
                 </Text>
             </View>
             <View style={styles.editProduct}>

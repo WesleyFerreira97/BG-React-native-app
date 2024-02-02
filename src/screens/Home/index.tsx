@@ -4,7 +4,7 @@ import { styles } from './styles';
 import { ListItem } from '../../components/ListItem';
 import { SearchInput } from '../../components/SearchInput';
 import { useEffect, useState } from 'react';
-import { BucketProps } from '../../@types/product';
+import { AllProductProps } from '../../@types/product';
 import { useSelect } from '../../hooks/useSelect';
 
 const headerMaxHeight = 230;
@@ -15,13 +15,13 @@ export function HomeScreen() {
     const [searchValue, setSearchValue] = useState('');
     const StickyHeader = new Animated.Value(0);
 
-    const { selectResponse, selectResponseError } = useSelect<BucketProps>({
-        select: ['bucket_name', 'bucket_folder'],
-        match: "",
+    const { selectResponse, selectResponseError } = useSelect<AllProductProps[]>({
+        tableName: 'products',
+        select: ['title'],
     });
 
     useEffect(() => {
-        console.log(selectResponse, " - selectResponse");
+        // console.log(selectResponse, " - selectResponse");
         console.log(selectResponseError, " - selectResponseError");
 
     }, [selectResponse, selectResponseError])
@@ -75,14 +75,12 @@ export function HomeScreen() {
                     StickyHeader.setValue(scrollY);
                 }}
             >
-                <ListItem />
-                <ListItem />
-                <ListItem />
-                <ListItem />
-                <ListItem />
-                <ListItem />
-                <ListItem />
-                <ListItem />
+                {selectResponse?.map((item, key) => (
+                    <ListItem
+                        key={key}
+                        title={item.title}
+                    />
+                ))}
             </ScrollView>
         </View>
     );

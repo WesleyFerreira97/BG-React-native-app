@@ -3,22 +3,26 @@ import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
 type UseSelectProps = {
+    tableName: string;
     select: string[];
-    match: string;
+    match?: string;
+    limit?: number;
 }
 
-export function useSelect<T>({ select, match }: UseSelectProps) {
+export function useSelect<T>({ tableName, select, match, ...props }: UseSelectProps) {
     const [selectResponse, setSelectResponse] = useState<T | null>(null);
     const [selectResponseError, setSelectResponseError] = useState<PostgrestError>();
 
     const selectedColumns = select.join(',');
+    const matchParams = match ? { id: match } : {};
 
     useEffect(() => {
         async function useSelect() {
             const { data, error } = await supaDb
-                .from('products')
+                .from(tableName)
                 .select(selectedColumns)
-                .match({ id: match })
+                .match(matchParams)
+                .limit(props.limit)
 
             setSelectResponse(data as T);
             setSelectResponseError(error);

@@ -23,6 +23,7 @@ export function AddProductStepTwo({ route }) {
     const productID = route.params.productID;
 
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
+        tableName: 'products',
         select: ['bucket_name', 'bucket_folder'],
         match: productID,
     });
