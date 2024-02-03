@@ -15,7 +15,7 @@ const headerMinHeight = 190;
 export function HomeScreen() {
     const { theme, setTheme } = useTheme();
     const [searchValue, setSearchValue] = useState('');
-    const [test, setTest] = useState([]);
+    const [itemsData, setItemsData] = useState([]);
     const StickyHeader = new Animated.Value(0);
 
     const { selectResponse, selectResponseError } = useSelect<AllProductProps[]>({
@@ -24,38 +24,37 @@ export function HomeScreen() {
         limit: 3,
     });
 
+    const fetchData = async () => {
+        if (!selectResponse) return;
+
+        const itemsData = await Promise.all(selectResponse.map(async (item) => {
+            const bucketName = item.bucket_name;
+            const thumb = `product/${item.bucket_folder}/${item.id}/main`;
+
+            const { data } = await supaDb.storage.from(bucketName).getPublicUrl(thumb);
+            const url = data.publicUrl;
+
+            const { data: imageList } = await supaDb.storage.from(bucketName).list(thumb);
+
+            const ThumbFallback = Image.resolveAssetSource(FallbackImage).uri;
+
+            const thumbImage = imageList.length > 0
+                ? `${url}/${imageList[0].name}`
+                : ThumbFallback;
+
+            return {
+                title: item.title,
+                thumb: thumbImage,
+                id: item.id,
+            };
+        }));
+
+        const validUrls = itemsData.filter(item => item !== undefined);
+
+        setItemsData(validUrls);
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            if (!selectResponse) return;
-
-            const itemsData = await Promise.all(selectResponse.map(async (item) => {
-                const bucketName = item.bucket_name;
-                const thumb = `product/${item.bucket_folder}/${item.id}/main`;
-
-                const { data } = await supaDb.storage.from(bucketName).getPublicUrl(thumb);
-                const url = data.publicUrl;
-
-                const { data: imageList } = await supaDb.storage.from(bucketName).list(thumb);
-
-                const ThumbFallback = Image.resolveAssetSource(FallbackImage).uri;
-
-                const thumbImage = imageList.length > 0
-                    ? `${url}/${imageList[0].name}`
-                    : ThumbFallback;
-
-                return {
-                    title: item.title,
-                    url: thumbImage,
-                    id: item.id,
-                };
-            }));
-
-
-            const validUrls = itemsData.filter(item => item !== undefined);
-
-            setTest(validUrls);
-        };
-
         fetchData();
     }, [selectResponse, selectResponseError]);
 
@@ -107,24 +106,13 @@ export function HomeScreen() {
                     StickyHeader.setValue(scrollY);
                 }}
             >
-                {/* {selectResponse?.map((item, key) => (
+                {itemsData?.map((item, key) => (
                     <ListItem
                         key={key}
+                        image={item.thumb}
                         title={item.title}
+                        itemId={item.id}
                     />
-                ))} */}
-
-                {test && test.map((item, key) => (
-                    <>
-                        <Image
-                            key={key}
-                            source={{ uri: item.url }}
-                            style={{
-                                width: 100,
-                                height: 100,
-                            }}
-                        />
-                    </>
                 ))}
             </ScrollView>
         </View>

@@ -7,6 +7,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type ListItemProps = {
     title: string;
+    image: string;
+    itemId?: string;
 }
 
 export function ListItem({ title, ...props }: ListItemProps) {
@@ -15,11 +17,11 @@ export function ListItem({ title, ...props }: ListItemProps) {
     return (
         <TouchableOpacity
             style={styles.container}
-            onPress={() => console.log("oi")}
+            onPress={() => console.log(props.itemId)}
         >
             <View style={styles.innerContainer}>
                 <Image
-                    source={defaultImage}
+                    src={props.image}
                     style={styles.thumbnail}
                 />
                 <Text style={styles.title}>
