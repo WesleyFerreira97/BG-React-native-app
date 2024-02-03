@@ -15,10 +15,7 @@ export function ListItem({ title, ...props }: ListItemProps) {
     const defaultImage = require("../../../assets/images/default.jpg");
 
     return (
-        <TouchableOpacity
-            style={styles.container}
-            onPress={() => console.log(props.itemId)}
-        >
+        <View style={styles.container}>
             <View style={styles.innerContainer}>
                 <Image
                     src={props.image}
@@ -31,6 +28,6 @@ export function ListItem({ title, ...props }: ListItemProps) {
             <View style={styles.editProduct}>
                 <NotePencil size={28} color={theme.colors.primaryAlt} />
             </View>
-        </TouchableOpacity>
+        </View>
     );
 }

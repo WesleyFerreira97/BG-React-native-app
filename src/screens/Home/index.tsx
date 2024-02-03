@@ -8,6 +8,8 @@ import { AllProductProps } from '../../@types/product';
 import { useSelect } from '../../hooks/useSelect';
 import { supaDb } from '../../services/supadb';
 import FallbackImage from "../../../assets/images/default.jpg"
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 const headerMaxHeight = 230;
 const headerMinHeight = 190;
@@ -17,6 +19,7 @@ export function HomeScreen() {
     const [searchValue, setSearchValue] = useState('');
     const [itemsData, setItemsData] = useState([]);
     const StickyHeader = new Animated.Value(0);
+    const navigation = useNavigation();
 
     const { selectResponse, selectResponseError } = useSelect<AllProductProps[]>({
         tableName: 'products',
@@ -68,6 +71,10 @@ export function HomeScreen() {
         setSearchValue(value);
     }
 
+    const handleNavigate = (id: string) => {
+        navigation.navigate('EditProduct', { itemId: id });
+    }
+
     return (
         <View style={styles.container}>
             <Animated.View style={{
@@ -107,12 +114,16 @@ export function HomeScreen() {
                 }}
             >
                 {itemsData?.map((item, key) => (
-                    <ListItem
+                    <TouchableOpacity
                         key={key}
-                        image={item.thumb}
-                        title={item.title}
-                        itemId={item.id}
-                    />
+                        onPress={() => handleNavigate(item.id)}
+                    >
+                        <ListItem
+                            image={item.thumb}
+                            title={item.title}
+                            itemId={item.id}
+                        />
+                    </TouchableOpacity>
                 ))}
             </ScrollView>
         </View>
