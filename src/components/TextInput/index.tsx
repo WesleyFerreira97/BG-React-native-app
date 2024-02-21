@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, KeyboardTypeOptions } from 'react-native';
 import { useField } from 'formik';
 import { styles } from './styles';
@@ -13,11 +13,20 @@ type TextInputProps = {
     multiline?: boolean;
     numberOfLines?: number;
     keyboardType?: KeyboardTypeOptions;
+    initialValue?: string;
 }
 
-export function TextInput({ name, ...props }: TextInputProps) {
+export function TextInput({ name, initialValue, ...props }: TextInputProps) {
     const [field, meta, helpers] = useField(name);
-    const [textValue, setTextValue] = useState();
+
+    useEffect(() => {
+        const isValidInitialValue = initialValue !== undefined && initialValue !== field.value;
+
+        if (isValidInitialValue) {
+            helpers.setValue(initialValue);
+        }
+
+    }, [initialValue])
 
     const handleOnChange = (e: string) => {
         helpers.setValue(e);
@@ -29,7 +38,7 @@ export function TextInput({ name, ...props }: TextInputProps) {
             <TextInputPaper
                 keyboardType={props.keyboardType}
                 onChangeText={(e) => handleOnChange(e)}
-                value={textValue}
+                value={field.value}
                 mode='flat'
                 placeholder={props.placeholder}
                 outlineColor='yellow'

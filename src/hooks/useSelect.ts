@@ -29,7 +29,7 @@ export function useSelect<T>({ tableName, select, match, ...props }: UseSelectPr
         }
 
         useSelect();
-    }, []);
+    }, [match]);
 
     return { selectResponse, selectResponseError };
 }
