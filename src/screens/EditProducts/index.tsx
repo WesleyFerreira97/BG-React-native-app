@@ -23,7 +23,6 @@ export function EditProducts() {
 
     const responseData: AllProductProps = selectResponse ? selectResponse[0] : null;
 
-
     const initialValues = {
         title: responseData?.title
 
