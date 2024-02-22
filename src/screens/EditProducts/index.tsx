@@ -5,19 +5,52 @@ import { useSelect } from '../../hooks/useSelect';
 import type { AllProductProps, ProductProps } from '../../@types/product';
 import { TextInput } from '../../components/TextInput';
 import { Formik } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { supaDb } from '../../services/supadb';
+import { PostgrestError } from '@supabase/supabase-js';
 
 type EditProps = {
     itemId: string
 }
 
+type UseUpdateProps = {
+    productId: string;
+    data: Partial<ProductProps>;
+}
+
+function useUpdate() {
+    const [updateData, setUpdateData] = useState<UseUpdateProps>();
+    const [updateResponse, setUpdateResponse] = useState<T | null>(null);
+    const [updateError, setUpdateError] = useState<PostgrestError>();
+
+    const update = async ({ data, productId }: UseUpdateProps) => {
+        const { data: dataDb, error } = await supaDb
+            .from('users')
+            .update(data)
+            .eq('id', productId);
+
+        setUpdateResponse(dataDb as T);
+        setUpdateError(error);
+    }
+
+    useEffect(() => {
+        if (!updateData) return;
+
+        update(updateData);
+    }, [updateData]);
+
+    return { setUpdateData, updateResponse, updateError };
+}
+
+
+
 export function EditProducts() {
     const { params }: RouteProp<{ params: EditProps }> = useRoute();
-
+    const { setUpdateData, updateError, updateResponse } = useUpdate();
     const { selectResponse, selectResponseError } = useSelect<AllProductProps>({
         tableName: 'products',
         select: ['title', 'bucket_name', 'bucket_folder', 'id'],
-        limit: 3,
+        limit: 1,
         match: params.itemId
     });
 
@@ -26,6 +59,10 @@ export function EditProducts() {
     const initialValues = {
         title: responseData?.title
 
+    }
+
+    const handleSubmit = (data: any) => {
+        setUpdateData(data);
     }
 
     return (
