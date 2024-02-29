@@ -8,13 +8,14 @@ import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { supaDb } from '../../services/supadb';
 import { PostgrestError } from '@supabase/supabase-js';
+import { Button } from '../../components/Button';
 
 type EditProps = {
     itemId: string
 }
 
 type UseUpdateProps = {
-    productId: string;
+    productId: string | number;
     data: Partial<ProductProps>;
 }
 
@@ -25,7 +26,7 @@ function useUpdate() {
 
     const update = async ({ data, productId }: UseUpdateProps) => {
         const { data: dataDb, error } = await supaDb
-            .from('users')
+            .from('products')
             .update(data)
             .eq('id', productId);
 
@@ -41,7 +42,6 @@ function useUpdate() {
 
     return { setUpdateData, updateResponse, updateError };
 }
-
 
 
 export function EditProducts() {
@@ -61,30 +61,46 @@ export function EditProducts() {
 
     }
 
-    const handleSubmit = (data: any) => {
-        setUpdateData(data);
+    useEffect(() => {
+        console.log('updateError', updateError);
+        console.log('updateResponse', updateResponse);
+
+    }, [updateError, updateResponse])
+
+    const handleSubmitProduct = (props: UseUpdateProps) => {
+        setUpdateData(props);
     }
 
     return (
         <View style={styles.container}>
             <Text>Pedidos Screen</Text>
             {selectResponse
-                ? (<Formik
-                    initialValues={initialValues}
-                    // validationSchema={productValidation}
-                    // enableReinitialize={true}
-                    // validateOnMount={true}
-                    onSubmit={(values: ProductProps) => {
-                        // handleSubmitProduct(values);
-                    }} >
-                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
-                        <>
-                            <TextInput name='title' label='Título' initialValue={values.title} />
-                            <Text>{selectResponse.title}</Text>
-                        </>
-                    )}
-                </Formik>)
-                : <Text>Carregando </Text>}
+                ? (
+                    <Formik
+                        initialValues={initialValues}
+                        onSubmit={(values: ProductProps) => {
+                            handleSubmitProduct({
+                                data: {
+                                    ...values
+                                },
+                                productId: responseData.id
+                            });
+                        }}>
+                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
+                            <>
+                                <TextInput name='title' label='Título' initialValue={values.title} />
+                                <Text>{selectResponse.title}</Text>
+
+                                <Button
+                                    onPress={handleSubmit}
+                                    text='Cadastrar'
+                                />
+                            </>
+                        )}
+                    </Formik>
+                ) :
+                <Text>Carregando </Text>
+            }
         </View>
     );
 }

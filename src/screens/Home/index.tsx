@@ -24,7 +24,7 @@ export function HomeScreen() {
     const { selectResponse, selectResponseError } = useSelect<AllProductProps[]>({
         tableName: 'products',
         select: ['title', 'bucket_name', 'bucket_folder', 'id'],
-        limit: 3,
+        limit: 10,
     });
 
     const fetchData = async () => {

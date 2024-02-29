@@ -15,15 +15,7 @@ import { CheckboxInput } from '../../components/CheckboxInput';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { SwitchInput } from '../../components/SwitchInput';
 import { Button } from '../../components/Button';
-
-type DefaultSizesValues = Array<string | number>;
-
-const size_letter = ["P", "M", "G", "GG"];
-const size_numeric = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43];
-
-function setDefaultValues(value: DefaultSizesValues) {
-    return value.reduce((prevItem, currentItem) => ({ ...prevItem, [currentItem]: false }), {});
-}
+import { mapDefaultValues, size_letter, size_numeric } from '../../components/SelectSize';
 
 const initialValues: ProductProps = {
     title: "ww",
@@ -31,8 +23,8 @@ const initialValues: ProductProps = {
     product_categories: "Shorts",
     type_product_sizes: "letter",
     sizes_available: {
-        letter: setDefaultValues(size_letter),
-        numeric: setDefaultValues(size_numeric),
+        letter: mapDefaultValues(size_letter),
+        numeric: mapDefaultValues(size_numeric),
     },
     product_available: false,
 }
