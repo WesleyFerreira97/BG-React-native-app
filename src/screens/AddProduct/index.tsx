@@ -95,7 +95,9 @@ export function AddProduct({ navigation }) {
                         initialValues={initialValues}
                         validationSchema={productValidation}
                         onSubmit={(values: ProductProps) => {
-                            handleSubmitProduct(values);
+                            // handleSubmitProduct(values);
+                            console.log(values, "Values");
+
                         }} >
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                             <View style={{ padding: 20 }}>
@@ -131,49 +133,6 @@ export function AddProduct({ navigation }) {
                                     keyboardType='number-pad'
                                 />
 
-                                <ToggleGroup
-                                    label="Tamanhos disponíveis :"
-                                    name="type_product_sizes"
-                                    toggleValues={[
-                                        { label: 'Letras', value: 'letter' },
-                                        { label: 'Numérico', value: 'numeric' }
-                                    ]}
-                                    value={values.type_product_sizes}
-                                />
-
-                                <Field name="sizes_available" >
-                                    {() => (
-                                        <>
-                                            {values.type_product_sizes === 'letter' &&
-                                                Object.keys(values.sizes_available.letter).map((inputName, key, obj) => {
-                                                    const currentInputValue = values.sizes_available.letter[inputName]
-
-                                                    return (
-                                                        <CheckboxInput
-                                                            key={key}
-                                                            name={`sizes_available.letter.${inputName}`}
-                                                            value={currentInputValue}
-                                                            label={inputName}
-                                                        />
-                                                    )
-                                                })}
-
-                                            {values.type_product_sizes === 'numeric' &&
-                                                Object.keys(values.sizes_available.numeric).map((inputName, key, obj) => {
-                                                    const currentInputValue = values.sizes_available.numeric[inputName]
-
-                                                    return (
-                                                        <CheckboxInput
-                                                            key={key}
-                                                            name={`sizes_available.numeric.${inputName}`}
-                                                            value={currentInputValue}
-                                                            label={inputName}
-                                                        />
-                                                    )
-                                                })}
-                                        </>
-                                    )}
-                                </Field>
 
                                 <SwitchInput
                                     name="product_available"
