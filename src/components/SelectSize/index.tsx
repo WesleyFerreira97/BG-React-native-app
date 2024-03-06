@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ToggleGroup } from '../ToggleGroup';
 import { Field } from 'formik';
 import { CheckboxInput } from '../CheckboxInput';
@@ -13,7 +13,28 @@ function mapDefaultValues(value: DefaultSizesValues) {
     return value.reduce((prevItem, currentItem) => ({ ...prevItem, [currentItem]: false }), {});
 }
 
-function SelectSize() {
+type SelectSizeProps = {
+    sizeType: "letter" | "numeric";
+    availableSizes: DefaultSizesValues;
+}
+
+function SelectSize({ availableSizes, sizeType }: SelectSizeProps) {
+
+    const renderSizes = (type: 'letter' | 'numeric') => {
+        return Object.keys(availableSizes[type]).map((inputName, key) => {
+            const currentInputValue = availableSizes[type][inputName]
+
+            return (
+                <CheckboxInput
+                    key={key}
+                    name={`sizes_available.${type}.${inputName}`}
+                    value={currentInputValue}
+                    label={inputName}
+                />
+            )
+        })
+    }
+
     return (
         <>
             <ToggleGroup
@@ -23,39 +44,14 @@ function SelectSize() {
                     { label: 'Letras', value: 'letter' },
                     { label: 'Numérico', value: 'numeric' }
                 ]}
-                value={values.type_product_sizes}
+                value={sizeType}
             />
 
             <Field name="sizes_available" >
                 {() => (
                     <>
-                        {values.type_product_sizes === 'letter' &&
-                            Object.keys(values.sizes_available.letter).map((inputName, key, obj) => {
-                                const currentInputValue = values.sizes_available.letter[inputName]
-
-                                return (
-                                    <CheckboxInput
-                                        key={key}
-                                        name={`sizes_available.letter.${inputName}`}
-                                        value={currentInputValue}
-                                        label={inputName}
-                                    />
-                                )
-                            })}
-
-                        {values.type_product_sizes === 'numeric' &&
-                            Object.keys(values.sizes_available.numeric).map((inputName, key, obj) => {
-                                const currentInputValue = values.sizes_available.numeric[inputName]
-
-                                return (
-                                    <CheckboxInput
-                                        key={key}
-                                        name={`sizes_available.numeric.${inputName}`}
-                                        value={currentInputValue}
-                                        label={inputName}
-                                    />
-                                )
-                            })}
+                        {sizeType === 'letter' && renderSizes('letter')}
+                        {sizeType === 'numeric' && renderSizes('numeric')}
                     </>
                 )}
             </Field>

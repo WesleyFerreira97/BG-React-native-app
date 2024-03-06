@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { supaDb } from '../../services/supadb';
 import { PostgrestError } from '@supabase/supabase-js';
 import { Button } from '../../components/Button';
+import { SelectSize } from '../../components/SelectSize';
 
 type EditProps = {
     itemId: string
@@ -49,7 +50,8 @@ export function EditProducts() {
     const { setUpdateData, updateError, updateResponse } = useUpdate();
     const { selectResponse, selectResponseError } = useSelect<AllProductProps>({
         tableName: 'products',
-        select: ['title', 'bucket_name', 'bucket_folder', 'id'],
+        // select: ['title', 'bucket_name', 'bucket_folder', 'id'],
+        select: ["*"],
         limit: 1,
         match: params.itemId
     });
@@ -61,11 +63,14 @@ export function EditProducts() {
 
     }
 
-    useEffect(() => {
-        console.log('updateError', updateError);
-        console.log('updateResponse', updateResponse);
+    // useEffect(() => {
+    //     // console.log('updateError', updateError);
+    //     // console.log('updateResponse', updateResponse);
+    //     if (!responseData) return
 
-    }, [updateError, updateResponse])
+    //     console.log(responseData.type_product_sizes, "selectResponse");
+
+    // }, [updateError, updateResponse, selectResponse])
 
     const handleSubmitProduct = (props: UseUpdateProps) => {
         setUpdateData(props);
@@ -79,18 +84,24 @@ export function EditProducts() {
                     <Formik
                         initialValues={initialValues}
                         onSubmit={(values: ProductProps) => {
-                            handleSubmitProduct({
-                                data: {
-                                    ...values
-                                },
-                                productId: responseData.id
-                            });
+                            console.log(values, "Valores do form");
+
+                            // handleSubmitProduct({
+                            //     data: {
+                            //         ...values
+                            //     },
+                            //     productId: responseData.id
+                            // });
                         }}>
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                             <>
                                 <TextInput name='title' label='Título' initialValue={values.title} />
                                 <Text>{selectResponse.title}</Text>
 
+                                <SelectSize
+                                    sizeType={responseData.type_product_sizes}
+                                    availableSizes={responseData.sizes_available}
+                                />
                                 <Button
                                     onPress={handleSubmit}
                                     text='Cadastrar'

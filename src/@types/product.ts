@@ -16,7 +16,7 @@ type ProductProps = {
     title: string,
     description?: string,
     categories?: string[],
-    type_product_sizes?: string,
+    type_product_sizes?: "letter" | "numeric",
     // product_sizes: ProductTypes[],
     product_categories: string | number,
     sizes_available?: any,
