@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { ToggleGroup } from '../ToggleGroup';
-import { Field } from 'formik';
+import { Field, useField } from 'formik';
 import { CheckboxInput } from '../CheckboxInput';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 
 type DefaultSizesValues = Array<string | number>;
@@ -22,28 +22,29 @@ type SelectSizeProps = {
 function SelectSize({ availableSizes, sizeType }: SelectSizeProps) {
 
     const renderSizes = (type: 'letter' | 'numeric') => {
-        if (type !== 'letter' && type !== 'numeric') {
-            return (
-                <Text>Tipo de input incompatível</Text>
-            )
-        }
+        // if (type !== 'letter' && type !== 'numeric') {
+        //     return (
+        //         <Text>Tipo de input incompatível</Text>
+        //     )
+        // }
+        console.log(availableSizes[sizeType]);
 
-        return Object.keys(availableSizes).map((inputName, key) => {
-            const currentInputValue = availableSizes[inputName]
+        // return Object.keys(availableSizes[sizeType]).map((inputName, key) => {
+        //     const currentInputValue = availableSizes[type][inputName]
 
-            return (
-                <CheckboxInput
-                    key={key}
-                    name={`sizes_available.${inputName}`}
-                    value={currentInputValue}
-                    label={inputName}
-                />
-            )
-        })
+        //     return (
+        //         <CheckboxInput
+        //             key={key}
+        //             name={`sizes_available.${type}.${inputName}`}
+        //             value={currentInputValue}
+        //             label={inputName}
+        //         />
+        //     )
+        // })
     }
 
     return (
-        <>
+        <View>
             <ToggleGroup
                 label="Tamanhos disponíveis :"
                 name="type_product_sizes"
@@ -62,7 +63,7 @@ function SelectSize({ availableSizes, sizeType }: SelectSizeProps) {
                 )}
             </Field>
 
-        </>
+        </View>
     )
 }
 

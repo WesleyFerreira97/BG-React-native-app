@@ -27,7 +27,8 @@ export function Button({ text, isLoading = false, ...props }: ButtonProps) {
                 ...styles.container,
                 backgroundColor: props.bgColor
                     ? props.bgColor
-                    : theme.colors.secondaryAlt
+                    : theme.colors.secondaryAlt,
+                marginTop: 30
             }}
             onPress={disabled ? null : handleOnPress}
         >

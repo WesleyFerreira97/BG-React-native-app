@@ -15,7 +15,7 @@ import { CheckboxInput } from '../../components/CheckboxInput';
 import { ToggleGroup } from '../../components/ToggleGroup';
 import { SwitchInput } from '../../components/SwitchInput';
 import { Button } from '../../components/Button';
-import { mapDefaultValues, size_letter, size_numeric } from '../../components/SelectSize';
+import { SelectSize, mapDefaultValues, size_letter, size_numeric } from '../../components/SelectSize';
 
 const initialValues: ProductProps = {
     title: "ww",
@@ -53,23 +53,14 @@ export function AddProduct({ navigation }) {
         navigation.navigate('addProductStepTwo', { productID: dataResponse.id })
     }, [dataResponse]);
 
-    const getSizesSelected = (productProps: ProductProps) => {
-        const productSizeSelected = productProps.type_product_sizes == "letter"
-            ? productProps.sizes_available.letter
-            : productProps.sizes_available.numeric;
-
-        return productSizeSelected;
-    }
-
     const handleSubmitProduct = async (productProps: ProductProps) => {
-        const productSizeSelected = getSizesSelected(productProps);
         setIsLoading(true);
 
         setData({
             title: productProps.title,
             description: productProps.description,
             product_categories: productProps.product_categories,
-            sizes_available: productSizeSelected,
+            sizes_available: productProps.sizes_available,
             bucket_name: 'photo',
             bucket_folder: `${productProps.product_categories}`,
             price: productProps.price,
@@ -95,8 +86,7 @@ export function AddProduct({ navigation }) {
                         initialValues={initialValues}
                         validationSchema={productValidation}
                         onSubmit={(values: ProductProps) => {
-                            // handleSubmitProduct(values);
-                            console.log(values, "Values");
+                            handleSubmitProduct(values);
 
                         }} >
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
@@ -111,7 +101,6 @@ export function AddProduct({ navigation }) {
                                     multiline={true}
                                     numberOfLines={5}
                                 />
-
                                 {!categoriesError && (
                                     <SelectInput
                                         name="product_categories"
@@ -133,10 +122,14 @@ export function AddProduct({ navigation }) {
                                     keyboardType='number-pad'
                                 />
 
-
                                 <SwitchInput
                                     name="product_available"
                                     label="Produto disponível"
+                                />
+
+                                <SelectSize
+                                    sizeType={values.type_product_sizes}
+                                    availableSizes={values.sizes_available}
                                 />
 
                                 <Button

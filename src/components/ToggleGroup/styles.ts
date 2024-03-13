@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     itemsContainer: {
         flex: 1,
         flexDirection: 'row',
-        marginVertical: 6
+        marginVertical: 6,
     },
     itemButton: {
         backgroundColor: theme.colors.secondary,
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.secondaryAlt,
         color: theme.colors.neutral,
         paddingHorizontal: 15,
-        paddingVertical: 3
+        paddingVertical: 3,
     },
 });
 
