@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { ToggleGroup } from '../ToggleGroup';
 import { Field } from 'formik';
 import { CheckboxInput } from '../CheckboxInput';
+import { Text } from 'react-native';
 
 
 type DefaultSizesValues = Array<string | number>;
@@ -21,13 +22,19 @@ type SelectSizeProps = {
 function SelectSize({ availableSizes, sizeType }: SelectSizeProps) {
 
     const renderSizes = (type: 'letter' | 'numeric') => {
-        return Object.keys(availableSizes[type]).map((inputName, key) => {
-            const currentInputValue = availableSizes[type][inputName]
+        if (type !== 'letter' && type !== 'numeric') {
+            return (
+                <Text>Tipo de input incompatível</Text>
+            )
+        }
+
+        return Object.keys(availableSizes).map((inputName, key) => {
+            const currentInputValue = availableSizes[inputName]
 
             return (
                 <CheckboxInput
                     key={key}
-                    name={`sizes_available.${type}.${inputName}`}
+                    name={`sizes_available.${inputName}`}
                     value={currentInputValue}
                     label={inputName}
                 />
@@ -50,8 +57,7 @@ function SelectSize({ availableSizes, sizeType }: SelectSizeProps) {
             <Field name="sizes_available" >
                 {() => (
                     <>
-                        {sizeType === 'letter' && renderSizes('letter')}
-                        {sizeType === 'numeric' && renderSizes('numeric')}
+                        {renderSizes(sizeType)}
                     </>
                 )}
             </Field>

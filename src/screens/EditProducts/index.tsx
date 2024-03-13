@@ -63,15 +63,6 @@ export function EditProducts() {
 
     }
 
-    // useEffect(() => {
-    //     // console.log('updateError', updateError);
-    //     // console.log('updateResponse', updateResponse);
-    //     if (!responseData) return
-
-    //     console.log(responseData.type_product_sizes, "selectResponse");
-
-    // }, [updateError, updateResponse, selectResponse])
-
     const handleSubmitProduct = (props: UseUpdateProps) => {
         setUpdateData(props);
     }
@@ -79,7 +70,7 @@ export function EditProducts() {
     return (
         <View style={styles.container}>
             <Text>Pedidos Screen</Text>
-            {selectResponse
+            {responseData
                 ? (
                     <Formik
                         initialValues={initialValues}
@@ -96,8 +87,9 @@ export function EditProducts() {
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                             <>
                                 <TextInput name='title' label='Título' initialValue={values.title} />
-                                <Text>{selectResponse.title}</Text>
-
+                                {/* <Text>{selectResponse.title}</Text> */}
+                                {console.log(responseData.type_product_sizes)}
+                                {console.log(responseData.sizes_available)}
                                 <SelectSize
                                     sizeType={responseData.type_product_sizes}
                                     availableSizes={responseData.sizes_available}
@@ -115,3 +107,5 @@ export function EditProducts() {
         </View>
     );
 }
+
+
