@@ -3,7 +3,7 @@ import { ToggleGroup } from '../ToggleGroup';
 import { Field, useField } from 'formik';
 import { CheckboxInput } from '../CheckboxInput';
 import { Text, View } from 'react-native';
-
+import { styles } from './style';
 
 type DefaultSizesValues = Array<string | number>;
 
@@ -19,29 +19,37 @@ type SelectSizeProps = {
     availableSizes: DefaultSizesValues;
 }
 
+type RenderSizesProps = {
+    inputData: { [key: string]: boolean };
+    type: string;
+}
+
+const ChekboxesGroup = ({ inputData, type }: RenderSizesProps) => {
+    // if (type !== 'letter' && type !== 'numeric') {
+    //     return (
+    //         <Text>Tipo de input incompatível</Text>
+    //     )
+    // }
+
+    return Object.keys(inputData).map((inputName, key) => {
+        const currentInputValue: boolean = inputData[inputName];
+
+        return (
+            <CheckboxInput
+                key={key}
+                name={`sizes_available.${type}.${inputName}`}
+                value={currentInputValue}
+                label={inputName}
+            />
+        )
+    })
+}
+
+
 function SelectSize({ availableSizes, sizeType }: SelectSizeProps) {
-
-    const renderSizes = (type: 'letter' | 'numeric') => {
-        // if (type !== 'letter' && type !== 'numeric') {
-        //     return (
-        //         <Text>Tipo de input incompatível</Text>
-        //     )
-        // }
-        console.log(availableSizes[sizeType]);
-
-        // return Object.keys(availableSizes[sizeType]).map((inputName, key) => {
-        //     const currentInputValue = availableSizes[type][inputName]
-
-        //     return (
-        //         <CheckboxInput
-        //             key={key}
-        //             name={`sizes_available.${type}.${inputName}`}
-        //             value={currentInputValue}
-        //             label={inputName}
-        //         />
-        //     )
-        // })
-    }
+    const [field, meta, helpers] = useField('type_product_sizes');
+    const currentSizeType: string = field.value || sizeType;
+    console.log(currentSizeType, "field value");
 
     return (
         <View>
@@ -54,17 +62,27 @@ function SelectSize({ availableSizes, sizeType }: SelectSizeProps) {
                 ]}
                 value={sizeType}
             />
-
             <Field name="sizes_available" >
-                {() => (
+                {({ field, form, meta }) => (
                     <>
-                        {renderSizes(sizeType)}
+                        <View style={currentSizeType == "letter" ? {} : styles.hiddenField}>
+                            <ChekboxesGroup
+                                inputData={availableSizes[currentSizeType]}
+                                type={currentSizeType}
+                            />
+                        </View>
+                        <View style={currentSizeType == "numeric" ? {} : styles.hiddenField}>
+                            <ChekboxesGroup
+                                inputData={availableSizes[currentSizeType]}
+                                type={currentSizeType}
+                            />
+                        </View>
                     </>
                 )}
             </Field>
-
         </View>
     )
 }
+
 
 export { mapDefaultValues, size_letter, size_numeric, SelectSize }

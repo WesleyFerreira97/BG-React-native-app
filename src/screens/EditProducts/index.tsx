@@ -83,9 +83,9 @@ export function EditProducts() {
                         }}>
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                             <View style={{ padding: 20 }}>
+                                {console.log(responseData, "response data")}
                                 <TextInput name='title' label='Título' initialValue={values.title} />
                                 <Text>{selectResponse.title}</Text>
-
                                 <SelectSize
                                     sizeType={responseData.type_product_sizes}
                                     availableSizes={responseData.sizes_available}
