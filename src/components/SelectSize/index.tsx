@@ -31,8 +31,8 @@ const ChekboxesGroup = ({ inputData, type }: RenderSizesProps) => {
     //     )
     // }
 
-    return Object.keys(inputData).map((inputName, key) => {
-        const currentInputValue: boolean = inputData[inputName];
+    return Object.keys(inputData[type]).map((inputName, key) => {
+        const currentInputValue: boolean = inputData[type][inputName]
 
         return (
             <CheckboxInput
@@ -46,39 +46,46 @@ const ChekboxesGroup = ({ inputData, type }: RenderSizesProps) => {
 }
 
 
-function SelectSize({ availableSizes, sizeType }: SelectSizeProps) {
-    const [field, meta, helpers] = useField('type_product_sizes');
-    const currentSizeType: string = field.value || sizeType;
-    console.log(currentSizeType, "field value");
+function SelectSize({ availableSizes, sizeType, ...props }: SelectSizeProps) {
+    console.log(sizeType, "size type props");
 
     return (
         <View>
-            <ToggleGroup
-                label="Tamanhos disponíveis :"
-                name="type_product_sizes"
-                toggleValues={[
-                    { label: 'Letras', value: 'letter' },
-                    { label: 'Numérico', value: 'numeric' }
-                ]}
-                value={sizeType}
-            />
-            <Field name="sizes_available" >
+            <Field name="type_product_sizes" >
                 {({ field, form, meta }) => (
-                    <>
-                        <View style={currentSizeType == "letter" ? {} : styles.hiddenField}>
-                            <ChekboxesGroup
-                                inputData={availableSizes[currentSizeType]}
-                                type={currentSizeType}
-                            />
-                        </View>
-                        <View style={currentSizeType == "numeric" ? {} : styles.hiddenField}>
-                            <ChekboxesGroup
-                                inputData={availableSizes[currentSizeType]}
-                                type={currentSizeType}
-                            />
-                        </View>
-                    </>
+                    <ToggleGroup
+                        label="Tamanhos disponíveis :"
+                        name="type_product_sizes"
+                        toggleValues={[
+                            { label: 'Letras', value: 'letter' },
+                            { label: 'Numérico', value: 'numeric' }
+                        ]}
+                        value={field.value}
+                    />
                 )}
+            </Field>
+            <Field name="sizes_available" >
+                {({ field, form, meta }) => {
+                    const currentSizeType = form.values.type_product_sizes;
+                    const allSizes = field.value;
+
+                    return (
+                        <>
+                            <View style={currentSizeType == "letter" ? {} : styles.hiddenField}>
+                                <ChekboxesGroup
+                                    inputData={allSizes}
+                                    type={"letter"}
+                                />
+                            </View>
+                            <View style={currentSizeType == "numeric" ? {} : styles.hiddenField}>
+                                <ChekboxesGroup
+                                    inputData={allSizes}
+                                    type={"numeric"}
+                                />
+                            </View>
+                        </>
+                    )
+                }}
             </Field>
         </View>
     )

@@ -59,7 +59,9 @@ export function EditProducts() {
     const responseData: AllProductProps = selectResponse ? selectResponse[0] : null;
 
     const initialValues = {
-        title: responseData?.title
+        title: responseData?.title,
+        sizes_available: responseData?.sizes_available,
+        type_product_sizes: responseData?.type_product_sizes
     }
 
     const handleSubmitProduct = (props: UseUpdateProps) => {
@@ -83,12 +85,11 @@ export function EditProducts() {
                         }}>
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                             <View style={{ padding: 20 }}>
-                                {console.log(responseData, "response data")}
                                 <TextInput name='title' label='Título' initialValue={values.title} />
                                 <Text>{selectResponse.title}</Text>
                                 <SelectSize
-                                    sizeType={responseData.type_product_sizes}
-                                    availableSizes={responseData.sizes_available}
+                                    sizeType={values.type_product_sizes}
+                                    availableSizes={values.sizes_available}
                                 />
                                 <Button
                                     onPress={handleSubmit}
