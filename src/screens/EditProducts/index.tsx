@@ -48,7 +48,7 @@ function useUpdate() {
 }
 
 
-export function EditProducts() {
+export function EditProducts({ navigation }) {
     const { params }: RouteProp<{ params: EditProps }> = useRoute();
     const { setUpdateData, updateError, updateResponse } = useUpdate();
     const { allCategories, categoriesError } = useCategories();
@@ -71,6 +71,13 @@ export function EditProducts() {
         product_available: responseData?.product_available,
     }
 
+    const handleNavigateEditProducts = () => {
+        navigation.navigate(
+            'EditImages',
+            { bucketPath: `product/${responseData.bucket_folder}/${responseData.id}` }
+        )
+    };
+
     const handleSubmitProduct = (props: UseUpdateProps) => {
         setUpdateData(props);
     }
@@ -79,65 +86,71 @@ export function EditProducts() {
         <ScrollView contentContainerStyle={styles.containerScrollView}>
             {responseData
                 ? (
-                    <Formik
-                        initialValues={initialValues}
-                        onSubmit={(values: ProductProps) => {
-                            console.log(values, "Valores do form");
-                            handleSubmitProduct({
-                                data: {
-                                    ...values
-                                },
-                                productId: responseData.id
-                            });
-                        }}>
-                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
-                            <View style={{ padding: 20 }}>
-                                <TextInput
-                                    name='title'
-                                    label='Título'
-                                    value={values.title}
-                                />
-                                <TextInput
-                                    name='description'
-                                    label='Descrição'
-                                    value={values.description}
-                                />
-                                {!categoriesError &&
-                                    <SelectInput
-                                        name='product_categories'
-                                        label='Categorias'
-                                        value={values.product_categories}
-                                    >
-                                        {allCategories?.map((category) => (
-                                            <SelectInput.Item
-                                                key={category.id}
-                                                label={category.title}
-                                                value={category.slug}
-                                            />
-                                        ))}
-                                    </SelectInput>
-                                }
-                                <TextInput
-                                    name='price'
-                                    label='Preço'
-                                    value={values.price}
-                                />
-                                <SwitchInput
-                                    name='product_available'
-                                    label='Disponibilidade'
-                                    value={values.product_available}
-                                />
-                                <SelectSize
-                                    sizeType={values.type_product_sizes}
-                                    availableSizes={values.sizes_available}
-                                />
-                                <Button
-                                    onPress={handleSubmit}
-                                    text='Cadastrar'
-                                />
-                            </View>
-                        )}
-                    </Formik>
+                    <>
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={(values: ProductProps) => {
+                                console.log(values, "Valores do form");
+                                handleSubmitProduct({
+                                    data: {
+                                        ...values
+                                    },
+                                    productId: responseData.id
+                                });
+                            }}>
+                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
+                                <View style={{ padding: 20 }}>
+                                    <TextInput
+                                        name='title'
+                                        label='Título'
+                                        value={values.title}
+                                    />
+                                    <TextInput
+                                        name='description'
+                                        label='Descrição'
+                                        value={values.description}
+                                    />
+                                    {!categoriesError &&
+                                        <SelectInput
+                                            name='product_categories'
+                                            label='Categorias'
+                                            value={values.product_categories}
+                                        >
+                                            {allCategories?.map((category) => (
+                                                <SelectInput.Item
+                                                    key={category.id}
+                                                    label={category.title}
+                                                    value={category.slug}
+                                                />
+                                            ))}
+                                        </SelectInput>
+                                    }
+                                    <TextInput
+                                        name='price'
+                                        label='Preço'
+                                        value={values.price}
+                                    />
+                                    <SwitchInput
+                                        name='product_available'
+                                        label='Disponibilidade'
+                                        value={values.product_available}
+                                    />
+                                    <SelectSize
+                                        sizeType={values.type_product_sizes}
+                                        availableSizes={values.sizes_available}
+                                    />
+                                    <Button
+                                        onPress={handleNavigateEditProducts}
+                                        text='Editar imagens'
+                                    />
+                                    <Button
+                                        onPress={handleSubmit}
+                                        text='Concluir alterações'
+                                    />
+                                </View>
+                            )}
+                        </Formik>
+                    </>
                 ) :
                 <Text>Carregando </Text>
             }

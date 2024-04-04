@@ -18,7 +18,7 @@ import { Button } from '../../components/Button';
 import { SelectSize, mapDefaultValues, size_letter, size_numeric } from '../../components/SelectSize';
 
 const initialValues: ProductProps = {
-    title: "ww",
+    title: "Teste",
     description: "",
     product_categories: "Shorts",
     type_product_sizes: "letter",

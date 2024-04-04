@@ -1,6 +1,7 @@
 import { EditProducts } from "../screens/EditProducts";
 import { HomeScreen } from "../screens/Home";
 import { createStackNavigator } from "@react-navigation/stack";
+import { EditImages } from "../screens/EditProducts/EditImages";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,10 @@ export function HomeStack() {
             <Stack.Screen
                 name="EditProduct"
                 component={EditProducts}
+            />
+            <Stack.Screen
+                name="EditImages"
+                component={EditImages}
             />
         </Stack.Navigator>
     )
