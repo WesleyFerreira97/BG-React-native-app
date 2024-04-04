@@ -10,6 +10,8 @@ import { supaDb } from '../../services/supadb';
 import { PostgrestError } from '@supabase/supabase-js';
 import { Button } from '../../components/Button';
 import { SelectSize } from '../../components/SelectSize';
+import { SelectInput } from '../../components/SelectInput';
+import { SwitchInput } from '../../components/SwitchInput';
 
 type EditProps = {
     itemId: string
@@ -58,10 +60,13 @@ export function EditProducts() {
 
     const responseData: AllProductProps = selectResponse ? selectResponse[0] : null;
 
-    const initialValues = {
+    const initialValues: ProductProps = {
         title: responseData?.title,
+        description: responseData?.description,
         sizes_available: responseData?.sizes_available,
-        type_product_sizes: responseData?.type_product_sizes
+        type_product_sizes: responseData?.type_product_sizes,
+        product_categories: responseData?.product_categories,
+        product_available: responseData?.product_available,
     }
 
     const handleSubmitProduct = (props: UseUpdateProps) => {
@@ -85,8 +90,27 @@ export function EditProducts() {
                         }}>
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                             <View style={{ padding: 20 }}>
-                                <TextInput name='title' label='Título' initialValue={values.title} />
+                                <TextInput
+                                    name='title'
+                                    label='Título'
+                                    value={values.title}
+                                />
+                                <TextInput
+                                    name='description'
+                                    label='Descrição'
+                                    value={values.description}
+                                />
+                                <TextInput
+                                    name='price'
+                                    label='Preço'
+                                    value={values.price}
+                                />
                                 <Text>{selectResponse.title}</Text>
+                                <SwitchInput
+                                    name='product_available'
+                                    label='Disponibilidade'
+                                    value={values.product_available}
+                                />
                                 <SelectSize
                                     sizeType={values.type_product_sizes}
                                     availableSizes={values.sizes_available}

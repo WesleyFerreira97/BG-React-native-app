@@ -47,14 +47,13 @@ const ChekboxesGroup = ({ inputData, type }: RenderSizesProps) => {
 
 
 function SelectSize({ availableSizes, sizeType, ...props }: SelectSizeProps) {
-    console.log(sizeType, "size type props");
 
     return (
         <View>
             <Field name="type_product_sizes" >
                 {({ field, form, meta }) => (
                     <ToggleGroup
-                        label="Tamanhos disponíveis :"
+                        label="Sizes Availables :"
                         name="type_product_sizes"
                         toggleValues={[
                             { label: 'Letras', value: 'letter' },

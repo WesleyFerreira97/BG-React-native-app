@@ -64,7 +64,8 @@ export function AddProduct({ navigation }) {
             bucket_name: 'photo',
             bucket_folder: `${productProps.product_categories}`,
             price: productProps.price,
-            product_available: productProps.product_available
+            product_available: productProps.product_available,
+            type_product_sizes: productProps.type_product_sizes,
         })
     }
 

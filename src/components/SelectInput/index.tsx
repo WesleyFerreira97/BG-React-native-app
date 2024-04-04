@@ -7,14 +7,15 @@ import { ErrorForm } from '../ErrorForm';
 
 type SelectInputProps = {
     name: string;
-    style?: StyleProp<TextStyle>
-    label: string,
+    style?: StyleProp<TextStyle>;
+    label: string;
+    value?: boolean | number;
 }
 
 type SelectItemProps = {
-    label: string,
-    value: string,
-    style?: StyleProp<TextStyle>
+    label: string;
+    value: string;
+    style?: StyleProp<TextStyle>;
 }
 
 const Item = ({ label, value, style }: SelectItemProps) => {
@@ -27,9 +28,20 @@ const Item = ({ label, value, style }: SelectItemProps) => {
     )
 }
 
-function SelectInput({ name, children, style, ...props }: PropsWithChildren<SelectInputProps>) {
+function SelectInput({ name, children, style, value, ...props }: PropsWithChildren<SelectInputProps>) {
     const [field, meta, helpers] = useField(name);
     const [selectedValue, setSelectValue] = useState<string>();
+
+    useEffect(() => {
+        const isValidValue = value !== undefined && value !== field.value;
+
+        if (isValidValue) {
+            helpers.setValue(value);
+        }
+
+        console.log(field, "field value");
+
+    }, [value])
 
     const handleSelect = (selectedItem: string) => {
         setSelectValue(selectedItem);

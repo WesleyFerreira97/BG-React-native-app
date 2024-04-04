@@ -13,20 +13,20 @@ type TextInputProps = {
     multiline?: boolean;
     numberOfLines?: number;
     keyboardType?: KeyboardTypeOptions;
-    initialValue?: string;
+    value?: string | number;
 }
 
-export function TextInput({ name, initialValue, ...props }: TextInputProps) {
+export function TextInput({ name, value, ...props }: TextInputProps) {
     const [field, meta, helpers] = useField(name);
 
     useEffect(() => {
-        const isValidInitialValue = initialValue !== undefined && initialValue !== field.value;
+        const isValidValue = value !== undefined && value !== field.value;
 
-        if (isValidInitialValue) {
-            helpers.setValue(initialValue);
+        if (isValidValue) {
+            helpers.setValue(value);
         }
 
-    }, [initialValue])
+    }, [value])
 
     const handleOnChange = (e: string) => {
         helpers.setValue(e);
