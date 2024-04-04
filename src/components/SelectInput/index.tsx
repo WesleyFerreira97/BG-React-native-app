@@ -9,7 +9,7 @@ type SelectInputProps = {
     name: string;
     style?: StyleProp<TextStyle>;
     label: string;
-    value?: boolean | number;
+    value?: string | number;
 }
 
 type SelectItemProps = {
@@ -30,21 +30,18 @@ const Item = ({ label, value, style }: SelectItemProps) => {
 
 function SelectInput({ name, children, style, value, ...props }: PropsWithChildren<SelectInputProps>) {
     const [field, meta, helpers] = useField(name);
-    const [selectedValue, setSelectValue] = useState<string>();
 
     useEffect(() => {
-        const isValidValue = value !== undefined && value !== field.value;
+        const isValidValue = value !== undefined && !field.value;
+        console.log(field.value, "field.value");
 
         if (isValidValue) {
             helpers.setValue(value);
         }
 
-        console.log(field, "field value");
-
     }, [value])
 
     const handleSelect = (selectedItem: string) => {
-        setSelectValue(selectedItem);
         helpers.setValue(selectedItem);
     }
 
@@ -55,7 +52,7 @@ function SelectInput({ name, children, style, value, ...props }: PropsWithChildr
             </Text>
             <Picker
                 style={styles.selectedLabel}
-                selectedValue={selectedValue}
+                selectedValue={field.value}
                 onValueChange={(itemValue, itemIndex) =>
                     handleSelect(itemValue)
                 }>

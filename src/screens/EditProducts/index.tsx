@@ -12,6 +12,7 @@ import { Button } from '../../components/Button';
 import { SelectSize } from '../../components/SelectSize';
 import { SelectInput } from '../../components/SelectInput';
 import { SwitchInput } from '../../components/SwitchInput';
+import { useCategories } from '../../hooks/useCategories';
 
 type EditProps = {
     itemId: string
@@ -50,6 +51,7 @@ function useUpdate() {
 export function EditProducts() {
     const { params }: RouteProp<{ params: EditProps }> = useRoute();
     const { setUpdateData, updateError, updateResponse } = useUpdate();
+    const { allCategories, categoriesError } = useCategories();
     const { selectResponse, selectResponseError } = useSelect<AllProductProps>({
         tableName: 'products',
         // select: ['title', 'bucket_name', 'bucket_folder', 'id'],
@@ -100,12 +102,26 @@ export function EditProducts() {
                                     label='Descrição'
                                     value={values.description}
                                 />
+                                {!categoriesError &&
+                                    <SelectInput
+                                        name='product_categories'
+                                        label='Categorias'
+                                        value={values.product_categories}
+                                    >
+                                        {allCategories?.map((category) => (
+                                            <SelectInput.Item
+                                                key={category.id}
+                                                label={category.title}
+                                                value={category.slug}
+                                            />
+                                        ))}
+                                    </SelectInput>
+                                }
                                 <TextInput
                                     name='price'
                                     label='Preço'
                                     value={values.price}
                                 />
-                                <Text>{selectResponse.title}</Text>
                                 <SwitchInput
                                     name='product_available'
                                     label='Disponibilidade'
