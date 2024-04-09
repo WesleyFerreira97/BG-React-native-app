@@ -87,6 +87,8 @@ export function AddProduct({ navigation }) {
                         initialValues={initialValues}
                         validationSchema={productValidation}
                         onSubmit={(values: ProductProps) => {
+                            console.log(values);
+
                             handleSubmitProduct(values);
 
                         }} >

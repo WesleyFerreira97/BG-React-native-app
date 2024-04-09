@@ -74,7 +74,7 @@ export function EditProducts({ navigation }) {
     const handleNavigateEditProducts = () => {
         navigation.navigate(
             'EditImages',
-            { bucketPath: `product/${responseData.bucket_folder}/${responseData.id}` }
+            { bucketPath: `photo/product/${responseData.bucket_folder}/${responseData.id}` }
         )
     };
 

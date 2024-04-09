@@ -12,12 +12,20 @@ export function useBucket<T>({ bucketName, ...props }: UseSelectProps) {
 
     useEffect(() => {
         async function useSelect() {
-            const { } = await supaDb
+            const { data, error } = await supaDb
                 .storage
                 .from(bucketName)
+                .list()
 
-            // setSelectResponse(data as T);
-            // setSelectResponseError(error);
+            // if (error) {
+            //     setSelectResponseError(error as unknown as PostgrestError);
+            //     return;
+            // }
+            console.log(data, "data");
+            console.log(error, "error");
+
+
+            setSelectResponse(data as T);
         }
 
         useSelect();
