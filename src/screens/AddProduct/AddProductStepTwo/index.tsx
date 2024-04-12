@@ -17,7 +17,7 @@ import { ActivityIndicator } from 'react-native-paper';
 
 
 export function AddProductStepTwo({ route }) {
-    const { fileUploadResponse, setFiles } = useFileUpload();
+    const { fileUploadResponse, setFiles, setFile } = useFileUpload();
     const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | []>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const productID = route.params.productID;
@@ -44,16 +44,13 @@ export function AddProductStepTwo({ route }) {
 
     }, [fileUploadResponse])
 
-
-
     const handleSubmitImages = (values: any) => {
-        const bucketFolder = selectResponse[0].bucket_folder;
-
         setIsLoading(true);
+        const mainDirectory = "product";
 
         Object.keys(values).forEach((currentColor) => {
-            const mainDirectory = "product";
             const arrImages = values[currentColor];
+            const bucketFolder = selectResponse[0].bucket_folder;
 
             setFiles({
                 file: arrImages,

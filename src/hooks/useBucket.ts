@@ -14,16 +14,18 @@ export function useBucket<T>({ bucketName, ...props }: UseSelectProps) {
         async function useSelect() {
             const { data, error } = await supaDb
                 .storage
-                .from(bucketName)
-                .list()
+                .from("photo")
+                .list(bucketName, {
+                    limit: 20
+                });
 
-            // if (error) {
-            //     setSelectResponseError(error as unknown as PostgrestError);
-            //     return;
-            // }
-            console.log(data, "data");
-            console.log(error, "error");
+            // console.log(data, " bucket Data");
+            // console.log(error, " bucket Error");
 
+            if (error) {
+                setSelectResponseError(error as unknown as PostgrestError);
+                return;
+            }
 
             setSelectResponse(data as T);
         }

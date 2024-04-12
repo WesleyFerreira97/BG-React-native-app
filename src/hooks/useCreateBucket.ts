@@ -16,16 +16,15 @@ export function useCreateBucket() {
         async function createBucket() {
             const { data, error } = await supaDb
                 .storage
-                .createBucket('avatars', {
-                    public: false,
-                    allowedMimeTypes: ['image/png'],
-                    fileSizeLimit: 1024
-                })
+                .listBuckets()
+
+            setCreateBucketResponse(data)
+            setCreateBucketError(error)
         }
 
         createBucket()
 
     }, [])
 
-    return
+    return { createBucketResponse, createBucketError }
 }

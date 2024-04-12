@@ -16,6 +16,7 @@ import { ToggleGroup } from '../../components/ToggleGroup';
 import { SwitchInput } from '../../components/SwitchInput';
 import { Button } from '../../components/Button';
 import { SelectSize, mapDefaultValues, size_letter, size_numeric } from '../../components/SelectSize';
+import { useCreateBucket } from '../../hooks/useCreateBucket';
 
 const initialValues: ProductProps = {
     title: "Teste",

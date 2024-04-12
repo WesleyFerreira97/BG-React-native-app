@@ -63,6 +63,7 @@ export function useFileUpload<T>() {
     return { fileUploadResponse, setFile, setFiles };
 }
 
+
 export async function useFileUploadAlt(file: FileProps): Promise<ResponseUploadProps> {
 
     const { data, error } = await supaDb
