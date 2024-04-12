@@ -34,7 +34,7 @@ function useUpdate() {
             .update(data)
             .eq('id', productId);
 
-        setUpdateResponse(dataDb as T);
+        setUpdateResponse(dataDb);
         setUpdateError(error);
     }
 

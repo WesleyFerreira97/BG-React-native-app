@@ -1,13 +1,14 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
+import { FileObject } from '@supabase/storage-js'
 
 type UseSelectProps = {
     bucketName: string;
 }
 
 export function useBucket<T>({ bucketName, ...props }: UseSelectProps) {
-    const [selectResponse, setSelectResponse] = useState<T | null>(null);
+    const [selectResponse, setSelectResponse] = useState<FileObject[] | null>(null);
     const [selectResponseError, setSelectResponseError] = useState<PostgrestError>();
 
     useEffect(() => {
@@ -27,7 +28,7 @@ export function useBucket<T>({ bucketName, ...props }: UseSelectProps) {
                 return;
             }
 
-            setSelectResponse(data as T);
+            setSelectResponse(data);
         }
 
         useSelect();
