@@ -28,12 +28,30 @@ export function EditImages({ navigation, route }) {
         <View>
             {screenStatus === "loading" && <Text>Loading...</Text>}
             {screenStatus === "bucketNotFound" && <Text>Bucket not found</Text>}
-            {screenStatus === "bucketFound" && <Text>Bucket found</Text>}
+            {screenStatus === "bucketFound" && (
+                <>
+                    <Text>Bucket found</Text>
+
+                    {selectResponse.map((item: any) => (
+                        <Text>
+                            {item.name}
+                        </Text>
+                    ))}
+                </>
+            )}
 
             <Button
                 onPress={handleSomething}
                 text="Go to EditProducts"
             />
+        </View>
+    )
+}
+
+const ImageSections = (sectionsData: any) => {
+    return (
+        <View>
+            <Text>ImageSections</Text>
         </View>
     )
 }

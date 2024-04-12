@@ -16,8 +16,10 @@ export function useBucket<T>({ bucketName, ...props }: UseSelectProps) {
             const { data, error } = await supaDb
                 .storage
                 .from("photo")
-                .list(bucketName, {
-                    limit: 20
+                .list(`${bucketName}`, {
+                    limit: 20,
+                    offset: 0,
+                    sortBy: { column: 'name', order: 'asc' },
                 });
 
             // console.log(data, " bucket Data");
