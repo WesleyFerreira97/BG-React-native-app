@@ -4,26 +4,27 @@ import { supaDb } from "../services/supadb";
 import { FileObject } from '@supabase/storage-js'
 
 type UseSelectProps = {
-    bucketName: string;
+    bucketPath: string;
+    selectInsideFolders: boolean;
 }
 
-export function useBucket<T>({ bucketName, ...props }: UseSelectProps) {
+export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
     const [selectResponse, setSelectResponse] = useState<FileObject[] | null>(null);
     const [selectResponseError, setSelectResponseError] = useState<PostgrestError>();
+    const [selectInsideFolders, setSelectInsideFolders] = useState<{ [key: string]: {} }>();
 
     useEffect(() => {
+        if (!bucketPath) return;
+
         async function useSelect() {
             const { data, error } = await supaDb
                 .storage
                 .from("photo")
-                .list(`${bucketName}`, {
+                .list(`${bucketPath}`, {
                     limit: 20,
                     offset: 0,
                     sortBy: { column: 'name', order: 'asc' },
                 });
-
-            // console.log(data, " bucket Data");
-            // console.log(error, " bucket Error");
 
             if (error) {
                 setSelectResponseError(error as unknown as PostgrestError);
@@ -31,10 +32,37 @@ export function useBucket<T>({ bucketName, ...props }: UseSelectProps) {
             }
 
             setSelectResponse(data);
+
+            if (props.selectInsideFolders) {
+                selectFolders(data);
+            }
         }
 
         useSelect();
     }, []);
 
-    return { selectResponse, selectResponseError };
+    function selectFolders(data) {
+
+        data.forEach((item) => {
+
+            async function useSelect() {
+                const { data, error } = await supaDb
+                    .storage
+                    .from("photo")
+                    .list(`${bucketPath}/${item.name}`, {
+                        limit: 20,
+                        offset: 0,
+                        sortBy: { column: 'name', order: 'asc' },
+                    });
+
+                setSelectInsideFolders(prev => ({ ...prev, [item.name]: data }))
+            }
+
+            useSelect();
+        })
+
+    }
+
+    return { selectResponse, selectResponseError, selectInsideFolders };
 }
+

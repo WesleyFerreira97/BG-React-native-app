@@ -11,11 +11,11 @@ import { useFileUpload } from '../../../hooks/useFileUpload';
 type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 
 export function EditImages({ navigation, route }) {
-    const { bucketPath } = route.params;
     const [screenStatus, setScreenStatus] = useState<ScreenStatusProps>("loading");
-    const { selectResponse, selectResponseError } = useBucket({ bucketName: bucketPath });
+    const { bucketPath } = route.params;
+    const { selectResponse, selectResponseError, selectInsideFolders } = useBucket({ bucketPath: bucketPath, selectInsideFolders: true });
     const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | []>([]);
-    const { fileUploadResponse, setFiles, setFile } = useFileUpload();
+    const { setFiles } = useFileUpload();
 
     useEffect(() => {
         if (selectResponseError) return setScreenStatus("error");
