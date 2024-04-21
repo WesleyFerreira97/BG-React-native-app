@@ -11,7 +11,7 @@ type UseSelectProps = {
 export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
     const [selectResponse, setSelectResponse] = useState<FileObject[] | null>(null);
     const [selectResponseError, setSelectResponseError] = useState<PostgrestError>();
-    const [selectInsideFolders, setSelectInsideFolders] = useState<{ [key: string]: {} }>();
+    const [filesStructure, setFilesStructure] = useState<{ [key: string]: {} }>();
 
     useEffect(() => {
         if (!bucketPath) return;
@@ -55,7 +55,7 @@ export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
                         sortBy: { column: 'name', order: 'asc' },
                     });
 
-                setSelectInsideFolders(prev => ({ ...prev, [item.name]: data }))
+                setFilesStructure(prev => ({ ...prev, [item.name]: data }))
             }
 
             useSelect();
@@ -63,6 +63,6 @@ export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
 
     }
 
-    return { selectResponse, selectResponseError, selectInsideFolders };
+    return { selectResponse, selectResponseError, filesStructure };
 }
 

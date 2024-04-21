@@ -13,7 +13,7 @@ type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 export function EditImages({ navigation, route }) {
     const [screenStatus, setScreenStatus] = useState<ScreenStatusProps>("loading");
     const { bucketPath } = route.params;
-    const { selectResponse, selectResponseError, selectInsideFolders } = useBucket({ bucketPath: bucketPath, selectInsideFolders: true });
+    const { selectResponse, selectResponseError, filesStructure } = useBucket({ bucketPath: bucketPath, selectInsideFolders: true });
     const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | []>([]);
     const { setFiles } = useFileUpload();
 
