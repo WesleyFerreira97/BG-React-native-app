@@ -23,8 +23,9 @@ export function EditImages({ navigation, route }) {
         if (!selectResponse) return
 
         setScreenStatus(selectResponse.length == 0 ? "bucketNotFound" : "bucketFound")
+        console.log(filesStructure, " - filesStructure");
 
-    }, [selectResponse, selectResponseError])
+    }, [selectResponse, selectResponseError, filesStructure])
 
     const handleSomething = () => {
         navigation.goBack()
