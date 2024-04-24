@@ -83,27 +83,7 @@ export function AddSectionModal({ currentGallerySections, addNewSection }: AddSe
                             Selecione uma cor
                         </Text>
                         <View style={styles.modalInnerContent}>
-                            <TouchableOpacity onPress={() => handleSection(sectionColors.white)} >
-                                <ModalItem
-                                    bgColor={theme.colors.secondary}
-                                    color={theme.colors.neutral}
-                                    label='Branco'
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleSection(sectionColors.white)} >
-                                <ModalItem
-                                    bgColor={theme.colors.secondary}
-                                    color={theme.colors.neutral}
-                                    label='Branco'
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleSection(sectionColors.white)} >
-                                <ModalItem
-                                    bgColor={theme.colors.secondary}
-                                    color={theme.colors.neutral}
-                                    label='Branco'
-                                />
-                            </TouchableOpacity>
+
                             <TouchableOpacity onPress={() => handleSection(sectionColors.white)} >
                                 <ModalItem
                                     bgColor={theme.colors.secondary}
@@ -129,6 +109,7 @@ export function AddSectionModal({ currentGallerySections, addNewSection }: AddSe
                                 />
                             </TouchableOpacity>
                         </View>
+
                         <Snackbar
                             visible={snackBarStatus.state}
                             onDismiss={onDismissSnackBar}
@@ -141,11 +122,9 @@ export function AddSectionModal({ currentGallerySections, addNewSection }: AddSe
                     </View>
                 </Modal.Content >
                 <Modal.Button>
-                    <>
-                        <Button
-                            text='Adicionar galeria por cor'
-                        />
-                    </>
+                    <Button
+                        text='Adicionar galeria por cor'
+                    />
                 </Modal.Button>
             </Modal >
         </>
