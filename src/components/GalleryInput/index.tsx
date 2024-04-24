@@ -8,7 +8,7 @@ import { ErrorForm } from '../ErrorForm';
 import { FilePlus } from 'phosphor-react-native';
 import { theme } from '../../styles/theme';
 import { Modal } from '../Modal';
-import { SectionColorsProps } from '../../screens/AddProduct/AddProductStepTwo/sectionColors';
+import { SectionColorsNames, SectionColorsProps, sectionColors } from '../../screens/AddProduct/AddProductStepTwo/sectionColors';
 
 type FileFormatProps = {
     uri: string,
@@ -54,8 +54,12 @@ const GalleryHeader = (props: GalleryHeaderProps) => {
     )
 }
 
+type GalleryInputProps = {
+    slug: SectionColorsNames;
+    images: any;
+}
 
-export function GalleryInput({ slug, ...props }: SectionColorsProps) {
+export function GalleryInput({ slug, ...props }: GalleryInputProps) {
     const [imageSrc, setImageSrc] = useState<any>([]);
     const [field, meta, helpers] = useField(slug);
 
