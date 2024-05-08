@@ -64,6 +64,7 @@ export function EditProducts({ navigation }) {
 
     const initialValues: ProductProps = {
         title: responseData?.title,
+        price: responseData?.price,
         description: responseData?.description,
         sizes_available: responseData?.sizes_available,
         type_product_sizes: responseData?.type_product_sizes,
@@ -129,6 +130,7 @@ export function EditProducts({ navigation }) {
                                         name='price'
                                         label='Preço'
                                         value={values.price}
+                                        keyboardType='numeric'
                                     />
                                     <SwitchInput
                                         name='product_available'

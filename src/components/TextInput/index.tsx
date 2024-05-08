@@ -28,7 +28,7 @@ export function TextInput({ name, value, ...props }: TextInputProps) {
 
     }, [value])
 
-    const handleOnChange = (e: string) => {
+    const handleOnChange = (e: string | number) => {
         helpers.setValue(e);
     }
 
@@ -36,9 +36,9 @@ export function TextInput({ name, value, ...props }: TextInputProps) {
         <View style={styles.container}>
             <Text style={styles.label}>{props.label}</Text>
             <TextInputPaper
-                keyboardType={props.keyboardType}
                 onChangeText={(e) => handleOnChange(e)}
-                value={field.value}
+                keyboardType={props.keyboardType}
+                value={(field.value).toString()}
                 mode='flat'
                 placeholder={props.placeholder}
                 outlineColor='yellow'
