@@ -91,7 +91,6 @@ export function EditProducts({ navigation }) {
                         <Formik
                             initialValues={initialValues}
                             onSubmit={(values: ProductProps) => {
-                                console.log(values, "Valores do form");
                                 handleSubmitProduct({
                                     data: {
                                         ...values

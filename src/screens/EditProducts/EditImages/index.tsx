@@ -23,9 +23,6 @@ export function EditImages({ navigation, route }) {
         if (!selectResponse) return
 
         setScreenStatus(selectResponse.length == 0 ? "bucketNotFound" : "bucketFound")
-        console.log(filesStructure, " - filesStructure");
-        console.log(Object.keys(filesStructure), " - filesStructure");
-
     }, [selectResponse, selectResponseError, filesStructure])
 
     const handleSomething = () => {
@@ -94,14 +91,6 @@ export function EditImages({ navigation, route }) {
                 onPress={handleSomething}
                 text="Go to EditProducts"
             />
-        </View>
-    )
-}
-
-const ImageSections = (sectionsData: any) => {
-    return (
-        <View>
-            <Text>ImageSections</Text>
         </View>
     )
 }

@@ -38,7 +38,7 @@ export function TextInput({ name, value, ...props }: TextInputProps) {
             <TextInputPaper
                 onChangeText={(e) => handleOnChange(e)}
                 keyboardType={props.keyboardType}
-                value={(field.value).toString()}
+                value={field.value ? field.value.toString() : ''}
                 mode='flat'
                 placeholder={props.placeholder}
                 outlineColor='yellow'
