@@ -66,6 +66,7 @@ export function EditImages({ navigation, route }) {
                                         addNewSection={handleNewSection}
                                         currentGallerySections={gallerySections}
                                     />
+                                    {console.log(gallerySections)}
                                     {(gallerySections.length > 0) &&
                                         gallerySections.map((item, index) => (
                                             <View

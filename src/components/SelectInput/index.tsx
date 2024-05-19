@@ -33,7 +33,6 @@ function SelectInput({ name, children, style, value, ...props }: PropsWithChildr
 
     useEffect(() => {
         const isValidValue = value !== undefined && !field.value;
-        console.log(field.value, "field.value");
 
         if (isValidValue) {
             helpers.setValue(value);
