@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 import { Button } from '../../../components/Button';
 import { Snackbar } from 'react-native-paper';
 import { sectionColors } from './sectionColors';
-import type { SectionColorsProps } from './sectionColors';
+import type { SectionColorsNames, SectionColorsProps } from './sectionColors';
 import { styles } from './styleModal';
 import { CurrencyNgn, FilePlus } from 'phosphor-react-native';
 import { theme } from '../../../styles/theme';
@@ -16,8 +16,7 @@ type SnackBarProps = {
 }
 
 type AddSectionProps = {
-    currentGallerySections: SectionColorsProps[];
-    addNewSection: (prop: SectionColorsProps) => void
+    addNewSection: (prop: SectionColorsNames) => void
 }
 
 type ModalItemProps = {
@@ -47,32 +46,14 @@ const ModalItem = (props: ModalItemProps) => {
     )
 }
 
-export function AddSectionModal({ currentGallerySections, addNewSection }: AddSectionProps) {
+export function AddSectionModal({ addNewSection }: AddSectionProps) {
 
     const defaultSnackStatus = {
         state: false,
         text: null,
     }
-
     const [snackBarStatus, setSnackBarStatus] = useState<SnackBarProps>(defaultSnackStatus);
     const onDismissSnackBar = () => setSnackBarStatus(defaultSnackStatus)
-
-    const handleSection = (sectionProps: SectionColorsProps) => {
-        const noActiveSections = (currentGallerySections.length === 0);
-
-        if (noActiveSections) return addNewSection(sectionProps)
-
-        const isDuplicate = currentGallerySections.some(
-            section => section.name === sectionProps.name
-        );
-
-        if (isDuplicate) return setSnackBarStatus({
-            state: true,
-            text: "Seção Já adicionada"
-        });
-
-        addNewSection(sectionProps);
-    }
 
     return (
         <>
@@ -84,24 +65,21 @@ export function AddSectionModal({ currentGallerySections, addNewSection }: AddSe
                         </Text>
                         <View style={styles.modalInnerContent}>
 
-                            <TouchableOpacity onPress={() => handleSection(sectionColors.white)} >
+                            <TouchableOpacity onPress={() => addNewSection("blue")} >
                                 <ModalItem
                                     bgColor={theme.colors.secondary}
                                     color={theme.colors.neutral}
                                     label='Branco'
                                 />
                             </TouchableOpacity>
-
-
-
-                            <TouchableOpacity onPress={() => handleSection(sectionColors.blue)} >
+                            <TouchableOpacity onPress={() => addNewSection("purple")} >
                                 <ModalItem
                                     bgColor={theme.colors.secondary}
                                     color={theme.colors.neutral}
                                     label='Azul'
                                 />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleSection(sectionColors.purple)} >
+                            <TouchableOpacity onPress={() => addNewSection("white")} >
                                 <ModalItem
                                     bgColor={theme.colors.secondary}
                                     color={theme.colors.neutral}

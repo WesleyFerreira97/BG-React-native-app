@@ -1,11 +1,7 @@
 // Gerenciar as sessões ativas de galerias ( main, blue, purple etc...)
 
 import { useState } from "react";
-import { sectionColors, SectionColorsNames, SectionColorsProps } from "../screens/AddProduct/AddProductStepTwo/sectionColors";
-
-type SectionProps = {
-    images: any[];
-} & SectionColorsProps;
+import { sectionColors, SectionColorsNames, SectionColorsProps, SectionProps } from "../screens/AddProduct/AddProductStepTwo/sectionColors";
 
 export function useGallery() {
     const [gallerySections, setGallerySections] = useState<SectionProps[]>([]);

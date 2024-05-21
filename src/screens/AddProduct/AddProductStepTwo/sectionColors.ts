@@ -1,7 +1,7 @@
 type SectionColorsNames = 'blue' | 'white' | 'purple';
 
 type SectionColorsProps = {
-    slug: string;
+    slug: SectionColorsNames;
     name: string;
     colorCode: string;
 }
@@ -13,6 +13,10 @@ type f = {
         colorCode: string
     }
 }
+
+type SectionProps = {
+    images: any[];
+} & SectionColorsProps;
 
 const sectionColors: Record<SectionColorsNames, SectionColorsProps> = {
     blue: {
@@ -32,4 +36,4 @@ const sectionColors: Record<SectionColorsNames, SectionColorsProps> = {
     }
 }
 
-export { SectionColorsNames, SectionColorsProps, sectionColors }
+export { SectionColorsNames, SectionColorsProps, sectionColors, SectionProps }

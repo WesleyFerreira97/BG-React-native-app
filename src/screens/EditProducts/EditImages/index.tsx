@@ -7,6 +7,7 @@ import { sectionColors, SectionColorsProps } from '../../AddProduct/AddProductSt
 import { AddSectionModal } from '../../AddProduct/AddProductStepTwo/AddSectionModal';
 import { GalleryInput } from '../../../components/GalleryInput';
 import { useFileUpload } from '../../../hooks/useFileUpload';
+import { useGallery } from '../../../hooks/useGallery';
 
 type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 
@@ -14,8 +15,8 @@ export function EditImages({ navigation, route }) {
     const [screenStatus, setScreenStatus] = useState<ScreenStatusProps>("loading");
     const { bucketPath } = route.params;
     const { selectResponse, selectResponseError, filesStructure } = useBucket({ bucketPath: bucketPath, selectInsideFolders: true });
-    const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | []>([]);
     const { setFiles } = useFileUpload();
+    const { handleNewSection, gallerySections } = useGallery()
 
     useEffect(() => {
         if (selectResponseError) return setScreenStatus("error");
@@ -27,10 +28,6 @@ export function EditImages({ navigation, route }) {
 
     const handleSomething = () => {
         navigation.goBack()
-    }
-
-    const handleNewSection = (value: any) => {
-        setGallerySections(prevState => [...prevState, value])
     }
 
     const handleSubmitImages = (values: any) => {
@@ -64,9 +61,7 @@ export function EditImages({ navigation, route }) {
                                 <>
                                     <AddSectionModal
                                         addNewSection={handleNewSection}
-                                        currentGallerySections={gallerySections}
                                     />
-                                    {console.log(gallerySections)}
                                     {(gallerySections.length > 0) &&
                                         gallerySections.map((item, index) => (
                                             <View
