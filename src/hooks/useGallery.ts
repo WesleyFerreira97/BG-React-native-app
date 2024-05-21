@@ -8,26 +8,28 @@ export function useGallery() {
     const [error, setError] = useState<any>(null);
 
     const handleNewSection = (sectionName: SectionColorsNames) => {
-        const noActiveSections = (gallerySections.length === 0);
-
-        if (noActiveSections) return setGallerySections(prev => [...prev, {
-            ...sectionColors[sectionName],
-            images: []
-        }]);
-
-        const isDuplicate = gallerySections.some(
-            section => section.name === sectionName
+        const sectionExists = gallerySections.some(
+            section => section.slug === sectionName
         );
 
-        if (isDuplicate) return setError({
-            state: true,
-            text: "Seção Já adicionada"
-        });
+        // if (sectionExists) return setError({
+        //     state: true,
+        //     text: "Seção Já adicionada"
+        // });
+        console.log(sectionName, " Section Exists");
 
-        setGallerySections(prev => [...prev, {
-            ...sectionColors[sectionName],
-            images: []
-        }]);
+        if (sectionExists) {
+            console.log(sectionExists, " Essa sessão já existe");
+            return;
+        }
+
+        setGallerySections(prev => [
+            ...prev,
+            {
+                ...sectionColors[sectionName],
+                images: []
+            }
+        ]);
     }
 
     const addImages = (sectionName: SectionColorsNames, images: any[]) => {
