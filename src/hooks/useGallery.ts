@@ -37,6 +37,9 @@ export function useGallery() {
             section => section.name === sectionName
         );
 
+        // Erro aqui, quando receber dados do servidor
+        // Não deve exibir erro e sim criar uma nova sessão
+        // provavelmente usando as já existentes e criando uma no fim da array
         if (sectionIndex === -1) return setError({
             state: true,
             text: "Seção não encontrada"
