@@ -3,7 +3,7 @@ import { ScrollView, Text, View } from 'react-native'
 import { Button } from '../../../components/Button'
 import { useBucket } from '../../../hooks/useBucket';
 import { Formik } from 'formik';
-import { sectionColors, SectionColorsProps } from '../../AddProduct/AddProductStepTwo/sectionColors';
+import { sectionColors, SectionColorsNames, SectionColorsProps } from '../../AddProduct/AddProductStepTwo/sectionColors';
 import { AddSectionModal } from '../../AddProduct/AddProductStepTwo/AddSectionModal';
 import { GalleryInput } from '../../../components/GalleryInput';
 import { useFileUpload } from '../../../hooks/useFileUpload';
@@ -16,15 +16,21 @@ export function EditImages({ navigation, route }) {
     const { bucketPath } = route.params;
     const { selectResponse, selectResponseError, filesStructure } = useBucket({ bucketPath: bucketPath, selectInsideFolders: true });
     const { setFiles } = useFileUpload();
-    const { handleNewSection, gallerySections } = useGallery()
+    const { handleNewSection, gallerySections, addImages, error } = useGallery()
 
     useEffect(() => {
+        if (!filesStructure) return
+
         if (selectResponseError) return setScreenStatus("error");
 
-        if (!selectResponse) return
+        Object.keys(filesStructure).forEach((item: SectionColorsNames) => {
+            const files = filesStructure[item];
+
+            addImages(item, files)
+        });
 
         setScreenStatus(selectResponse.length == 0 ? "bucketNotFound" : "bucketFound")
-    }, [selectResponse, selectResponseError, filesStructure])
+    }, [selectResponseError, filesStructure])
 
     const handleSomething = () => {
         navigation.goBack()
@@ -59,6 +65,7 @@ export function EditImages({ navigation, route }) {
                         >
                             {({ handleSubmit, values }) => (
                                 <>
+                                    {console.log(gallerySections, " Gallery Sections")}
                                     <AddSectionModal
                                         addNewSection={handleNewSection}
                                     />

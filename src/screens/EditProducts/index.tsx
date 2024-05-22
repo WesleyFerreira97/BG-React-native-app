@@ -1,52 +1,20 @@
 import { ScrollView, Text, View } from 'react-native';
 import { styles } from './styles';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { useSelect } from '../../hooks/useSelect';
 import type { AllProductProps, ProductProps } from '../../@types/product';
 import { TextInput } from '../../components/TextInput';
 import { Formik } from 'formik';
-import { useEffect, useState } from 'react';
-import { supaDb } from '../../services/supadb';
-import { PostgrestError } from '@supabase/supabase-js';
 import { Button } from '../../components/Button';
 import { SelectSize } from '../../components/SelectSize';
 import { SelectInput } from '../../components/SelectInput';
 import { SwitchInput } from '../../components/SwitchInput';
 import { useCategories } from '../../hooks/useCategories';
+import { useUpdate } from '../../hooks/useUpdate';
 
 type EditProps = {
     itemId: string
 }
-
-type UseUpdateProps = {
-    productId: string | number;
-    data: Partial<ProductProps>;
-}
-
-function useUpdate() {
-    const [updateData, setUpdateData] = useState<UseUpdateProps>();
-    const [updateResponse, setUpdateResponse] = useState<T | null>(null);
-    const [updateError, setUpdateError] = useState<PostgrestError>();
-
-    const update = async ({ data, productId }: UseUpdateProps) => {
-        const { data: dataDb, error } = await supaDb
-            .from('products')
-            .update(data)
-            .eq('id', productId);
-
-        setUpdateResponse(dataDb);
-        setUpdateError(error);
-    }
-
-    useEffect(() => {
-        if (!updateData) return;
-
-        update(updateData);
-    }, [updateData]);
-
-    return { setUpdateData, updateResponse, updateError };
-}
-
 
 export function EditProducts({ navigation }) {
     const { params }: RouteProp<{ params: EditProps }> = useRoute();
@@ -79,10 +47,6 @@ export function EditProducts({ navigation }) {
         )
     };
 
-    const handleSubmitProduct = (props: UseUpdateProps) => {
-        setUpdateData(props);
-    }
-
     return (
         <ScrollView contentContainerStyle={styles.containerScrollView}>
             {responseData
@@ -91,7 +55,7 @@ export function EditProducts({ navigation }) {
                         <Formik
                             initialValues={initialValues}
                             onSubmit={(values: ProductProps) => {
-                                handleSubmitProduct({
+                                setUpdateData({
                                     data: {
                                         ...values
                                     },
@@ -136,10 +100,10 @@ export function EditProducts({ navigation }) {
                                         label='Disponibilidade'
                                         value={values.product_available}
                                     />
-                                    <SelectSize
+                                    {/* <SelectSize
                                         sizeType={values.type_product_sizes}
                                         availableSizes={values.sizes_available}
-                                    />
+                                    /> */}
                                     <Button
                                         onPress={handleNavigateEditProducts}
                                         text='Editar imagens'

@@ -8,10 +8,14 @@ type UseSelectProps = {
     selectInsideFolders: boolean;
 }
 
+type FilesStrucutreProps = {
+    [key: string]: FileObject[]
+}
+
 export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
     const [selectResponse, setSelectResponse] = useState<FileObject[] | null>(null);
     const [selectResponseError, setSelectResponseError] = useState<PostgrestError>();
-    const [filesStructure, setFilesStructure] = useState<{ [key: string]: {} }>();
+    const [filesStructure, setFilesStructure] = useState<FilesStrucutreProps>();
 
     useEffect(() => {
         if (!bucketPath) return;
@@ -41,11 +45,11 @@ export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
         useSelect();
     }, []);
 
-    function selectFolders(data) {
+    async function selectFolders(data) {
+        let out = {};
 
-        data.forEach((item) => {
-
-            async function useSelect() {
+        async function useSelect(item) {
+            try {
                 const { data, error } = await supaDb
                     .storage
                     .from("photo")
@@ -55,12 +59,15 @@ export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
                         sortBy: { column: 'name', order: 'asc' },
                     });
 
-                setFilesStructure(prev => ({ ...prev, [item.name]: data }))
+                out[item.name] = data;
+            } catch (err) {
+                console.error('Erro ao buscar dados:', err);
             }
+        }
 
-            useSelect();
-        })
+        await Promise.all(data.map(useSelect));
 
+        setFilesStructure(out);
     }
 
     return { selectResponse, selectResponseError, filesStructure };

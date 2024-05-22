@@ -1,75 +1,62 @@
-// Gerenciar as sessões ativas de galerias ( main, blue, purple etc...)
+import { useEffect, useState } from "react";
+import { sectionColors, SectionColorsNames, SectionProps } from "../screens/AddProduct/AddProductStepTwo/sectionColors";
+import { FileObject } from "../@types/supabase";
 
-import { useState } from "react";
-import { sectionColors, SectionColorsNames, SectionColorsProps, SectionProps } from "../screens/AddProduct/AddProductStepTwo/sectionColors";
+type Props = {
+    slug: SectionColorsNames;
+    data: FileObject[]
+}
 
 export function useGallery() {
     const [gallerySections, setGallerySections] = useState<SectionProps[]>([]);
     const [error, setError] = useState<any>(null);
 
-    const handleNewSection = (sectionName: SectionColorsNames) => {
+    const handleNewSection = (sectionSlug: SectionColorsNames) => {
         const sectionExists = gallerySections.some(
-            section => section.slug === sectionName
+            section => section.slug === sectionSlug
         );
 
-        // if (sectionExists) return setError({
-        //     state: true,
-        //     text: "Seção Já adicionada"
-        // });
-        console.log(sectionName, " Section Exists");
-
-        if (sectionExists) {
-            console.log(sectionExists, " Essa sessão já existe");
-            return;
-        }
+        if (sectionExists) return setError({
+            state: true,
+            text: "Seção Já adicionada"
+        });
 
         setGallerySections(prev => [
             ...prev,
             {
-                ...sectionColors[sectionName],
+                ...sectionColors[sectionSlug],
                 images: []
             }
         ]);
+
+        return;
     }
 
-    const addImages = (sectionName: SectionColorsNames, images: any[]) => {
-        const sectionIndex = gallerySections.findIndex(
-            section => section.name === sectionName
-        );
+    const addImages = (sectionSlug: SectionColorsNames, images: FileObject[]) => {
+        if (!gallerySections.some(section => section.slug === sectionSlug)) {
+            handleNewSection(sectionSlug);
+        }
 
-        // Erro aqui, quando receber dados do servidor
-        // Não deve exibir erro e sim criar uma nova sessão
-        // provavelmente usando as já existentes e criando uma no fim da array
-        if (sectionIndex === -1) return setError({
-            state: true,
-            text: "Seção não encontrada"
-        });
+        let sectionIndex = gallerySections.findIndex(section => section.slug === sectionSlug);
+
+        addImagesByIndex(sectionIndex, images);
+    }
+
+    const addImagesByIndex = (index: number, images: FileObject[]) => {
 
         setGallerySections(prev => {
             const newGallerySections = [...prev];
-            const currentImages = newGallerySections[sectionIndex].images;
+            const currentImages = newGallerySections[index].images || [];
 
-            newGallerySections[sectionIndex].images = [...currentImages, ...images];
+            newGallerySections[index] = {
+                ...newGallerySections[index],
+                images: [...currentImages, ...images]
+            }
+
             return newGallerySections;
-        });
+        })
     }
+
 
     return { handleNewSection, gallerySections, addImages, error }
-}
-
-// handleNewSection('blue')
-// setImages('blue', [image1, image2, image3])
-// Deve retornar ;
-// Função para adicionar Galeria nova handleNewSection
-// Lista de galerias ativas currentGallerySections e suas respectivas Imagens
-// Função para adicionar imagens a galerias especificas setImages
-
-
-const gallerySections = {
-    blue: {
-        name: "Azul",
-        slug: "blue",
-        colorCode: "#083AA9",
-        images: []
-    }
 }
