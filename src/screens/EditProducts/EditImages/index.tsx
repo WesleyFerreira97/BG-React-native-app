@@ -26,7 +26,7 @@ export function EditImages({ navigation, route }) {
         Object.keys(filesStructure).forEach((item: SectionColorsNames) => {
             const files = filesStructure[item];
 
-            addImages(item, files)
+            handleNewSection(item, files)
         });
 
         setScreenStatus(selectResponse.length == 0 ? "bucketNotFound" : "bucketFound")

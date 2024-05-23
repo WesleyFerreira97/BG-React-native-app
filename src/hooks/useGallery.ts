@@ -11,7 +11,7 @@ export function useGallery() {
     const [gallerySections, setGallerySections] = useState<SectionProps[]>([]);
     const [error, setError] = useState<any>(null);
 
-    const handleNewSection = (sectionSlug: SectionColorsNames) => {
+    const handleNewSection = (sectionSlug: SectionColorsNames, images?: FileObject[]) => {
         const sectionExists = gallerySections.some(
             section => section.slug === sectionSlug
         );
@@ -25,7 +25,7 @@ export function useGallery() {
             ...prev,
             {
                 ...sectionColors[sectionSlug],
-                images: []
+                images: [...images]
             }
         ]);
 
@@ -34,12 +34,20 @@ export function useGallery() {
 
     const addImages = (sectionSlug: SectionColorsNames, images: FileObject[]) => {
         if (!gallerySections.some(section => section.slug === sectionSlug)) {
-            handleNewSection(sectionSlug);
+            handleNewSection(sectionSlug, images);
+            return;
         }
 
-        let sectionIndex = gallerySections.findIndex(section => section.slug === sectionSlug);
+        // let sectionIndex = gallerySections.findIndex(section => section.slug === sectionSlug);
+        // // console.log(sectionIndex, " Section Index");
 
-        addImagesByIndex(sectionIndex, images);
+        // gallerySections.forEach(item => {
+        //     console.log(item.slug, " loop slug ");
+
+        // })
+
+
+        // addImagesByIndex(sectionIndex, images);
     }
 
     const addImagesByIndex = (index: number, images: FileObject[]) => {
