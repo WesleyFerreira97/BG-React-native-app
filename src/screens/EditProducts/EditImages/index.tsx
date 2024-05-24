@@ -16,19 +16,14 @@ export function EditImages({ navigation, route }) {
     const { bucketPath } = route.params;
     const { selectResponse, selectResponseError, filesStructure } = useBucket({ bucketPath: bucketPath, selectInsideFolders: true });
     const { setFiles } = useFileUpload();
-    const { handleNewSection, gallerySections, addImages, error } = useGallery()
+    const { handleNewSection, gallerySections, addImages, error, fillGallery } = useGallery()
 
     useEffect(() => {
         if (!filesStructure) return
 
         if (selectResponseError) return setScreenStatus("error");
 
-        Object.keys(filesStructure).forEach((item: SectionColorsNames) => {
-            const files = filesStructure[item];
-
-            addImages(item, files)
-        });
-
+        fillGallery(filesStructure)
         setScreenStatus(selectResponse.length == 0 ? "bucketNotFound" : "bucketFound")
     }, [selectResponseError, filesStructure])
 
@@ -60,12 +55,13 @@ export function EditImages({ navigation, route }) {
                         <Formik
                             initialValues={{}}
                             onSubmit={(values) => {
-                                handleSubmitImages(values)
+                                // handleSubmitImages(values)
+                                console.log(values, "values submit");
+
                             }}
                         >
                             {({ handleSubmit, values }) => (
                                 <>
-                                    {console.log(gallerySections, " Gallery Sections")}
                                     <AddSectionModal
                                         addNewSection={handleNewSection}
                                     />
@@ -79,6 +75,10 @@ export function EditImages({ navigation, route }) {
                                             </View>
                                         )
                                         )}
+                                    <Button
+                                        onPress={() => console.log(gallerySections)}
+                                        text="Check gallery sections"
+                                    />
                                     <Button
                                         onPress={handleSubmit}
                                         text="Concluir"

@@ -2,20 +2,22 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 import { FileObject } from '@supabase/storage-js'
+import { SectionColorsNames } from "../screens/AddProduct/AddProductStepTwo/sectionColors";
 
 type UseSelectProps = {
     bucketPath: string;
     selectInsideFolders: boolean;
 }
 
-type FilesStrucutreProps = {
-    [key: string]: FileObject[]
+export type FilesStrucutreProps = {
+    images: FileObject[];
+    slug: SectionColorsNames;
 }
 
 export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
     const [selectResponse, setSelectResponse] = useState<FileObject[] | null>(null);
     const [selectResponseError, setSelectResponseError] = useState<PostgrestError>();
-    const [filesStructure, setFilesStructure] = useState<FilesStrucutreProps>();
+    const [filesStructure, setFilesStructure] = useState<FilesStrucutreProps[]>();
 
     useEffect(() => {
         if (!bucketPath) return;
@@ -46,7 +48,7 @@ export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
     }, []);
 
     async function selectFolders(data) {
-        let out = {};
+        let out: FilesStrucutreProps[] = [];
 
         async function useSelect(item) {
             try {
@@ -59,7 +61,7 @@ export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
                         sortBy: { column: 'name', order: 'asc' },
                     });
 
-                out[item.name] = data;
+                out.push({ slug: item.name, images: data })
             } catch (err) {
                 console.error('Erro ao buscar dados:', err);
             }

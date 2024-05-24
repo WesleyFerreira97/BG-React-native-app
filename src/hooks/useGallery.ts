@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { sectionColors, SectionColorsNames, SectionProps } from "../screens/AddProduct/AddProductStepTwo/sectionColors";
 import { FileObject } from "../@types/supabase";
+import { FilesStrucutreProps } from "./useBucket";
 
 type Props = {
     slug: SectionColorsNames;
@@ -33,11 +34,12 @@ export function useGallery() {
     }
 
     const addImages = (sectionSlug: SectionColorsNames, images: FileObject[]) => {
-        if (!gallerySections.some(section => section.slug === sectionSlug)) {
-            handleNewSection(sectionSlug);
-        }
-
         let sectionIndex = gallerySections.findIndex(section => section.slug === sectionSlug);
+
+        if (sectionIndex === -1) return setError({
+            state: true,
+            text: "Seção Já adicionada"
+        });
 
         addImagesByIndex(sectionIndex, images);
     }
@@ -57,6 +59,16 @@ export function useGallery() {
         })
     }
 
+    const fillGallery = (galleryData: FilesStrucutreProps[]) => {
+        const out = galleryData.map(item => {
+            return {
+                ...sectionColors[item.slug],
+                images: [...item.images]
+            }
+        })
 
-    return { handleNewSection, gallerySections, addImages, error }
+        setGallerySections(out)
+    }
+
+    return { handleNewSection, gallerySections, addImages, error, fillGallery }
 }
