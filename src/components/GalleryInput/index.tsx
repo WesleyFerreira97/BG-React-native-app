@@ -72,23 +72,27 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
         });
 
         if (!result.canceled) {
-            // const { uri } = result as unknown as ImageInfo;
-            const uri = result.assets[0].uri;
-
-            const fileExtension = uri.substring(uri.lastIndexOf(".") + 1);
-            const fileName = uri.replace(/^.*[\\\/]/, "");
-
-            let formData: any = new FormData();
-
-            await formData.append("files", {
-                uri: uri,
-                name: fileName,
-                type: `image/${fileExtension}`,
-            })
-
-            setImageSrc((prevState) => ([...prevState, formData]));
+            addImage(result);
         }
     };
+
+    const addImage = async (image: any) => {
+        // const { uri } = result as unknown as ImageInfo;
+        const uri = image.assets[0].uri;
+
+        const fileExtension = uri.substring(uri.lastIndexOf(".") + 1);
+        const fileName = uri.replace(/^.*[\\\/]/, "");
+
+        let formData: any = new FormData();
+
+        await formData.append("files", {
+            uri: uri,
+            name: fileName,
+            type: `image/${fileExtension}`,
+        })
+
+        setImageSrc((prevState) => ([...prevState, formData]));
+    }
 
     const setImagesToFormData = (galleryImages: any) => {
         helpers.setValue(galleryImages);
