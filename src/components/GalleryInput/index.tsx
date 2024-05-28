@@ -58,6 +58,8 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
     const [imageSrc, setImageSrc] = useState<any>([]);
     const [field, meta, helpers] = useField(slug);
 
+    console.log(props, "Props");
+
     useEffect(() => {
         setImagesToFormData(imageSrc);
     }, [imageSrc]);
@@ -72,11 +74,17 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
         });
 
         if (!result.canceled) {
-            addImage(result);
+            console.log(result);
+
+            // addImage(result);
         }
     };
 
-    const addImage = async (image: any) => {
+    const loadedImages = () => {
+
+    }
+
+    const addImagePicked = async (image: any) => {
         // const { uri } = result as unknown as ImageInfo;
         const uri = image.assets[0].uri;
 
