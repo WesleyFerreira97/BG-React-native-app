@@ -60,21 +60,26 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
     const [field, meta, helpers] = useField(slug);
     const [testImages, setTestImages] = useState<any[]>([])
 
-    const fillInput = () => {
+    const fillInput = async () => {
         const allImages = [];
 
         props.images.forEach(item => {
-            const finalUrl = usePublicUrl(props.bucketPath, item.name);
+            const path = `${props.bucketPath}/${slug}`
+            const finalUrl = usePublicUrl(path, item.name);
 
             allImages.push(finalUrl["_j"]["publicUrl"])
         });
 
-        setTestImages(allImages);
+        setImageSrc(allImages)
+        // setTestImages(allImages);
     }
 
     useEffect(() => {
-        setImagesToFormData(imageSrc);
         fillInput();
+    }, [])
+
+    useEffect(() => {
+        setImagesToFormData(imageSrc);
 
     }, [imageSrc]);
 
@@ -90,7 +95,7 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
         if (!result.canceled) {
             console.log(result);
 
-            // addImage(result);
+            addImagePicked(result);
         }
     };
 
@@ -128,23 +133,21 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
 
     return (
         <View style={styles.container}>
-            {(testImages.length > 0) &&
+            {/* {(testImages.length > 0) &&
                 testImages.map((item, index) => {
                     return (
                         <>
-                            {console.log(index)}
                             <Image
                                 key={index}
-                                source={item}
+                                source={{ uri: item }}
                                 // style={styles.gridImage}
-                                width={500}
-                                height={500}
+                                style={styles.gridImageFull}
 
                             />
                         </>
                     );
                 })
-            }
+            } */}
 
             <GalleryHeader
                 color={props.colorCode}
@@ -161,9 +164,10 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
                     </View>
                 )}
 
-                {/* {imageSrc &&
+                {imageSrc &&
                     imageSrc.map((image, index) => {
-                        const fileImage = image?._parts[0][1].uri;
+                        // const fileImage = image?._parts[0][1].uri;
+                        const fileImage = image
 
                         return (
                             <Modal key={index}>
@@ -197,7 +201,7 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
                                 </Modal.Button>
                             </Modal>
                         )
-                    })} */}
+                    })}
             </View>
             <ErrorForm meta={meta} />
         </View>

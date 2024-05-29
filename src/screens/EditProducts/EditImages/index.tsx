@@ -21,6 +21,7 @@ export function EditImages({ navigation, route }) {
     useEffect(() => {
         if (!filesStructure) return
 
+        console.log(selectResponseError, "selectResponseError");
         if (selectResponseError) return setScreenStatus("error");
 
         fillGallery(filesStructure)
