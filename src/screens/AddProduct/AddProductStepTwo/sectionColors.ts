@@ -16,6 +16,7 @@ type f = {
 
 type SectionProps = {
     images: any[];
+    bucketPath: string;
 } & SectionColorsProps;
 
 const sectionColors: Record<SectionColorsNames, SectionColorsProps> = {

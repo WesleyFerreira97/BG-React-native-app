@@ -8,6 +8,7 @@ import { ThemeContextProvider } from './src/providers/ThemeContext';
 import { useFonts } from 'expo-font';
 import { PaperProvider } from './src/providers/PaperProvider';
 import { theme } from './src/styles/theme';
+import { Image, Text } from 'react-native';
 
 export default function App() {
 

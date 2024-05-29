@@ -26,7 +26,8 @@ export function useGallery() {
             ...prev,
             {
                 ...sectionColors[sectionSlug],
-                images: [...images]
+                images: [...images],
+                bucketPath: "",
             }
         ]);
 
@@ -63,7 +64,8 @@ export function useGallery() {
         const out = galleryData.map(item => {
             return {
                 ...sectionColors[item.slug],
-                images: [...item.images]
+                images: [...item.images],
+                bucketPath: item.bucketPath,
             }
         })
 

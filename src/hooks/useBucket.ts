@@ -12,6 +12,7 @@ type UseSelectProps = {
 export type FilesStrucutreProps = {
     images: FileObject[];
     slug: SectionColorsNames;
+    bucketPath: string;
 }
 
 export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
@@ -61,7 +62,11 @@ export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
                         sortBy: { column: 'name', order: 'asc' },
                     });
 
-                out.push({ slug: item.name, images: data })
+                out.push({
+                    slug: item.name,
+                    images: data,
+                    bucketPath: bucketPath
+                })
             } catch (err) {
                 console.error('Erro ao buscar dados:', err);
             }

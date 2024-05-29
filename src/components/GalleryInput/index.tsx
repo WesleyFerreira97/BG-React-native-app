@@ -9,6 +9,7 @@ import { FilePlus } from 'phosphor-react-native';
 import { theme } from '../../styles/theme';
 import { Modal } from '../Modal';
 import { SectionColorsNames, SectionColorsProps, SectionProps, sectionColors } from '../../screens/AddProduct/AddProductStepTwo/sectionColors';
+import { usePublicUrl } from '../../hooks/usePublicUrl';
 
 type FileFormatProps = {
     uri: string,
@@ -57,11 +58,24 @@ const GalleryHeader = (props: GalleryHeaderProps) => {
 export function GalleryInput({ slug, ...props }: SectionProps) {
     const [imageSrc, setImageSrc] = useState<any>([]);
     const [field, meta, helpers] = useField(slug);
+    const [testImages, setTestImages] = useState<any[]>([])
 
-    console.log(props, "Props");
+    const fillInput = () => {
+        const allImages = [];
+
+        props.images.forEach(item => {
+            const finalUrl = usePublicUrl(props.bucketPath, item.name);
+
+            allImages.push(finalUrl["_j"]["publicUrl"])
+        });
+
+        setTestImages(allImages);
+    }
 
     useEffect(() => {
         setImagesToFormData(imageSrc);
+        fillInput();
+
     }, [imageSrc]);
 
     const pickImage = async () => {
@@ -114,6 +128,24 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
 
     return (
         <View style={styles.container}>
+            {(testImages.length > 0) &&
+                testImages.map((item, index) => {
+                    return (
+                        <>
+                            {console.log(index)}
+                            <Image
+                                key={index}
+                                source={item}
+                                // style={styles.gridImage}
+                                width={500}
+                                height={500}
+
+                            />
+                        </>
+                    );
+                })
+            }
+
             <GalleryHeader
                 color={props.colorCode}
                 name={props.name}
@@ -129,7 +161,7 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
                     </View>
                 )}
 
-                {imageSrc &&
+                {/* {imageSrc &&
                     imageSrc.map((image, index) => {
                         const fileImage = image?._parts[0][1].uri;
 
@@ -165,7 +197,7 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
                                 </Modal.Button>
                             </Modal>
                         )
-                    })}
+                    })} */}
             </View>
             <ErrorForm meta={meta} />
         </View>
