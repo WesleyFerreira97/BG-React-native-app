@@ -42,7 +42,7 @@ export function EditImages({ navigation, route }) {
 
     }, [selectResponseError, filesStructure])
 
-    const handleSomething = () => {
+    const handleBack = () => {
         navigation.goBack()
     }
 
@@ -105,7 +105,7 @@ export function EditImages({ navigation, route }) {
             )}
 
             <Button
-                onPress={handleSomething}
+                onPress={handleBack}
                 text="Go to EditProducts"
             />
         </View>

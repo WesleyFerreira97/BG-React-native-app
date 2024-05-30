@@ -13,28 +13,30 @@ import { usePickImage } from '../../hooks/usePickImage';
 export function GalleryInput({ slug, ...props }: SectionProps) {
     const [field, meta, helpers] = useField(slug);
     const { images: localImages, pickImage, removeImagesByIndex } = usePickImage();
-    const [dbImages, setDbImages] = useState();
+    const [dbImages, setDbImages] = useState([]);
 
     useEffect(() => {
         setImagesToFormData(localImages);
+        console.log(fillInput);
     }, [localImages]);
 
     const setImagesToFormData = (galleryImages: any) => {
         helpers.setValue(galleryImages);
     }
 
-    // const fillInput = useMemo(() => {
-    //     const allImages = [];
+    const fillInput = useMemo(() => {
+        const allImages = [];
 
-    //     props.images.forEach(item => {
-    //         const path = `${props.bucketPath}/${slug}`
-    //         const finalUrl = usePublicUrl(path, item.name);
+        props.images.forEach(item => {
+            const path = `${props.bucketPath}/${slug}`
+            const finalUrl = usePublicUrl(path, item.name);
 
-    //         allImages.push(finalUrl["_j"]["publicUrl"])
-    //     });
+            allImages.push(finalUrl["_j"]["publicUrl"])
+        });
 
-    //     setImageSrc(allImages)
-    // }, [imageSrc]);
+        return allImages
+    }, [dbImages]);
+
 
 
     return (

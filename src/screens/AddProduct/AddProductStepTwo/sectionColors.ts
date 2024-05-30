@@ -15,7 +15,7 @@ type f = {
 }
 
 type SectionProps = {
-    images: any[];
+    images?: any[];
     bucketPath: string;
 } & SectionColorsProps;
 
