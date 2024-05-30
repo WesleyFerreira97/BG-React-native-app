@@ -15,9 +15,13 @@ export function EditImages({ navigation, route }) {
     const [screenStatus, setScreenStatus] = useState<ScreenStatusProps>("loading");
     const { bucketPath } = route.params;
     const { selectResponse, selectResponseError, filesStructure } = useBucket({ bucketPath: bucketPath, selectInsideFolders: true });
-    const { setFiles } = useFileUpload();
+    const { setFiles, fileUploadResponse } = useFileUpload();
     const { handleNewSection, gallerySections, addImages, error, fillGallery } = useGallery()
 
+    useEffect(() => {
+        console.log(fileUploadResponse, "File upload response ");
+
+    }, [fileUploadResponse])
     useEffect(() => {
         if (!filesStructure) return
 
