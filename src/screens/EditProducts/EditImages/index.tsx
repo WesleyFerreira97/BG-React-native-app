@@ -14,22 +14,32 @@ type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 export function EditImages({ navigation, route }) {
     const [screenStatus, setScreenStatus] = useState<ScreenStatusProps>("loading");
     const { bucketPath } = route.params;
-    const { selectResponse, selectResponseError, filesStructure } = useBucket({ bucketPath: bucketPath, selectInsideFolders: true });
+    const { selectResponse, selectResponseError, filesStructure } = useBucket({
+        bucketPath: bucketPath,
+        selectInsideFolders: true
+    });
+
     const { setFiles, fileUploadResponse } = useFileUpload();
     const { handleNewSection, gallerySections, addImages, error, fillGallery } = useGallery()
 
-    useEffect(() => {
-        console.log(fileUploadResponse, "File upload response ");
+    const checkScreenStatus = () => {
+        let status: ScreenStatusProps = "loading";
 
-    }, [fileUploadResponse])
+        if (selectResponseError) return status = "error"
+
+        status = selectResponse.length == 0
+            ? "bucketNotFound"
+            : "bucketFound"
+
+        return status
+    }
+
     useEffect(() => {
         if (!filesStructure) return
 
-        console.log(selectResponseError, "selectResponseError");
-        if (selectResponseError) return setScreenStatus("error");
-
+        setScreenStatus(checkScreenStatus());
         fillGallery(filesStructure)
-        setScreenStatus(selectResponse.length == 0 ? "bucketNotFound" : "bucketFound")
+
     }, [selectResponseError, filesStructure])
 
     const handleSomething = () => {
@@ -55,13 +65,12 @@ export function EditImages({ navigation, route }) {
             {/* {screenStatus === "bucketFound" && ( */}
             {(
                 <>
-                    {/* <Text>Bucket found</Text> */}
                     <ScrollView>
                         <Formik
                             initialValues={{}}
                             onSubmit={(values) => {
-                                // handleSubmitImages(values)
-                                console.log(values, "values submit");
+                                handleSubmitImages(values)
+                                // console.log(values, "values submit");
 
                             }}
                         >

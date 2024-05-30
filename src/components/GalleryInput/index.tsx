@@ -11,9 +11,17 @@ import { usePickImage } from '../../hooks/usePickImage';
 
 
 export function GalleryInput({ slug, ...props }: SectionProps) {
-    const { images: localImages, pickImage, removeImagesByIndex } = usePickImage();
     const [field, meta, helpers] = useField(slug);
+    const { images: localImages, pickImage, removeImagesByIndex } = usePickImage();
     const [dbImages, setDbImages] = useState();
+
+    useEffect(() => {
+        setImagesToFormData(localImages);
+    }, [localImages]);
+
+    const setImagesToFormData = (galleryImages: any) => {
+        helpers.setValue(galleryImages);
+    }
 
     // const fillInput = useMemo(() => {
     //     const allImages = [];
@@ -27,14 +35,6 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
 
     //     setImageSrc(allImages)
     // }, [imageSrc]);
-
-    // useEffect(() => {
-    //     setImagesToFormData(imageSrc);
-    // }, [imageSrc]);
-
-    // const setImagesToFormData = (galleryImages: any) => {
-    //     helpers.setValue(galleryImages);
-    // }
 
 
     return (
