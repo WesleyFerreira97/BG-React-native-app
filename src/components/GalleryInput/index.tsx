@@ -14,10 +14,11 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
     const [field, meta, helpers] = useField(slug);
     const { images: localImages, pickImage, removeImagesByIndex } = usePickImage();
     const [dbImages, setDbImages] = useState([]);
+    const [removeImages, setRemoveImages] = useState<string[]>([])
 
     useEffect(() => {
         setImagesToFormData(localImages);
-        console.log(fillInput);
+        // console.log(fillInput);
     }, [localImages]);
 
     const setImagesToFormData = (galleryImages: any) => {
@@ -34,10 +35,23 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
             allImages.push(finalUrl["_j"]["publicUrl"])
         });
 
+        setDbImages(allImages)
         return allImages
-    }, [dbImages]);
+    }, []);
 
+    const removeDbImage = (imageUrl: string) => {
+        let filterImages = (images) => images.filter(image => imageUrl !== image)
 
+        setRemoveImages(prevState => [...prevState, imageUrl])
+        setDbImages(prevState => filterImages(prevState))
+    }
+
+    useEffect(() => {
+        console.log(removeImages, " Removed images");
+
+    }, [removeImages])
+
+    const hasImage = (localImages.length == 0) && (fillInput.length == 0);
 
     return (
         <View style={styles.container}>
@@ -46,25 +60,33 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
                 name={props.name}
                 pickImage={pickImage}
             />
-
             <View style={styles.galleryGrid}>
-                {localImages.length == 0 && (
+                {hasImage && (
                     <View style={styles.galleryWarning}>
                         <TouchableOpacity onPress={pickImage}>
                             <Text style={styles.galleryWarningText}>Adicione imagens</Text>
                         </TouchableOpacity>
                     </View>
                 )}
-
                 {localImages &&
-                    localImages.map((image, index) => {
-                        const fileImage = image?._parts[0][1].uri;
+                    localImages.map((imageFile, index) => {
+                        const fileImage = imageFile?._parts[0][1].uri;
 
                         return (
                             <GalleryImage
                                 key={index}
                                 image={fileImage}
                                 removeImage={() => removeImagesByIndex(index)}
+                            />
+                        )
+                    })}
+                {dbImages &&
+                    dbImages.map((imageUrl, index) => {
+                        return (
+                            <GalleryImage
+                                key={index}
+                                image={imageUrl}
+                                removeImage={() => removeDbImage(imageUrl)}
                             />
                         )
                     })}

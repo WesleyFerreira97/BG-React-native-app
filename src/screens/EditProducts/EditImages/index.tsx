@@ -8,6 +8,7 @@ import { AddSectionModal } from '../../AddProduct/AddProductStepTwo/AddSectionMo
 import { GalleryInput } from '../../../components/GalleryInput';
 import { useFileUpload } from '../../../hooks/useFileUpload';
 import { useGallery } from '../../../hooks/useGallery';
+import { supaDb } from '../../../services/supadb';
 
 type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 
@@ -46,7 +47,7 @@ export function EditImages({ navigation, route }) {
         navigation.goBack()
     }
 
-    const handleSubmitImages = (values: any) => {
+    const handleSubmitImages = async (values: any) => {
 
         Object.keys(values).forEach((currentColor) => {
             const arrImages = values[currentColor];
@@ -56,6 +57,13 @@ export function EditImages({ navigation, route }) {
                 path: `${bucketPath}/${currentColor}`,
             })
         })
+
+        const { data, error } = await supaDb
+            .storage
+            .from('avatars')
+            .remove(['folder/avatar1.png'])
+
+
     }
 
     return (
