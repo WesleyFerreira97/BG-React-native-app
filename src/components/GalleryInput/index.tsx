@@ -40,10 +40,10 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
     }, []);
 
     const removeDbImage = (imageUrl: string) => {
-        let filterImages = (images) => images.filter(image => imageUrl !== image)
+        let remainingImages = (images) => images.filter(image => imageUrl !== image)
 
         setRemoveImages(prevState => [...prevState, imageUrl])
-        setDbImages(prevState => filterImages(prevState))
+        setDbImages(prevState => remainingImages(prevState))
     }
 
     useEffect(() => {
