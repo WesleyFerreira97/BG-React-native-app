@@ -9,7 +9,6 @@ import { GalleryHeader } from './GalleryHeader';
 import { GalleryImage } from './GalleryImage';
 import { usePickImage } from '../../hooks/usePickImage';
 
-
 export function GalleryInput({ slug, ...props }: SectionProps) {
     const [field, meta, helpers] = useField(slug);
     const { images: localImages, pickImage, removeImagesByIndex } = usePickImage();
@@ -45,11 +44,6 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
         setRemoveImages(prevState => [...prevState, imageUrl])
         setDbImages(prevState => remainingImages(prevState))
     }
-
-    useEffect(() => {
-        console.log(removeImages, " Removed images");
-
-    }, [removeImages])
 
     const hasImage = (localImages.length == 0) && (fillInput.length == 0);
 

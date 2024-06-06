@@ -93,7 +93,8 @@ export function EditImages({ navigation, route }) {
                                                 key={index}
                                                 style={[{ flexDirection: "row" }]}
                                             >
-                                                <GalleryInput {...item} />
+                                                {/* {console.log(item)} */}
+                                                {/* <GalleryInput {...item} /> */}
                                             </View>
                                         )
                                         )}
