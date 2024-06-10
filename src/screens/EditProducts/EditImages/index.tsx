@@ -19,6 +19,7 @@ export function EditImages({ navigation, route }) {
         bucketPath: bucketPath,
         selectInsideFolders: true
     });
+    const [removeImages, setRemoveImages] = useState<string[]>([]);
 
     const { setFiles, fileUploadResponse } = useFileUpload();
     const { handleNewSection, gallerySections, addImages, error, fillGallery } = useGallery()
@@ -48,19 +49,20 @@ export function EditImages({ navigation, route }) {
     }
 
     const handleSubmitImages = async (values: any) => {
+        console.log(removeImages);
 
-        Object.keys(values).forEach((currentColor) => {
-            const arrImages = values[currentColor];
+        // Object.keys(values).forEach((currentColor) => {
+        //     const arrImages = values[currentColor];
 
-            setFiles({
-                file: arrImages,
-                path: `${bucketPath}/${currentColor}`,
-            })
-        })
+        //     setFiles({
+        //         file: arrImages,
+        //         path: `${bucketPath}/${currentColor}`,
+        //     })
+        // })
 
         const { data, error } = await supaDb
             .storage
-            .from('avatars')
+            .from('photo')
             .remove(['folder/avatar1.png'])
 
 
@@ -93,8 +95,10 @@ export function EditImages({ navigation, route }) {
                                                 key={index}
                                                 style={[{ flexDirection: "row" }]}
                                             >
-                                                {console.log(item)}
-                                                {/* <GalleryInput {...item} /> */}
+                                                <GalleryInput
+                                                    {...item}
+                                                    removeDbImages={setRemoveImages}
+                                                />
                                             </View>
                                         )
                                         )}

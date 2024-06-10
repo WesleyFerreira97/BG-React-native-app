@@ -13,7 +13,6 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
     const [field, meta, helpers] = useField(slug);
     const { images: localImages, pickImage, removeImagesByIndex } = usePickImage();
     const [dbImages, setDbImages] = useState([]);
-    const [removeImages, setRemoveImages] = useState<string[]>([])
 
     useEffect(() => {
         setImagesToFormData(localImages);
@@ -41,9 +40,18 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
     const removeDbImage = (imageUrl: string) => {
         let remainingImages = (images) => images.filter(image => imageUrl !== image)
 
-        setRemoveImages(prevState => [...prevState, imageUrl])
+        const pathUrl = filterPathUrl(imageUrl);
+
+        props.removeDbImages(prevState => [...prevState, pathUrl])
         setDbImages(prevState => remainingImages(prevState))
     }
+
+    function filterPathUrl(url) {
+        const resultado = /public\/(.*)/.exec(url);
+
+        return resultado ? resultado[1] : '';
+    }
+
 
     const hasImage = (localImages.length == 0) && (fillInput.length == 0);
 

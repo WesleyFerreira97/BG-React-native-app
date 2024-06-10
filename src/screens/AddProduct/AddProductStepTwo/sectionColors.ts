@@ -1,22 +1,18 @@
-type SectionColorsNames = 'blue' | 'white' | 'purple';
+import React from "react";
+
+type SectionColorsNames = 'blue' | 'white' | 'purple' | 'main';
 
 type SectionColorsProps = {
-    slug: SectionColorsNames;
+    slug: string;
     name: string;
     colorCode: string;
-}
-
-type f = {
-    [key in SectionColorsNames]: {
-        slug: string,
-        name: string,
-        colorCode: string
-    }
 }
 
 type SectionProps = {
     images?: any[];
     bucketPath: string;
+    // removeDbImages: (url: string[]) => void;
+    removeDbImages: React.Dispatch<React.SetStateAction<string[]>>;
 } & SectionColorsProps;
 
 const sectionColors: Record<SectionColorsNames, SectionColorsProps> = {
@@ -33,6 +29,11 @@ const sectionColors: Record<SectionColorsNames, SectionColorsProps> = {
     purple: {
         slug: 'purple',
         name: "Roxo",
+        colorCode: '#3F3351',
+    },
+    main: {
+        slug: 'main',
+        name: "Imagem Principal",
         colorCode: '#3F3351',
     }
 }
