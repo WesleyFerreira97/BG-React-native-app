@@ -47,7 +47,7 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
     }
 
     function filterPathUrl(url) {
-        const resultado = /public\/(.*)/.exec(url);
+        const resultado = /(product\/.*)/.exec(url);
 
         return resultado ? resultado[1] : '';
     }

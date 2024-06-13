@@ -63,7 +63,11 @@ export function EditImages({ navigation, route }) {
         const { data, error } = await supaDb
             .storage
             .from('photo')
-            .remove(['folder/avatar1.png'])
+            .remove([...removeImages])
+
+        console.log(error, "error");
+        console.log(data, "data");
+
 
 
     }
