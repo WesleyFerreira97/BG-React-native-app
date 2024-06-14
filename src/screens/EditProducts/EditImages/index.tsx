@@ -78,7 +78,6 @@ export function EditImages({ navigation, route }) {
                             onSubmit={(values) => {
                                 handleSubmitImages(values)
                                 // console.log(values, "values submit");
-
                             }}
                         >
                             {({ handleSubmit, values }) => (
