@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { sectionColors, SectionColorsNames, SectionProps } from "../screens/AddProduct/AddProductStepTwo/sectionColors";
 import { FileObject } from "../@types/supabase";
 import { FilesStrucutreProps } from "./useBucket";
@@ -22,12 +22,15 @@ export function useGallery() {
             text: "Seção Já adicionada"
         });
 
+        const initialImages = images ? [...images] : [];
+
         setGallerySections(prev => [
             ...prev,
             {
                 ...sectionColors[sectionSlug],
-                images: [...images],
+                images: initialImages,
                 bucketPath: "",
+                removeDbImages: () => { }
             }
         ]);
 
@@ -69,7 +72,7 @@ export function useGallery() {
             }
         })
 
-        setGallerySections(out)
+        setGallerySections(out as React.SetStateAction<SectionProps[]>)
     }
 
     return { handleNewSection, gallerySections, addImages, error, fillGallery }

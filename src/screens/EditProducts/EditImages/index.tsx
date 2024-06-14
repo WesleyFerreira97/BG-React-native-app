@@ -38,6 +38,7 @@ export function EditImages({ navigation, route }) {
 
     useEffect(() => {
         if (!filesStructure) return
+        console.log(gallerySections, " gallery sections");
 
         setScreenStatus(checkScreenStatus());
         fillGallery(filesStructure)

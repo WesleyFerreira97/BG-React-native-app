@@ -11,8 +11,8 @@ type SectionColorsProps = {
 type SectionProps = {
     images?: any[];
     bucketPath: string;
-    // removeDbImages: (url: string[]) => void;
-    removeDbImages: React.Dispatch<React.SetStateAction<string[]>>;
+    removeDbImages: (params: any) => void;
+    // removeDbImages: React.Dispatch<React.SetStateAction<string[]>>;
 } & SectionColorsProps;
 
 const sectionColors: Record<SectionColorsNames, SectionColorsProps> = {
