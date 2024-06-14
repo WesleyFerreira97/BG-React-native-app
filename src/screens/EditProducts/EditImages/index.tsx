@@ -49,27 +49,19 @@ export function EditImages({ navigation, route }) {
     }
 
     const handleSubmitImages = async (values: any) => {
-        console.log(removeImages);
-
-        // Object.keys(values).forEach((currentColor) => {
-        //     const arrImages = values[currentColor];
-
-        //     setFiles({
-        //         file: arrImages,
-        //         path: `${bucketPath}/${currentColor}`,
-        //     })
-        // })
-
         const { data, error } = await supaDb
             .storage
             .from('photo')
             .remove([...removeImages])
 
-        console.log(error, "error");
-        console.log(data, "data");
+        Object.keys(values).forEach((currentColor) => {
+            const arrImages = values[currentColor];
 
-
-
+            setFiles({
+                file: arrImages,
+                path: `${bucketPath}/${currentColor}`,
+            })
+        })
     }
 
     return (
