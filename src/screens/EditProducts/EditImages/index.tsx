@@ -9,6 +9,7 @@ import { GalleryInput } from '../../../components/GalleryInput';
 import { useFileUpload } from '../../../hooks/useFileUpload';
 import { useGallery } from '../../../hooks/useGallery';
 import { supaDb } from '../../../services/supadb';
+import { Container } from '../../../components/Layout/Container';
 
 type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 
@@ -37,8 +38,12 @@ export function EditImages({ navigation, route }) {
     }
 
     useEffect(() => {
+        console.log(fileUploadResponse, "File upload response");
+
+    }, [fileUploadResponse])
+
+    useEffect(() => {
         if (!filesStructure) return
-        console.log(gallerySections, " gallery sections");
 
         setScreenStatus(checkScreenStatus());
         fillGallery(filesStructure)
@@ -66,7 +71,7 @@ export function EditImages({ navigation, route }) {
     }
 
     return (
-        <View>
+        <Container>
             {screenStatus === "loading" && <Text>Loading...</Text>}
             {/* {screenStatus === "bucketNotFound" && <Text>Bucket not found</Text>} */}
             {/* {screenStatus === "bucketFound" && ( */}
@@ -99,10 +104,6 @@ export function EditImages({ navigation, route }) {
                                         )
                                         )}
                                     <Button
-                                        onPress={() => console.log(gallerySections)}
-                                        text="Check gallery sections"
-                                    />
-                                    <Button
                                         onPress={handleSubmit}
                                         text="Concluir"
                                     />
@@ -115,8 +116,8 @@ export function EditImages({ navigation, route }) {
 
             <Button
                 onPress={handleBack}
-                text="Go to EditProducts"
+                text="Voltar página"
             />
-        </View>
+        </Container>
     )
 }
