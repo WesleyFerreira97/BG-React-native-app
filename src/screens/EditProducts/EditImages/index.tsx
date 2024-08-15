@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Text, View } from 'react-native'
-import { Button } from '../../../components/Button'
-import { useBucket } from '../../../hooks/useBucket';
-import { Formik } from 'formik';
-import { sectionColors, SectionColorsNames, SectionColorsProps } from '../../AddProduct/AddProductStepTwo/sectionColors';
-import { AddSectionModal } from '../../AddProduct/AddProductStepTwo/AddSectionModal';
-import { GalleryInput } from '../../../components/GalleryInput';
-import { useFileUpload } from '../../../hooks/useFileUpload';
-import { useGallery } from '../../../hooks/useGallery';
+import { styles } from './styles';
 import { supaDb } from '../../../services/supadb';
 import { Container } from '../../../components/Layout/Container';
+import { ScrollView, Text, View } from 'react-native'
+import { Button } from '../../../components/Button'
+import { Formik } from 'formik';
+import { GalleryInput } from '../../../components/GalleryInput';
+import { AddSectionModal } from '../../AddProduct/AddImages/AddSectionModal';
+import { useFileUpload } from '../../../hooks/useFileUpload';
+import { useGallery } from '../../../hooks/useGallery';
+import { useBucket } from '../../../hooks/useBucket';
+import { Avatar } from 'react-native-paper';
 
 type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 
@@ -21,9 +22,9 @@ export function EditImages({ navigation, route }) {
         selectInsideFolders: true
     });
     const [removeImages, setRemoveImages] = useState<string[]>([]);
-
     const { setFiles, fileUploadResponse } = useFileUpload();
     const { handleNewSection, gallerySections, addImages, error, fillGallery } = useGallery()
+
 
     const checkScreenStatus = () => {
         let status: ScreenStatusProps = "loading";
@@ -36,11 +37,6 @@ export function EditImages({ navigation, route }) {
 
         return status
     }
-
-    useEffect(() => {
-        console.log(fileUploadResponse, "File upload response");
-
-    }, [fileUploadResponse])
 
     useEffect(() => {
         if (!filesStructure) return
@@ -71,53 +67,66 @@ export function EditImages({ navigation, route }) {
     }
 
     return (
-        <Container>
-            {screenStatus === "loading" && <Text>Loading...</Text>}
-            {/* {screenStatus === "bucketNotFound" && <Text>Bucket not found</Text>} */}
-            {/* {screenStatus === "bucketFound" && ( */}
-            {(
-                <>
-                    <ScrollView>
-                        <Formik
-                            initialValues={{}}
-                            onSubmit={(values) => {
-                                handleSubmitImages(values)
-                                // console.log(values, "values submit");
-                            }}
-                        >
-                            {({ handleSubmit, values }) => (
-                                <>
-                                    <AddSectionModal
-                                        addNewSection={handleNewSection}
-                                    />
-                                    {(gallerySections.length > 0) &&
-                                        gallerySections.map((item, index) => (
-                                            <View
-                                                key={index}
-                                                style={[{ flexDirection: "row" }]}
-                                            >
-                                                <GalleryInput
-                                                    {...item}
-                                                    removeDbImages={setRemoveImages}
-                                                />
-                                            </View>
-                                        )
-                                        )}
-                                    <Button
-                                        onPress={handleSubmit}
-                                        text="Concluir"
-                                    />
-                                </>
-                            )}
-                        </Formik>
-                    </ScrollView>
-                </>
-            )}
+        <>
+            <ScrollView>
+                <View style={styles.container}>
+                    {/* <Avatar.Image size={120} source={ } /> */}
+                    <Text>Header Screen</Text>
+                </View>
+                <Container>
+                    {screenStatus === "loading" && <Text>Loading...</Text>}
+                    {/* {screenStatus === "bucketNotFound" && <Text>Bucket not found</Text>} */}
+                    {/* {screenStatus === "bucketFound" && ( */}
+                    {(
+                        <>
 
-            <Button
-                onPress={handleBack}
-                text="Voltar página"
-            />
-        </Container>
+                            <Formik
+                                initialValues={{}}
+                                onSubmit={(values) => {
+                                    handleSubmitImages(values)
+                                }}
+                            >
+                                {({ handleSubmit, values }) => (
+                                    <>
+
+                                        <AddSectionModal
+                                            addNewSection={handleNewSection}
+                                        />
+                                        {(gallerySections.length > 0) &&
+                                            gallerySections.map((item, index) => {
+                                                // if (item.slug == "main") {
+                                                //     console.log(item, "é a main");
+                                                // }
+                                                console.log(item, "item ");
+
+                                                return (
+                                                    <View
+                                                        key={index}
+                                                        style={{ marginVertical: 15 }}
+                                                    >
+                                                        <GalleryInput
+                                                            {...item}
+                                                            removeDbImages={setRemoveImages}
+                                                        />
+                                                    </View>
+                                                )
+                                            }
+                                            )}
+                                        <Button
+                                            onPress={handleSubmit}
+                                            text="Concluir"
+                                        />
+                                    </>
+                                )}
+                            </Formik>
+                        </>
+                    )}
+                </Container>
+            </ScrollView>
+            {/* <Button
+                    onPress={handleBack}
+                    text="Voltar página"
+                /> */}
+        </>
     )
 }

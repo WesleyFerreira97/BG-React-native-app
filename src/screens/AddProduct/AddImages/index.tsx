@@ -14,13 +14,14 @@ import { Button } from '../../../components/Button';
 import { HeaderSection } from '../../../components/HeaderSection';
 import { theme } from '../../../styles/theme';
 import { ActivityIndicator } from 'react-native-paper';
+import { useGallery } from '../../../hooks/useGallery';
 
 
-export function AddProductStepTwo({ route }) {
-    const { fileUploadResponse, setFiles, setFile } = useFileUpload();
-    const [gallerySections, setGallerySections] = useState<SectionColorsProps[] | []>([]);
+export function AddImages({ route }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const productID = route.params.productID;
+    const { fileUploadResponse, setFiles, setFile } = useFileUpload();
+    const { handleNewSection, gallerySections, addImages, error, fillGallery } = useGallery()
 
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
         tableName: 'products',
@@ -29,6 +30,10 @@ export function AddProductStepTwo({ route }) {
     });
 
     useEffect(() => {
+        handleFileUploadResponse()
+    }, [fileUploadResponse])
+
+    const handleFileUploadResponse = () => {
         setIsLoading(false);
 
         // Navegar proseguir caso a pessoa não faça upload de imagem 
@@ -36,20 +41,19 @@ export function AddProductStepTwo({ route }) {
 
         if (fileUploadResponse.error != null || 201) {
             console.log(fileUploadResponse, " - Error");
-            // Set Snackbar Error
             return;
         }
-        // Set Snackbar Successful and navigate to home
+
         console.log(fileUploadResponse, " - Upload response ok");
+        // Set Snackbar Successful and navigate to home
+    }
 
-    }, [fileUploadResponse])
-
-    const handleSubmitImages = (values: any) => {
+    const handleSubmitImages = (imageValues: any) => {
         setIsLoading(true);
         const mainDirectory = "product";
 
-        Object.keys(values).forEach((currentColor) => {
-            const arrImages = values[currentColor];
+        Object.keys(imageValues).forEach((currentColor) => {
+            const arrImages = imageValues[currentColor];
             const bucketFolder = selectResponse[0].bucket_folder;
 
             setFiles({
@@ -57,12 +61,8 @@ export function AddProductStepTwo({ route }) {
                 path: `${mainDirectory}/${bucketFolder}/${productID}/${currentColor}`,
             })
         })
-        console.log(values, "Values submit");
+        console.log(imageValues, "Values submit");
 
-    }
-
-    const handleNewSection = (value: any) => {
-        setGallerySections(prevState => [...prevState, value])
     }
 
     return (
@@ -82,10 +82,13 @@ export function AddProductStepTwo({ route }) {
                             <>
                                 <AddSectionModal
                                     addNewSection={handleNewSection}
-                                    currentGallerySections={gallerySections}
                                 />
                                 <View style={styles.form}>
-                                    <GalleryInput color='#B4B4B3' name='Principal' slug='main' />
+                                    <GalleryInput
+                                        colorCode='#B4B4B3'
+                                        name='Principal'
+                                        slug='main'
+                                    />
                                     {(gallerySections.length > 0) &&
                                         gallerySections.map((item, index) => (
                                             <View

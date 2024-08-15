@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { sectionColors, SectionColorsNames, SectionProps } from "../screens/AddProduct/AddProductStepTwo/sectionColors";
+import React, { useState } from "react";
+import { sectionColors, SectionColorsNames, SectionProps } from "../screens/AddProduct/AddImages/sectionColors";
 import { FileObject } from "../@types/supabase";
 import { FilesStrucutreProps } from "./useBucket";
 

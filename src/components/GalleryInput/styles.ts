@@ -6,6 +6,7 @@ const { height, width, scale } = Dimensions.get("screen");
 export const styles = StyleSheet.create({
     container: {
         width: '100%',
+        backgroundColor: theme.colors.neutral
     },
     galleryModalContent: {
         justifyContent: 'center',
@@ -19,7 +20,6 @@ export const styles = StyleSheet.create({
     galleryGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-
         minHeight: 150,
         width: '100%',
     },

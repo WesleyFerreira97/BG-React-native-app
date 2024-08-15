@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { styles } from './styles';
-import { HeaderScreen } from '../../components/HeaderScreen';
-import { useTheme } from '../../providers/ThemeContext';
-import { Field, Formik } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useTheme } from '../../providers/ThemeContext';
 import { useInsert } from '../../hooks/useInsert';
-import type { ProductProps, BucketProps } from '../../@types/product'
 import { useCategories } from '../../hooks/useCategories';
+
+import type { ProductProps, BucketProps } from '../../@types/product'
+import { HeaderScreen } from '../../components/HeaderScreen';
 import { SelectInput } from '../../components/SelectInput';
 import { TextInput } from '../../components/TextInput';
 import { HeaderSection } from '../../components/HeaderSection';
-import { CheckboxInput } from '../../components/CheckboxInput';
-import { ToggleGroup } from '../../components/ToggleGroup';
 import { SwitchInput } from '../../components/SwitchInput';
 import { Button } from '../../components/Button';
 import { SelectSize, mapDefaultValues, size_letter, size_numeric } from '../../components/SelectSize';
-import { useCreateBucket } from '../../hooks/useCreateBucket';
 
 const initialValues: ProductProps = {
     title: "Teste",
@@ -88,10 +86,7 @@ export function AddProduct({ navigation }) {
                         initialValues={initialValues}
                         validationSchema={productValidation}
                         onSubmit={(values: ProductProps) => {
-                            console.log(values);
-
                             handleSubmitProduct(values);
-
                         }} >
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                             <View style={{ padding: 20 }}>
@@ -119,29 +114,24 @@ export function AddProduct({ navigation }) {
                                         ))}
                                     </SelectInput>
                                 )}
-
                                 <TextInput
                                     name='price'
                                     label='Preço'
                                     keyboardType='number-pad'
                                 />
-
                                 <SwitchInput
                                     name="product_available"
                                     label="Produto disponível"
                                 />
-
                                 <SelectSize
                                     sizeType={values.type_product_sizes}
                                     availableSizes={values.sizes_available}
                                 />
-
                                 <Button
                                     onPress={handleSubmit}
                                     text='Cadastrar'
                                     isLoading={isLoading}
                                 />
-
                             </View>
                         )}
                     </Formik>

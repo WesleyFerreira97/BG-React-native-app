@@ -3,39 +3,47 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import { useField } from 'formik';
 import { ErrorForm } from '../ErrorForm';
-import { SectionProps } from '../../screens/AddProduct/AddProductStepTwo/sectionColors';
+import { SectionProps } from '../../screens/AddProduct/AddImages/sectionColors';
 import { usePublicUrl } from '../../hooks/usePublicUrl';
 import { GalleryHeader } from './GalleryHeader';
 import { GalleryImage } from './GalleryImage';
 import { usePickImage } from '../../hooks/usePickImage';
 
-export function GalleryInput({ slug, ...props }: SectionProps) {
+export function GalleryInput({ slug, images = [], ...props }: SectionProps) {
     const [field, meta, helpers] = useField(slug);
     const { images: localImages, pickImage, removeImagesByIndex } = usePickImage();
     const [dbImages, setDbImages] = useState([]);
+    const { imageUrl, setImageData } = usePublicUrl();
 
     useEffect(() => {
         setImagesToFormData(localImages);
-        // console.log(fillInput);
-    }, [localImages]);
+    }, [localImages, images]);
+
+    useEffect(() => {
+        fetchImages();
+    }, [imageUrl, images, props.bucketPath, slug, setImageData]);
 
     const setImagesToFormData = (galleryImages: any) => {
         helpers.setValue(galleryImages);
     }
 
-    const fillInput = useMemo(() => {
+    const fetchImages = async () => {
         const allImages = [];
 
-        props.images.forEach(item => {
+        images.forEach(item => {
             const path = `${props.bucketPath}/${slug}`
-            const finalUrl = usePublicUrl(path, item.name);
+            setImageData({
+                bucketPath: path,
+                fileName: item.name
+            });
 
-            allImages.push(finalUrl["_j"]["publicUrl"])
+            allImages.push(imageUrl)
         });
 
         setDbImages(allImages)
-        return allImages
-    }, []);
+    }
+
+    const hasImage = (localImages.length == 0) && (images.length == 0);
 
     const removeDbImage = (imageUrl: string) => {
         let remainingImages = (images) => images.filter(image => imageUrl !== image)
@@ -51,9 +59,6 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
 
         return resultado ? resultado[1] : '';
     }
-
-
-    const hasImage = (localImages.length == 0) && (fillInput.length == 0);
 
     return (
         <View style={styles.container}>
@@ -84,6 +89,8 @@ export function GalleryInput({ slug, ...props }: SectionProps) {
                     })}
                 {dbImages &&
                     dbImages.map((imageUrl, index) => {
+                        console.log(imageUrl, " image url");
+
                         return (
                             <GalleryImage
                                 key={index}

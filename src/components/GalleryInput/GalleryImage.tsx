@@ -12,6 +12,11 @@ type GalleryImageProps = {
 }
 
 export function GalleryImage({ image, removeImage }: GalleryImageProps) {
+
+    if (!image) {
+        return (<Text>Sem imagem</Text>)
+    }
+
     return (
         <Modal>
             <Modal.Content>
@@ -28,7 +33,6 @@ export function GalleryImage({ image, removeImage }: GalleryImageProps) {
                     </Button>
                 </View>
             </Modal.Content>
-
             <Modal.Button
                 width="33%"
                 height={100}

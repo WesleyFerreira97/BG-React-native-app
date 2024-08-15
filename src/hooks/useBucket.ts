@@ -2,7 +2,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 import { FileObject } from '@supabase/storage-js'
-import { SectionColorsNames } from "../screens/AddProduct/AddProductStepTwo/sectionColors";
+import { SectionColorsNames } from "../screens/AddProduct/AddImages/sectionColors";
 
 type UseSelectProps = {
     bucketPath: string;

@@ -69,21 +69,28 @@ export function AddSectionModal({ addNewSection }: AddSectionProps) {
                                 <ModalItem
                                     bgColor={theme.colors.secondary}
                                     color={theme.colors.neutral}
-                                    label='Branco'
+                                    label='Azul'
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => addNewSection("purple")} >
                                 <ModalItem
                                     bgColor={theme.colors.secondary}
                                     color={theme.colors.neutral}
-                                    label='Azul'
+                                    label='Roxo'
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => addNewSection("white")} >
                                 <ModalItem
                                     bgColor={theme.colors.secondary}
                                     color={theme.colors.neutral}
-                                    label='Roxo'
+                                    label='Branco'
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => addNewSection("main")} >
+                                <ModalItem
+                                    bgColor={theme.colors.secondary}
+                                    color={theme.colors.neutral}
+                                    label='Imagem Principal'
                                 />
                             </TouchableOpacity>
                         </View>

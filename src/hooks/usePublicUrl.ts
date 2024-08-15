@@ -1,11 +1,31 @@
+import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
-export const usePublicUrl = async (bucketPath: string, fileName: string) => {
+type UrlProps = {
+    bucketPath: string;
+    fileName: string;
+}
 
-    const { data } = supaDb
-        .storage
-        .from('photo')
-        .getPublicUrl(`${bucketPath}/${fileName}`);
+export const usePublicUrl = () => {
+    const [imageData, setImageData] = useState<UrlProps>({
+        bucketPath: "",
+        fileName: ""
+    });
+    const [imageUrl, setImageUrl] = useState<string>("");
 
-    return data
+    useEffect(() => {
+        const getFinalUrl = async () => {
+            const { data } = supaDb
+                .storage
+                .from('photo')
+                .getPublicUrl(`${imageData.bucketPath}/${imageData.fileName}`);
+
+            setImageUrl(data.publicUrl);
+        }
+
+        getFinalUrl()
+
+    }, [imageData])
+
+    return { imageUrl, setImageData }
 }
