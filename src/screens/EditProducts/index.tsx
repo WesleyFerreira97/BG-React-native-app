@@ -100,10 +100,10 @@ export function EditProducts({ navigation }) {
                                         label='Disponibilidade'
                                         value={values.product_available}
                                     />
-                                    {/* <SelectSize
+                                    <SelectSize
                                         sizeType={values.type_product_sizes}
                                         availableSizes={values.sizes_available}
-                                    /> */}
+                                    />
                                     <Button
                                         onPress={handleNavigateEditProducts}
                                         text='Editar imagens'

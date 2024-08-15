@@ -21,7 +21,7 @@ export function GalleryInput({ slug, images = [], ...props }: SectionProps) {
 
     useEffect(() => {
         fetchImages();
-    }, [imageUrl, images, props.bucketPath, slug, setImageData]);
+    }, [imageUrl, images, props.bucketPath, slug]);
 
     const setImagesToFormData = (galleryImages: any) => {
         helpers.setValue(galleryImages);
@@ -89,8 +89,6 @@ export function GalleryInput({ slug, images = [], ...props }: SectionProps) {
                     })}
                 {dbImages &&
                     dbImages.map((imageUrl, index) => {
-                        console.log(imageUrl, " image url");
-
                         return (
                             <GalleryImage
                                 key={index}

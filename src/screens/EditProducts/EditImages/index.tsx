@@ -11,6 +11,7 @@ import { useFileUpload } from '../../../hooks/useFileUpload';
 import { useGallery } from '../../../hooks/useGallery';
 import { useBucket } from '../../../hooks/useBucket';
 import { Avatar } from 'react-native-paper';
+import { SnackBar } from '../../../components/SnackBar';
 
 type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 
@@ -37,6 +38,10 @@ export function EditImages({ navigation, route }) {
 
         return status
     }
+    useEffect(() => {
+        console.log(fileUploadResponse.error.statusCode, "fileUploadResponse");
+
+    }, [fileUploadResponse])
 
     useEffect(() => {
         if (!filesStructure) return
@@ -70,9 +75,10 @@ export function EditImages({ navigation, route }) {
         <>
             <ScrollView>
                 <View style={styles.container}>
-                    {/* <Avatar.Image size={120} source={ } /> */}
+                    {/* <Avatar.Image size={120} source={} /> */}
                     <Text>Header Screen</Text>
                 </View>
+                <SnackBar text='Editado com sucesso' snackState={true} />
                 <Container>
                     {screenStatus === "loading" && <Text>Loading...</Text>}
                     {/* {screenStatus === "bucketNotFound" && <Text>Bucket not found</Text>} */}
@@ -94,11 +100,6 @@ export function EditImages({ navigation, route }) {
                                         />
                                         {(gallerySections.length > 0) &&
                                             gallerySections.map((item, index) => {
-                                                // if (item.slug == "main") {
-                                                //     console.log(item, "é a main");
-                                                // }
-                                                console.log(item, "item ");
-
                                                 return (
                                                     <View
                                                         key={index}
@@ -121,6 +122,11 @@ export function EditImages({ navigation, route }) {
                             </Formik>
                         </>
                     )}
+
+                    <Button
+                        // onPress={handleSubmit}
+                        text="SetSnack"
+                    />
                 </Container>
             </ScrollView>
             {/* <Button

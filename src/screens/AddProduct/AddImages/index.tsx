@@ -20,7 +20,7 @@ import { useGallery } from '../../../hooks/useGallery';
 export function AddImages({ route }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const productID = route.params.productID;
-    const { fileUploadResponse, setFiles, setFile } = useFileUpload();
+    const { fileUploadResponse, setFiles } = useFileUpload();
     const { handleNewSection, gallerySections, addImages, error, fillGallery } = useGallery()
 
     const { selectResponse, selectResponseError } = useSelect<BucketProps>({
@@ -61,8 +61,6 @@ export function AddImages({ route }) {
                 path: `${mainDirectory}/${bucketFolder}/${productID}/${currentColor}`,
             })
         })
-        console.log(imageValues, "Values submit");
-
     }
 
     return (

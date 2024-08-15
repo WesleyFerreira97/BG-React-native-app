@@ -8,38 +8,18 @@ type FileProps = {
     file: any | any[];
 }
 
-type ResponseUploadProps = {
-    uploadFileData: {
-        Key: string;
-    } | null,
-    uploadFileError: Error | null
-}
-
 type FileUploadResponseProps = {
     data: {},
-    error: null | string;
+    error: {
+        error: string;
+        message: string;
+        statusCode: string;
+    } | null
 }
 
 export function useFileUpload<T>() {
-    const [fileUploadResponse, setFileUploadResponse] = useState<PostgrestResponse<T> | FileUploadResponseProps>(null);
-    const [file, setFile] = useState<FileProps | null>(null);
-    // Optional with array
+    const [fileUploadResponse, setFileUploadResponse] = useState<FileUploadResponseProps>(null);
     const [files, setFiles] = useState<FileProps | null>(null);
-
-    useEffect(() => {
-        if (!file) return;
-
-        async function asyncUpload() {
-            await supaDb.storage
-                .from("photo")
-                .upload(`${file?.path}/${file?.file._parts[0][1].name}`, file?.file)
-                .then((res) => {
-                    setFileUploadResponse(res);
-                });
-        }
-
-        asyncUpload();
-    }, [file]);
 
     useEffect(() => {
         if (!files) return;
@@ -48,28 +28,15 @@ export function useFileUpload<T>() {
             const fileName = item?._parts[0][1].name;
 
             async function asyncUpload() {
-                await supaDb.storage
+                const data: unknown = await supaDb.storage
                     .from("photo")
                     .upload(`${files?.path}/${fileName}`, item)
-                    .then((res) => {
-                        setFileUploadResponse(res);
-                        // console.log(res, ' - Upload Response');
-                    });
+
+                setFileUploadResponse(data as FileUploadResponseProps);
             }
             asyncUpload();
         });
     }, [files]);
 
-    return { fileUploadResponse, setFile, setFiles };
-}
-
-
-export async function useFileUploadAlt(file: FileProps): Promise<ResponseUploadProps> {
-
-    const { data, error } = await supaDb
-        .storage
-        .from("photo")
-        .upload(`products/${file?.path}/${file?.file._parts[0][1].name}`, file?.file)
-
-    return { uploadFileData: data, uploadFileError: error }
+    return { fileUploadResponse, setFiles };
 }
