@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
+
 type UrlProps = {
     bucketPath: string;
     fileName: string;

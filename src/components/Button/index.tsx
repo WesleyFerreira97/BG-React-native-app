@@ -13,7 +13,6 @@ type ButtonProps = {
 }
 
 export function Button({ text, isLoading = false, ...props }: ButtonProps) {
-    const disabled = false;
 
     const handleOnPress = () => {
         if (props.onPress === undefined) return;
@@ -21,16 +20,18 @@ export function Button({ text, isLoading = false, ...props }: ButtonProps) {
         props.onPress()
     }
 
+    let buttonColor = props.bgColor || theme.colors.secondaryAlt;
+    let isDisabled = isLoading ? true : false;
+
     return (
         <TouchableOpacity
             style={{
                 ...styles.container,
-                backgroundColor: props.bgColor
-                    ? props.bgColor
-                    : theme.colors.secondaryAlt,
+                backgroundColor: buttonColor,
                 marginTop: 30
             }}
-            onPress={disabled ? null : handleOnPress}
+            onPress={handleOnPress}
+        // disabled={isDisabled}
         >
             <ActivityIndicator
                 animating={isLoading}

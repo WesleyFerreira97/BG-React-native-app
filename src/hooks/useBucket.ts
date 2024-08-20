@@ -17,7 +17,7 @@ export type FilesStrucutreProps = {
 
 export function useBucket<T>({ bucketPath, ...props }: UseSelectProps) {
     const [selectResponse, setSelectResponse] = useState<FileObject[] | null>(null);
-    const [selectResponseError, setSelectResponseError] = useState<PostgrestError>();
+    const [selectResponseError, setSelectResponseError] = useState<PostgrestError>(null);
     const [filesStructure, setFilesStructure] = useState<FilesStrucutreProps[]>();
 
     useEffect(() => {

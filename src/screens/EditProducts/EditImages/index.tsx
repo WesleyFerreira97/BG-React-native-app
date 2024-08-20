@@ -16,44 +16,38 @@ import { SnackBar } from '../../../components/SnackBar';
 type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 
 export function EditImages({ navigation, route }) {
-    const [screenStatus, setScreenStatus] = useState<ScreenStatusProps>("loading");
-    const { bucketPath } = route.params;
-    const { selectResponse, selectResponseError, filesStructure } = useBucket({
+    const { bucketPath } = route.params
+    const { filesStructure, selectResponse, selectResponseError } = useBucket({
         bucketPath: bucketPath,
         selectInsideFolders: true
-    });
-    const [removeImages, setRemoveImages] = useState<string[]>([]);
+    })
+    const [screenStatus, setScreenStatus] = useState<ScreenStatusProps>("loading")
+    const { fillGallery, gallerySections, handleNewSection } = useGallery()
+    const [removeImages, setRemoveImages] = useState<string[]>([])
     const { setFiles, fileUploadResponse } = useFileUpload();
-    const { handleNewSection, gallerySections, addImages, error, fillGallery } = useGallery()
+    const checkScreenStatus = (): ScreenStatusProps => {
+        if (selectResponseError) return "error"
 
-
-    const checkScreenStatus = () => {
-        let status: ScreenStatusProps = "loading";
-
-        if (selectResponseError) return status = "error"
-
-        status = selectResponse.length == 0
+        let hasBucket: ScreenStatusProps = (!selectResponse || selectResponse.length === 0)
             ? "bucketNotFound"
             : "bucketFound"
 
-        return status
+        return hasBucket
     }
-    useEffect(() => {
-        console.log(fileUploadResponse.error.statusCode, "fileUploadResponse");
-
-    }, [fileUploadResponse])
 
     useEffect(() => {
-        if (!filesStructure) return
+        if (filesStructure) {
+            return fillGallery(filesStructure)
+        }
 
-        setScreenStatus(checkScreenStatus());
-        fillGallery(filesStructure)
+        setScreenStatus(checkScreenStatus())
 
-    }, [selectResponseError, filesStructure])
+    }, [selectResponse, selectResponseError, filesStructure])
 
-    const handleBack = () => {
-        navigation.goBack()
-    }
+    useEffect(() => {
+        console.log(gallerySections, " Remove Images");
+
+    }, [gallerySections])
 
     const handleSubmitImages = async (values: any) => {
         const { data, error } = await supaDb
@@ -81,58 +75,43 @@ export function EditImages({ navigation, route }) {
                 <SnackBar text='Editado com sucesso' snackState={true} />
                 <Container>
                     {screenStatus === "loading" && <Text>Loading...</Text>}
-                    {/* {screenStatus === "bucketNotFound" && <Text>Bucket not found</Text>} */}
-                    {/* {screenStatus === "bucketFound" && ( */}
-                    {(
-                        <>
+                    <Formik
+                        initialValues={{}}
+                        onSubmit={(values) => {
+                            // handleSubmitImages(values)
+                            console.log(values);
 
-                            <Formik
-                                initialValues={{}}
-                                onSubmit={(values) => {
-                                    handleSubmitImages(values)
-                                }}
-                            >
-                                {({ handleSubmit, values }) => (
-                                    <>
+                        }}
+                    >
+                        {({ handleSubmit, values }) => (
+                            <>
+                                <AddSectionModal addNewSection={handleNewSection} />
+                                {gallerySections &&
+                                    gallerySections.map((item, index) => {
+                                        // console.log(gallerySections, " gallery sections");
 
-                                        <AddSectionModal
-                                            addNewSection={handleNewSection}
-                                        />
-                                        {(gallerySections.length > 0) &&
-                                            gallerySections.map((item, index) => {
-                                                return (
-                                                    <View
-                                                        key={index}
-                                                        style={{ marginVertical: 15 }}
-                                                    >
-                                                        <GalleryInput
-                                                            {...item}
-                                                            removeDbImages={setRemoveImages}
-                                                        />
-                                                    </View>
-                                                )
-                                            }
-                                            )}
-                                        <Button
-                                            onPress={handleSubmit}
-                                            text="Concluir"
-                                        />
-                                    </>
-                                )}
-                            </Formik>
-                        </>
-                    )}
-
-                    <Button
-                        // onPress={handleSubmit}
-                        text="SetSnack"
-                    />
+                                        return (
+                                            <View
+                                                key={index}
+                                                style={{ marginVertical: 15 }}
+                                            >
+                                                <GalleryInput
+                                                    {...item}
+                                                    removeDbImages={setRemoveImages}
+                                                />
+                                            </View>
+                                        )
+                                    })
+                                }
+                                <Button
+                                    onPress={handleSubmit}
+                                    text="Concluir"
+                                />
+                            </>
+                        )}
+                    </Formik>
                 </Container>
             </ScrollView>
-            {/* <Button
-                    onPress={handleBack}
-                    text="Voltar página"
-                /> */}
         </>
     )
 }

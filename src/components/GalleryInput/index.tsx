@@ -8,6 +8,7 @@ import { usePublicUrl } from '../../hooks/usePublicUrl';
 import { GalleryHeader } from './GalleryHeader';
 import { GalleryImage } from './GalleryImage';
 import { usePickImage } from '../../hooks/usePickImage';
+import { public_storage } from '../../services/supadb';
 
 export function GalleryInput({ slug, images = [], ...props }: SectionProps) {
     const [field, meta, helpers] = useField(slug);
@@ -17,11 +18,11 @@ export function GalleryInput({ slug, images = [], ...props }: SectionProps) {
 
     useEffect(() => {
         setImagesToFormData(localImages);
-    }, [localImages, images]);
+    }, [localImages]);
 
     useEffect(() => {
         fetchImages();
-    }, [imageUrl, images, props.bucketPath, slug]);
+    }, [images, props.bucketPath, slug]);
 
     const setImagesToFormData = (galleryImages: any) => {
         helpers.setValue(galleryImages);
@@ -31,13 +32,9 @@ export function GalleryInput({ slug, images = [], ...props }: SectionProps) {
         const allImages = [];
 
         images.forEach(item => {
-            const path = `${props.bucketPath}/${slug}`
-            setImageData({
-                bucketPath: path,
-                fileName: item.name
-            });
+            const path = `${public_storage}/photo/${props.bucketPath}/${slug}/${item.name}`
 
-            allImages.push(imageUrl)
+            allImages.push(path)
         });
 
         setDbImages(allImages)
@@ -89,6 +86,8 @@ export function GalleryInput({ slug, images = [], ...props }: SectionProps) {
                     })}
                 {dbImages &&
                     dbImages.map((imageUrl, index) => {
+                        console.log(imageUrl);
+
                         return (
                             <GalleryImage
                                 key={index}
