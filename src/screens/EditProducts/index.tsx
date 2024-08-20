@@ -11,6 +11,7 @@ import { SelectInput } from '../../components/SelectInput';
 import { SwitchInput } from '../../components/SwitchInput';
 import { useCategories } from '../../hooks/useCategories';
 import { useUpdate } from '../../hooks/useUpdate';
+import { useEffect } from 'react';
 
 type EditProps = {
     itemId: string
@@ -27,6 +28,12 @@ export function EditProducts({ navigation }) {
         limit: 1,
         match: params.itemId
     });
+
+    useEffect(() => {
+        console.log(updateError, "updateError");
+        console.log(updateResponse, "Update Response");
+
+    }, [updateError, updateResponse])
 
     const responseData: AllProductProps = selectResponse ? selectResponse[0] : null;
 
@@ -55,6 +62,7 @@ export function EditProducts({ navigation }) {
                         <Formik
                             initialValues={initialValues}
                             onSubmit={(values: ProductProps) => {
+
                                 setUpdateData({
                                     data: {
                                         ...values

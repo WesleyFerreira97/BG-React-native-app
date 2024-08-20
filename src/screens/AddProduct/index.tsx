@@ -127,11 +127,11 @@ export function AddProduct({ navigation }) {
                                     sizeType={values.type_product_sizes}
                                     availableSizes={values.sizes_available}
                                 />
-                                <Button
+                                {/* <Button
                                     onPress={handleSubmit}
                                     text='Cadastrar'
                                     isLoading={isLoading}
-                                />
+                                /> */}
                             </View>
                         )}
                     </Formik>

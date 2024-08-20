@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { Image, ScrollView, Text, View, Dimensions } from 'react-native'
 import { styles } from './styles';
 import { public_storage, supaDb } from '../../../services/supadb';
 import { Container } from '../../../components/Layout/Container';
-import { Image, ScrollView, Text, View } from 'react-native'
 import { Button } from '../../../components/Button'
 import { Formik } from 'formik';
 import { GalleryInput } from '../../../components/GalleryInput';
@@ -10,8 +10,7 @@ import { AddSectionModal } from '../../AddProduct/AddImages/AddSectionModal';
 import { FileProps, useFileUpload } from '../../../hooks/useFileUpload';
 import { useGallery } from '../../../hooks/useGallery';
 import { useBucket } from '../../../hooks/useBucket';
-import { Avatar } from 'react-native-paper';
-import { SnackBar } from '../../../components/SnackBar';
+import FallbackThumb from "../../../../assets/images/default.jpg"
 
 type ScreenStatusProps = "loading" | "bucketNotFound" | "bucketFound" | "error";
 
@@ -36,24 +35,23 @@ export function EditImages({ navigation, route }) {
 
         return hasBucket
     }
-    console.log(bucketPath);
 
     useEffect(() => {
+        let thumbImage = Image.resolveAssetSource(FallbackThumb).uri;
+
         if (gallerySections) {
-            let thumbImage = "";
 
             gallerySections.forEach((item) => {
-                if (item.slug == "main") {
+                if (item.slug == "main" && item.images.length > 0) {
                     const imageName = item.images[0].name;
                     const imageUrl = `${public_storage}/photo/${item.bucketPath}/main/${imageName}`
 
                     return thumbImage = imageUrl
                 }
             })
-
-            setThumbImage(thumbImage)
         }
 
+        setThumbImage(thumbImage)
     }, [gallerySections])
 
     useEffect(() => {
@@ -100,14 +98,19 @@ export function EditImages({ navigation, route }) {
         <>
             <ScrollView>
                 <View style={styles.container}>
-                    {/* <Avatar.Image size={120} source={require(thumbImage)} /> */}
-                    <Image
-                        source={{ uri: thumbImage }}
-                        style={{ width: '90%', height: '100%' }}
-                    />
-                    <Text>Header Screen</Text>
+                    <View style={{
+                        overflow: "hidden",
+                        borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
+                        width: Dimensions.get('window').width * 0.6,
+                        height: Dimensions.get('window').width * 0.6,
+                    }}>
+                        <Image
+                            source={{ uri: thumbImage }}
+                            style={{ width: '100%', height: '100%' }}
+                        />
+                    </View>
+                    <Text style={{ color: "#fff" }}>Imagem Principal</Text>
                 </View>
-                {/* <SnackBar text='Editado com sucesso' snackState={true} /> */}
                 <Container>
                     {screenStatus === "loading" && <Text>Loading...</Text>}
                     <Formik
@@ -118,7 +121,9 @@ export function EditImages({ navigation, route }) {
                     >
                         {({ handleSubmit, values }) => (
                             <>
-                                <AddSectionModal addNewSection={handleNewSection} />
+                                <View style={{ marginVertical: 20 }}>
+                                    <AddSectionModal addNewSection={handleNewSection} />
+                                </View>
                                 {gallerySections &&
                                     gallerySections.map((item, index) => {
                                         return (
