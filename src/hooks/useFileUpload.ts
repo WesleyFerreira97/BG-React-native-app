@@ -20,7 +20,7 @@ type StorageError = {
 } | null
 
 export function useFileUpload<T>() {
-    const [fileUploadResponse, setFileUploadResponse] = useState<FileUploadResponse>(null);
+    const [fileUploadResponse, setFileUploadResponse] = useState<FileUploadResponse[]>(null);
     const [files, setFiles] = useState<FileProps[] | null>(null);
     const [uploadResponseError, setUploadResponseError] = useState<StorageError>();
 
@@ -53,15 +53,11 @@ export function useFileUpload<T>() {
         });
 
         Promise.all(uploadPromises).then(() => {
-            console.log(allUploadErrors, "allUploadErrors");
-            console.log(allUploadResponses, "allUploadResponses");
+            setFileUploadResponse(allUploadResponses);
+            setUploadResponseError(allUploadErrors as unknown as StorageError)
         });
 
-        // setFileUploadResponse(data);
-        // setUploadResponseError(error as unknown as StorageError)
     }, [files]);
-
-
 
     return { fileUploadResponse, setFiles, uploadResponseError };
 }
