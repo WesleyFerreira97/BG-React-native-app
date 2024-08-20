@@ -86,8 +86,6 @@ export function GalleryInput({ slug, images = [], ...props }: SectionProps) {
                     })}
                 {dbImages &&
                     dbImages.map((imageUrl, index) => {
-                        console.log(imageUrl);
-
                         return (
                             <GalleryImage
                                 key={index}

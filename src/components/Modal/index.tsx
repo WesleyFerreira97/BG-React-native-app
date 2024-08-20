@@ -1,5 +1,11 @@
-import React, { createContext, useContext, useState, PropsWithChildren, useEffect } from 'react';
-import { Text, TouchableOpacity, Modal as ModalNative, View, TouchableHighlightComponent, TouchableHighlight } from 'react-native';
+import React, { createContext, useContext, useState, PropsWithChildren } from 'react';
+import {
+    Text,
+    TouchableOpacity,
+    Modal as ModalNative,
+    View,
+    TouchableHighlight
+} from 'react-native';
 import { theme } from '../../styles/theme';
 import { styles } from './styles';
 
@@ -60,7 +66,11 @@ const ModalButton = ({ children, ...props }: PropsWithChildren<Partial<ModalButt
     return (
         <TouchableHighlight
             onPress={() => setModalVisible(true)}
-            style={{ ...props, ...styles.modalButton, overflow: 'hidden' }}
+            style={{
+                ...props,
+                ...styles.modalButton,
+                overflow: 'hidden',
+            }}
         >
             {children}
         </TouchableHighlight>

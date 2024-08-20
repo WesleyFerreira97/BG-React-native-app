@@ -7,7 +7,7 @@ import { Button } from '../../../components/Button'
 import { Formik } from 'formik';
 import { GalleryInput } from '../../../components/GalleryInput';
 import { AddSectionModal } from '../../AddProduct/AddImages/AddSectionModal';
-import { useFileUpload } from '../../../hooks/useFileUpload';
+import { FileProps, useFileUpload } from '../../../hooks/useFileUpload';
 import { useGallery } from '../../../hooks/useGallery';
 import { useBucket } from '../../../hooks/useBucket';
 import { Avatar } from 'react-native-paper';
@@ -24,7 +24,8 @@ export function EditImages({ navigation, route }) {
     const [screenStatus, setScreenStatus] = useState<ScreenStatusProps>("loading")
     const { fillGallery, gallerySections, handleNewSection } = useGallery()
     const [removeImages, setRemoveImages] = useState<string[]>([])
-    const { setFiles, fileUploadResponse } = useFileUpload();
+    const { setFiles, fileUploadResponse, uploadResponseError } = useFileUpload();
+
     const checkScreenStatus = (): ScreenStatusProps => {
         if (selectResponseError) return "error"
 
@@ -44,12 +45,9 @@ export function EditImages({ navigation, route }) {
 
     }, [selectResponse, selectResponseError, filesStructure])
 
-    useEffect(() => {
-        console.log(gallerySections, " Remove Images");
-
-    }, [gallerySections])
-
     const handleSubmitImages = async (values: any) => {
+        const queueToUpload: FileProps[] = []
+
         const { data, error } = await supaDb
             .storage
             .from('photo')
@@ -58,11 +56,18 @@ export function EditImages({ navigation, route }) {
         Object.keys(values).forEach((currentColor) => {
             const arrImages = values[currentColor];
 
-            setFiles({
+            const sectionImages = {
                 file: arrImages,
                 path: `${bucketPath}/${currentColor}`,
-            })
+            }
+
+            queueToUpload.push(sectionImages)
         })
+
+        // console.log(queueToUpload, "quee to upload");
+
+        setFiles(queueToUpload)
+
     }
 
     return (
@@ -72,15 +77,13 @@ export function EditImages({ navigation, route }) {
                     {/* <Avatar.Image size={120} source={} /> */}
                     <Text>Header Screen</Text>
                 </View>
-                <SnackBar text='Editado com sucesso' snackState={true} />
+                {/* <SnackBar text='Editado com sucesso' snackState={true} /> */}
                 <Container>
                     {screenStatus === "loading" && <Text>Loading...</Text>}
                     <Formik
                         initialValues={{}}
                         onSubmit={(values) => {
-                            // handleSubmitImages(values)
-                            console.log(values);
-
+                            handleSubmitImages(values)
                         }}
                     >
                         {({ handleSubmit, values }) => (
@@ -88,8 +91,6 @@ export function EditImages({ navigation, route }) {
                                 <AddSectionModal addNewSection={handleNewSection} />
                                 {gallerySections &&
                                     gallerySections.map((item, index) => {
-                                        // console.log(gallerySections, " gallery sections");
-
                                         return (
                                             <View
                                                 key={index}

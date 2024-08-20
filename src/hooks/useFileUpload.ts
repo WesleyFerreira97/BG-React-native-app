@@ -1,42 +1,67 @@
-import type { PostgrestResponse } from "@supabase/supabase-js";
-import React, { useEffect, useState } from "react";
+import type { PostgrestError, PostgrestResponse } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
-type FileProps = {
+export type FileProps = {
     path: string;
-    // data: HTMLFormElement;
     file: any | any[];
 }
 
-type FileUploadResponseProps = {
-    data: {},
-    error: {
-        error: string;
-        message: string;
-        statusCode: string;
-    } | null
+type FileUploadResponse = {
+    path: string;
+    fullPath: string;
+    id: string;
+
 }
+type StorageError = {
+    error: string;
+    message: string;
+    statusCode: string;
+} | null
 
 export function useFileUpload<T>() {
-    const [fileUploadResponse, setFileUploadResponse] = useState<FileUploadResponseProps>(null);
-    const [files, setFiles] = useState<FileProps | null>(null);
+    const [fileUploadResponse, setFileUploadResponse] = useState<FileUploadResponse>(null);
+    const [files, setFiles] = useState<FileProps[] | null>(null);
+    const [uploadResponseError, setUploadResponseError] = useState<StorageError>();
 
     useEffect(() => {
         if (!files) return;
+        let allUploadResponses = [];
+        let allUploadErrors = []
 
-        files.file.forEach((item) => {
-            const fileName = item?._parts[0][1].name;
+        const uploadPromises = files.map(async (item) => {
+            let hasNoImage = item.file?.length === 0
 
-            async function asyncUpload() {
-                const data: unknown = await supaDb.storage
-                    .from("photo")
-                    .upload(`${files?.path}/${fileName}`, item)
+            if (hasNoImage) return;
 
-                setFileUploadResponse(data as FileUploadResponseProps);
-            }
-            asyncUpload();
+            const imageUploadPromises = item.file.map(async (image) => {
+                const fileName = image._parts[0][1].name;
+
+                try {
+                    const { data, error } = await supaDb.storage
+                        .from("photo")
+                        .upload(`${item.path}/${fileName}`, image)
+
+                    if (data) allUploadResponses.push(data)
+                    // if (error) allUploadErrors.push(error)
+                } catch (error) {
+                    allUploadErrors.push(error)
+                }
+            });
+
+            await Promise.all(imageUploadPromises);
         });
+
+        Promise.all(uploadPromises).then(() => {
+            console.log(allUploadErrors, "allUploadErrors");
+            console.log(allUploadResponses, "allUploadResponses");
+        });
+
+        // setFileUploadResponse(data);
+        // setUploadResponseError(error as unknown as StorageError)
     }, [files]);
 
-    return { fileUploadResponse, setFiles };
+
+
+    return { fileUploadResponse, setFiles, uploadResponseError };
 }

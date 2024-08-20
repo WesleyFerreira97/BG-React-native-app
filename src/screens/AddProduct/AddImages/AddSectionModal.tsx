@@ -2,12 +2,12 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Modal } from '../../../components/Modal';
 import { Text } from 'react-native';
-import { Button } from '../../../components/Button';
+import { Button } from 'react-native-paper';
 import { Snackbar } from 'react-native-paper';
 import { sectionColors } from './sectionColors';
 import type { SectionColorsNames, SectionColorsProps } from './sectionColors';
 import { styles } from './styleModal';
-import { CurrencyNgn, FilePlus } from 'phosphor-react-native';
+import { Camera, CurrencyNgn, FilePlus } from 'phosphor-react-native';
 import { theme } from '../../../styles/theme';
 
 type SnackBarProps = {
@@ -108,8 +108,14 @@ export function AddSectionModal({ addNewSection }: AddSectionProps) {
                 </Modal.Content >
                 <Modal.Button>
                     <Button
-                        text='Adicionar galeria por cor'
-                    />
+                        mode='contained'
+                        icon={Camera}
+                        contentStyle={{
+                            height: 50,
+                        }}
+                    >Adicionar galeria
+                    </Button>
+
                 </Modal.Button>
             </Modal >
         </>
