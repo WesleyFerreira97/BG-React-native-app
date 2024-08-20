@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { styles } from './styles';
-import { supaDb } from '../../../services/supadb';
+import { public_storage, supaDb } from '../../../services/supadb';
 import { Container } from '../../../components/Layout/Container';
-import { ScrollView, Text, View } from 'react-native'
+import { Image, ScrollView, Text, View } from 'react-native'
 import { Button } from '../../../components/Button'
 import { Formik } from 'formik';
 import { GalleryInput } from '../../../components/GalleryInput';
@@ -25,6 +25,7 @@ export function EditImages({ navigation, route }) {
     const { fillGallery, gallerySections, handleNewSection } = useGallery()
     const [removeImages, setRemoveImages] = useState<string[]>([])
     const { setFiles, fileUploadResponse, uploadResponseError } = useFileUpload();
+    const [thumbImage, setThumbImage] = useState<string>()
 
     const checkScreenStatus = (): ScreenStatusProps => {
         if (selectResponseError) return "error"
@@ -35,6 +36,25 @@ export function EditImages({ navigation, route }) {
 
         return hasBucket
     }
+    console.log(bucketPath);
+
+    useEffect(() => {
+        if (gallerySections) {
+            let thumbImage = "";
+
+            gallerySections.forEach((item) => {
+                if (item.slug == "main") {
+                    const imageName = item.images[0].name;
+                    const imageUrl = `${public_storage}/photo/${item.bucketPath}/main/${imageName}`
+
+                    return thumbImage = imageUrl
+                }
+            })
+
+            setThumbImage(thumbImage)
+        }
+
+    }, [gallerySections])
 
     useEffect(() => {
         if (filesStructure) {
@@ -74,12 +94,17 @@ export function EditImages({ navigation, route }) {
 
         setFiles(queueToUpload)
     }
+    console.log(thumbImage);
 
     return (
         <>
             <ScrollView>
                 <View style={styles.container}>
-                    {/* <Avatar.Image size={120} source={} /> */}
+                    {/* <Avatar.Image size={120} source={require(thumbImage)} /> */}
+                    <Image
+                        source={{ uri: thumbImage }}
+                        style={{ width: '90%', height: '100%' }}
+                    />
                     <Text>Header Screen</Text>
                 </View>
                 {/* <SnackBar text='Editado com sucesso' snackState={true} /> */}
