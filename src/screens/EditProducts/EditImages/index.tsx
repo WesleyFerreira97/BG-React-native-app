@@ -45,6 +45,12 @@ export function EditImages({ navigation, route }) {
 
     }, [selectResponse, selectResponseError, filesStructure])
 
+    useEffect(() => {
+        if (!fileUploadResponse || !uploadResponseError) return
+
+        navigation.navigate('Home')
+    }, [fileUploadResponse, uploadResponseError])
+
     const handleSubmitImages = async (values: any) => {
         const queueToUpload: FileProps[] = []
 
@@ -64,10 +70,7 @@ export function EditImages({ navigation, route }) {
             queueToUpload.push(sectionImages)
         })
 
-        // console.log(queueToUpload, "quee to upload");
-
         setFiles(queueToUpload)
-
     }
 
     return (
