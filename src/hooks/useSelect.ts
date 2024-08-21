@@ -2,34 +2,59 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
 
-type UseSelectProps = {
+export type UseSelectProps = {
     tableName: string;
-    select: string[];
-    match?: string;
+    selectColumns: string[];
+    match?: {
+        [key: string]: string | number | boolean
+    };
     limit?: number;
 }
 
-export function useSelect<T>({ tableName, select, match, ...props }: UseSelectProps) {
+type SelectedProps = { select: string } & Omit<UseSelectProps, "selectColumns">;
+
+export function useSelect<T>({ tableName, selectColumns, ...props }: UseSelectProps) {
     const [selectResponse, setSelectResponse] = useState<T | null>(null);
     const [selectResponseError, setSelectResponseError] = useState<PostgrestError>();
+    const arrToString = (arr?: string[]) => (arr ? arr.join(',') : '');
+    const [selectProps, setSelectProps] = useState<SelectedProps>(() => {
+        const initialValue = {
+            tableName: tableName,
+            select: arrToString(selectColumns),
+            match: props.match || {},
+            limit: props.limit || 10
+        }
 
-    const selectedColumns = select.join(',');
-    const matchParams = match ? { id: match } : {};
+        return initialValue
+    })
 
     useEffect(() => {
-        async function useSelect() {
+        async function useSelect(values: SelectedProps) {
+            const { select, tableName } = values;
+
             const { data, error } = await supaDb
                 .from(tableName)
-                .select(selectedColumns)
-                .match(matchParams)
+                .select(select)
+                .match(values.match)
                 .limit(props.limit)
 
             setSelectResponse(data as T);
             setSelectResponseError(error);
         }
 
-        useSelect();
-    }, [match]);
+        useSelect(selectProps);
+    }, [selectProps]);
 
-    return { selectResponse, selectResponseError };
+
+    const selectData = (value: UseSelectProps) => {
+        const selectedColumns = arrToString(value.selectColumns)
+
+        setSelectProps(prevState => ({
+            select: selectedColumns,
+            ...value,
+            ...prevState
+        }))
+    }
+
+    return { selectResponse, selectResponseError, selectData };
 }

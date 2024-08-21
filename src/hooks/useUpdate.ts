@@ -5,22 +5,32 @@ import { supaDb } from "../services/supadb";
 
 type UseUpdateProps = {
     productId: string | number;
-    data: Partial<ProductProps>;
+    formData: Partial<ProductProps>;
+}
+
+type ResponseProps = {
+    status: number;
+    statusText: string;
+    data: string | null;
+}
+
+type ResponseErrorProps = {
+    error: "" | null;
 }
 
 export function useUpdate() {
     const [updateData, setUpdateData] = useState<UseUpdateProps>();
-    const [updateResponse, setUpdateResponse] = useState<T | null>(null);
-    const [updateError, setUpdateError] = useState<PostgrestError>();
+    const [updateResponse, setUpdateResponse] = useState<ResponseProps | null>(null);
+    const [updateError, setUpdateError] = useState<ResponseErrorProps | null>(null);
 
-    const update = async ({ data, productId }: UseUpdateProps) => {
-        const { data: dataDb, error } = await supaDb
+    const update = async ({ formData, productId }: UseUpdateProps) => {
+        const { status, statusText, data, error } = await supaDb
             .from('products')
-            .update(data)
+            .update(formData)
             .eq('id', productId);
 
-        setUpdateResponse(dataDb);
-        setUpdateError(error);
+        setUpdateResponse({ status, statusText, data });
+        setUpdateError(error as unknown as ResponseErrorProps);
     }
 
     useEffect(() => {

@@ -3,13 +3,14 @@ import { useTheme } from '../../providers/ThemeContext';
 import { styles } from './styles';
 import { ListItem } from '../../components/ListItem';
 import { SearchInput } from '../../components/SearchInput';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AllProductProps } from '../../@types/product';
 import { useSelect } from '../../hooks/useSelect';
 import { supaDb } from '../../services/supadb';
 import FallbackImage from "../../../assets/images/default.jpg"
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import { FlatList, RefreshControl, TouchableOpacity } from 'react-native-gesture-handler';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Button } from 'react-native-paper';
 
 const headerMaxHeight = 230;
 const headerMinHeight = 190;
@@ -20,15 +21,27 @@ export function HomeScreen() {
     const [itemsData, setItemsData] = useState([]);
     const StickyHeader = new Animated.Value(0);
     const navigation = useNavigation();
-
-    const { selectResponse, selectResponseError } = useSelect<AllProductProps[]>({
+    const [refreshing, setRefreshing] = useState(false);
+    const initialValue = {
         tableName: 'products',
-        select: ['title', 'bucket_name', 'bucket_folder', 'id'],
+        selectColumns: ['title', 'bucket_name', 'bucket_folder', 'id'],
         limit: 10,
-    });
+    }
+    const { selectResponse, selectResponseError, selectData } = useSelect<AllProductProps[]>(initialValue);
 
-    const fetchData = async () => {
+    const onRefresh = () => {
+        setRefreshing(true);
+
+        selectData(initialValue)
+
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    };
+
+    const fetchListData = async () => {
         if (!selectResponse) return;
+        console.log("Fez fetch");
 
         const itemsData = await Promise.all(selectResponse.map(async (item) => {
             const bucketName = item.bucket_name;
@@ -37,7 +50,7 @@ export function HomeScreen() {
             const { data } = await supaDb.storage.from(bucketName).getPublicUrl(thumb);
             const url = data.publicUrl;
 
-            const { data: imageList } = await supaDb.storage.from(bucketName).list(thumb);
+            const { data: imageList } = await supaDb.storage.from(bucketName).list(thumb, { limit: 1 });
 
             const ThumbFallback = Image.resolveAssetSource(FallbackImage).uri;
 
@@ -58,7 +71,7 @@ export function HomeScreen() {
     };
 
     useEffect(() => {
-        fetchData();
+        fetchListData();
     }, [selectResponse, selectResponseError]);
 
     const AnimatedHeader = StickyHeader.interpolate({
@@ -100,32 +113,35 @@ export function HomeScreen() {
                 </View>
 
             </Animated.View>
-            <ScrollView
-                style={{
-                    flex: 1,
-                    width: "100%",
-                }}
-                contentContainerStyle={{
-                    alignItems: "center",
-                }}
-                onScroll={(e) => {
-                    const scrollY = e.nativeEvent.contentOffset.y;
-                    StickyHeader.setValue(scrollY);
-                }}
-            >
-                {itemsData?.map((item, key) => (
-                    <TouchableOpacity
-                        key={key}
-                        onPress={() => handleNavigate(item.id)}
-                    >
-                        <ListItem
-                            image={item.thumb}
-                            title={item.title}
-                            itemId={item.id}
+            {itemsData && (
+                <FlatList
+                    data={itemsData}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => handleNavigate(item.id)}>
+                            <ListItem
+                                image={item.thumb}
+                                title={item.title}
+                                itemId={item.id}
+                            />
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item) => item.id.toString()}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
                         />
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
+                    }
+                />
+            )}
+
+            <Button
+                onPress={() => selectData(initialValue)}
+                mode='contained'
+                style={{ marginVertical: 20 }}
+            >
+                Atualizar Lista
+            </Button>
         </View>
     );
 }

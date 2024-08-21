@@ -1,7 +1,7 @@
 import { ScrollView, Text, View } from 'react-native';
 import { styles } from './styles';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { useSelect } from '../../hooks/useSelect';
+import { useSelect, UseSelectProps } from '../../hooks/useSelect';
 import type { AllProductProps, ProductProps } from '../../@types/product';
 import { TextInput } from '../../components/TextInput';
 import { Formik } from 'formik';
@@ -21,17 +21,18 @@ export function EditProducts({ navigation }) {
     const { params }: RouteProp<{ params: EditProps }> = useRoute();
     const { setUpdateData, updateError, updateResponse } = useUpdate();
     const { allCategories, categoriesError } = useCategories();
-    const { selectResponse, selectResponseError } = useSelect<AllProductProps>({
+    const { selectResponse, selectResponseError } = useSelect<UseSelectProps>({
         tableName: 'products',
         // select: ['title', 'bucket_name', 'bucket_folder', 'id'],
-        select: ["*"],
+        selectColumns: ["*"],
         limit: 1,
-        match: params.itemId
+        match: { id: params.itemId }
     });
 
     useEffect(() => {
-        console.log(updateError, "updateError");
-        console.log(updateResponse, "Update Response");
+        if (updateResponse && updateResponse.status === 204) {
+            navigation.navigate('Home')
+        }
 
     }, [updateError, updateResponse])
 
@@ -54,6 +55,15 @@ export function EditProducts({ navigation }) {
         )
     };
 
+    const handleSubmit = (values: ProductProps) => {
+        setUpdateData({
+            formData: {
+                ...values
+            },
+            productId: responseData.id
+        });
+    }
+
     return (
         <ScrollView contentContainerStyle={styles.containerScrollView}>
             {responseData
@@ -62,13 +72,7 @@ export function EditProducts({ navigation }) {
                         <Formik
                             initialValues={initialValues}
                             onSubmit={(values: ProductProps) => {
-
-                                setUpdateData({
-                                    data: {
-                                        ...values
-                                    },
-                                    productId: responseData.id
-                                });
+                                handleSubmit(values)
                             }}>
                             {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
                                 <View style={{ padding: 20 }}>
