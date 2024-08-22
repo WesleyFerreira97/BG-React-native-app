@@ -122,7 +122,9 @@ export function EditImages({ navigation, route }) {
                         {({ handleSubmit, values }) => (
                             <>
                                 <View style={{ marginVertical: 20 }}>
-                                    <AddSectionModal addNewSection={handleNewSection} />
+                                    <AddSectionModal
+                                        addNewSection={handleNewSection}
+                                    />
                                 </View>
                                 {gallerySections &&
                                     gallerySections.map((item, index) => {

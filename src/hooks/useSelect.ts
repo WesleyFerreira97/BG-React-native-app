@@ -1,7 +1,7 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { supaDb } from "../services/supadb";
-
+type test = string | number | boolean;
 export type UseSelectProps = {
     tableName: string;
     selectColumns: string[];

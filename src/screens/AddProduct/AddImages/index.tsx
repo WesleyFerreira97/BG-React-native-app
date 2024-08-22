@@ -17,36 +17,29 @@ import { ActivityIndicator } from 'react-native-paper';
 import { useGallery } from '../../../hooks/useGallery';
 
 
-export function AddImages({ route }) {
+export function AddImages({ navigation, route }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const productID = route.params.productID;
-    const { fileUploadResponse, setFiles } = useFileUpload();
-    const { handleNewSection, gallerySections, addImages, error, fillGallery } = useGallery()
+    const { setFiles, fileUploadResponse, uploadResponseError } = useFileUpload();
+    const { handleNewSection, gallerySections } = useGallery()
 
-    const { selectResponse, selectResponseError } = useSelect<BucketProps>({
+    const { selectResponse } = useSelect<BucketProps>({
         tableName: 'products',
-        select: ['bucket_name', 'bucket_folder'],
-        match: productID,
+        selectColumns: ['bucket_name', 'bucket_folder'],
+        match: { id: productID },
     });
 
     useEffect(() => {
-        handleFileUploadResponse()
-    }, [fileUploadResponse])
+        handleNewSection("main")
+    }, [])
 
-    const handleFileUploadResponse = () => {
+    useEffect(() => {
         setIsLoading(false);
 
-        // Navegar proseguir caso a pessoa não faça upload de imagem 
-        if (!fileUploadResponse) return
+        if (!fileUploadResponse || !uploadResponseError) return
+        navigation.navigate("Home")
 
-        if (fileUploadResponse.error != null || 201) {
-            console.log(fileUploadResponse, " - Error");
-            return;
-        }
-
-        console.log(fileUploadResponse, " - Upload response ok");
-        // Set Snackbar Successful and navigate to home
-    }
+    }, [fileUploadResponse, uploadResponseError])
 
     const handleSubmitImages = (imageValues: any) => {
         setIsLoading(true);
@@ -56,10 +49,10 @@ export function AddImages({ route }) {
             const arrImages = imageValues[currentColor];
             const bucketFolder = selectResponse[0].bucket_folder;
 
-            setFiles({
+            setFiles([{
                 file: arrImages,
                 path: `${mainDirectory}/${bucketFolder}/${productID}/${currentColor}`,
-            })
+            }])
         })
     }
 
@@ -82,11 +75,6 @@ export function AddImages({ route }) {
                                     addNewSection={handleNewSection}
                                 />
                                 <View style={styles.form}>
-                                    <GalleryInput
-                                        colorCode='#B4B4B3'
-                                        name='Principal'
-                                        slug='main'
-                                    />
                                     {(gallerySections.length > 0) &&
                                         gallerySections.map((item, index) => (
                                             <View
@@ -99,7 +87,6 @@ export function AddImages({ route }) {
                                         )}
                                 </View>
                                 <View style={styles.footer}>
-
                                     <Button
                                         onPress={handleSubmit}
                                         text="Concluir"

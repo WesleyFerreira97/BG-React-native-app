@@ -48,8 +48,9 @@ export function AddProduct({ navigation }) {
 
         let checkInvalidResponse = dataResponse === undefined || dataResponse?.status != 201;
         if (checkInvalidResponse) return;
+        console.log(dataResponse.id, " dataResponse.id");
 
-        navigation.navigate('addProductStepTwo', { productID: dataResponse.id })
+        navigation.navigate('AddImages', { productID: dataResponse.id })
     }, [dataResponse]);
 
     const handleSubmitProduct = async (productProps: ProductProps) => {
@@ -127,11 +128,11 @@ export function AddProduct({ navigation }) {
                                     sizeType={values.type_product_sizes}
                                     availableSizes={values.sizes_available}
                                 />
-                                {/* <Button
+                                <Button
                                     onPress={handleSubmit}
                                     text='Cadastrar'
                                     isLoading={isLoading}
-                                /> */}
+                                />
                             </View>
                         )}
                     </Formik>
