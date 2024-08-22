@@ -25,7 +25,7 @@ export function HomeScreen() {
     const initialValue = {
         tableName: 'products',
         selectColumns: ['title', 'bucket_name', 'bucket_folder', 'id'],
-        limit: 10,
+        limit: 1000,
     }
     const { selectResponse, selectResponseError, selectData } = useSelect<AllProductProps[]>(initialValue);
 

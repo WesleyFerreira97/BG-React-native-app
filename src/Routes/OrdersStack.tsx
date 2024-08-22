@@ -1,5 +1,5 @@
-import { AllOrders } from "../screens/ClientOrder";
-import { ClientOrder } from "../screens/AllOrders";
+import { AllOrders } from "../screens/AllOrders";
+import { ClientOrder } from "../screens/ClientOrder";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
