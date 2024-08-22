@@ -9,6 +9,7 @@ export type UseSelectProps = {
         [key: string]: string | number | boolean
     };
     limit?: number;
+    single?: boolean
 }
 
 type SelectedProps = { select: string } & Omit<UseSelectProps, "selectColumns">;
@@ -22,7 +23,8 @@ export function useSelect<T>({ tableName, selectColumns, ...props }: UseSelectPr
             tableName: tableName,
             select: arrToString(selectColumns),
             match: props.match || {},
-            limit: props.limit || 10
+            limit: props.limit || 10,
+            single: props.single || false,
         }
 
         return initialValue
@@ -32,11 +34,17 @@ export function useSelect<T>({ tableName, selectColumns, ...props }: UseSelectPr
         async function useSelect(values: SelectedProps) {
             const { select, tableName } = values;
 
-            const { data, error } = await supaDb
+            let query = supaDb
                 .from(tableName)
                 .select(select)
                 .match(values.match)
                 .limit(props.limit)
+
+            if (values.single == true) {
+                query.single()
+            }
+
+            const { data, error } = await query
 
             setSelectResponse(data as T);
             setSelectResponseError(error);

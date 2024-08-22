@@ -7,7 +7,7 @@ import { styles } from './styles';
 import { FlatList } from 'react-native-gesture-handler';
 import { theme } from '../../styles/theme';
 
-type ProductOrderProps = {
+export type ProductOrderProps = {
     productTitle: string;
     price?: number;
     selectedSize?: string | number;
@@ -15,13 +15,14 @@ type ProductOrderProps = {
     image: string;
 }
 
-type OrderProps = {
+export type OrderProps = {
     id: string;
     created_at: string;
     client_order: ProductOrderProps[];
     client_number: number;
     order_fulfilled: boolean;
     client_name: string;
+    comments?: string
 }
 
 type ListOrderProps = {

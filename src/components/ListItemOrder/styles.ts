@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
         marginVertical: 10,
         borderBottomColor: theme.colors.darkGray,
         borderBottomWidth: 1,
-        paddingBottom: 10
+        paddingBottom: 10,
     },
     innerContainer: {
         flexGrow: 1,
