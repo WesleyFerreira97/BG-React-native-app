@@ -17,7 +17,7 @@ import { Button } from '../../components/Button';
 import { SelectSize, mapDefaultValues, size_letter, size_numeric } from '../../components/SelectSize';
 
 const initialValues: ProductProps = {
-    title: "Teste",
+    title: "",
     description: "",
     product_categories: "Shorts",
     type_product_sizes: "letter",
@@ -51,6 +51,11 @@ export function AddProduct({ navigation }) {
         console.log(dataResponse.id, " dataResponse.id");
 
         navigation.navigate('AddImages', { productID: dataResponse.id })
+
+        return () => {
+            console.log("chamou o clean");
+
+        }
     }, [dataResponse]);
 
     const handleSubmitProduct = async (productProps: ProductProps) => {
@@ -86,10 +91,13 @@ export function AddProduct({ navigation }) {
                     <Formik
                         initialValues={initialValues}
                         validationSchema={productValidation}
-                        onSubmit={(values: ProductProps) => {
+
+                        onSubmit={(values: ProductProps, { resetForm }) => {
                             handleSubmitProduct(values);
+
+                            resetForm()
                         }} >
-                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, submitForm }) => (
+                        {({ handleSubmit, values, submitForm, resetForm }) => (
                             <View style={{ padding: 20 }}>
                                 <TextInput
                                     name='title'
