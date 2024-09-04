@@ -10,10 +10,9 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-evenly",
         paddingHorizontal: 20,
-        marginVertical: 10,
         borderBottomColor: theme.colors.darkGray,
-        borderBottomWidth: 1,
-        paddingBottom: 10,
+        borderBottomWidth: 0.2,
+        paddingVertical: 15,
     },
     innerContainer: {
         flexGrow: 1,
@@ -24,7 +23,7 @@ export const styles = StyleSheet.create({
     thumbnail: {
         width: 80,
         height: "100%",
-        borderRadius: 10,
+        borderRadius: 6,
         marginRight: 14,
         justifyContent: "center",
         alignItems: "center",

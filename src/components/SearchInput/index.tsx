@@ -28,6 +28,7 @@ export function SearchInput(props: SearchProps) {
                     borderWidth: 0,
                     borderRadius: 8,
                     overflow: "hidden",
+                    color: "#fff"
                 }}
                 textColor={theme.colors.neutral}
                 onChangeText={(e) => {

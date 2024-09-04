@@ -6,6 +6,7 @@ import { ListItemOrder } from "../../components/ListItemOrder"
 import { styles } from './styles';
 import { FlatList } from 'react-native-gesture-handler';
 import { theme } from '../../styles/theme';
+import { HeaderSearchBar } from '../../components/HeaderSearchBar';
 
 export type ProductOrderProps = {
     productTitle: string;
@@ -39,6 +40,7 @@ export function AllOrders() {
     }
     const { selectResponse, selectResponseError, selectData } = useSelect<OrderProps[]>(initialValue);
     const [listOrders, setListOrders] = useState<ListOrderProps[]>([]);
+    const [searchValue, setSearchValue] = useState<string>('');
 
     useEffect(() => {
         if (!selectResponse) return
@@ -48,7 +50,7 @@ export function AllOrders() {
             const clientOrder = {
                 id: item.id,
                 name: item.client_name,
-                orderFulfilled: item.order_fulfilled
+                orderFulfilled: item.order_fulfilled,
             }
 
             return allOrders.push(clientOrder)
@@ -57,21 +59,31 @@ export function AllOrders() {
         setListOrders(allOrders)
     }, [selectResponse, selectResponseError])
 
+    const handleSearch = (value?: string) => {
+        setSearchValue(value);
+    }
+
+
     return (
         <View style={styles.container}>
+            <HeaderSearchBar
+                handleSearch={handleSearch}
+                searchValue={searchValue}
+                headerMaxHeight={150}
+                headerMinHeight={100}
+                subTitle='Pedidos'
+            />
 
             {listOrders && (
                 <FlatList
                     data={listOrders}
                     renderItem={({ item }) => (
-                        // <TouchableOpacity onPress={() => handleNavigate(item.id)}>
                         <ListItemOrder
-                            icon={<ShoppingBagOpen size={32} color={theme.colors.primary} />}
+                            icon={<ShoppingBagOpen size={33} color={theme.colors.neutral} />}
                             title={item.name}
                             itemId={item.id}
                             orderFulfilled={item.orderFulfilled}
                         />
-                        // </TouchableOpacity>
                     )}
                     keyExtractor={(item) => item.id.toString()}
                 // refreshControl={

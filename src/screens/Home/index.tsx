@@ -9,15 +9,13 @@ import { useSelect } from '../../hooks/useSelect';
 import { supaDb } from '../../services/supadb';
 import FallbackImage from "../../../assets/images/default.jpg"
 import { FlatList, RefreshControl, TouchableOpacity } from 'react-native-gesture-handler';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-paper';
-
-const headerMaxHeight = 230;
-const headerMinHeight = 190;
+import { HeaderSearchBar } from '../../components/HeaderSearchBar';
 
 export function HomeScreen() {
     const { theme, setTheme } = useTheme();
-    const [searchValue, setSearchValue] = useState('');
+    const [searchValue, setSearchValue] = useState<string>('');
     const [itemsData, setItemsData] = useState([]);
     const StickyHeader = new Animated.Value(0);
     const navigation = useNavigation();
@@ -41,7 +39,6 @@ export function HomeScreen() {
 
     const fetchListData = async () => {
         if (!selectResponse) return;
-        console.log("Fez fetch");
 
         const itemsData = await Promise.all(selectResponse.map(async (item) => {
             const bucketName = item.bucket_name;
@@ -74,13 +71,8 @@ export function HomeScreen() {
         fetchListData();
     }, [selectResponse, selectResponseError]);
 
-    const AnimatedHeader = StickyHeader.interpolate({
-        inputRange: [headerMinHeight, headerMaxHeight],
-        outputRange: [headerMaxHeight, headerMinHeight],
-        extrapolate: "clamp",
-    })
 
-    const handleSearch = (value: string) => {
+    const handleSearch = (value?: string) => {
         setSearchValue(value);
     }
 
@@ -90,29 +82,13 @@ export function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <Animated.View style={{
-                ...styles.headerContainer,
-                height: AnimatedHeader
-            }}>
-                <View style={styles.headerContent}>
-                    <Text style={styles.homeTitle}>Bela Garota</Text>
-                    <Text style={styles.homeSubtitle}>Administrativo</Text>
-                </View>
-
-                <View style={styles.searchBar}>
-                    <SearchInput
-                        label='Buscar'
-                        value={searchValue}
-                        handleChange={(e) => handleSearch(e)}
-                    />
-                    <View style={{
-                        height: 56,
-                        flex: 1,
-                        backgroundColor: theme.colors.secondary,
-                    }} />
-                </View>
-
-            </Animated.View>
+            <HeaderSearchBar
+                handleSearch={handleSearch}
+                searchValue={searchValue}
+                headerMaxHeight={230}
+                headerMinHeight={190}
+                subTitle='Administrativo'
+            />
             {itemsData && (
                 <FlatList
                     data={itemsData}
