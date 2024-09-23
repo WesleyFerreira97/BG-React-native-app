@@ -25,7 +25,14 @@ export function ClientOrder({ route }) {
         order_fulfilled: 'Status do pedido não disponível'
     };
 
-    const response = {}
+    const response = {
+        client_name: selectResponse?.client_name || fallbackResponse.client_name,
+        id: selectResponse?.id || fallbackResponse.id,
+        client_number: selectResponse?.client_number || fallbackResponse.client_number,
+        comments: selectResponse?.comments || fallbackResponse.comments,
+        order_fulfilled: selectResponse?.order_fulfilled || fallbackResponse.order_fulfilled
+    };
+
     console.log(selectResponse, "client order");
 
     return (
@@ -41,7 +48,10 @@ export function ClientOrder({ route }) {
             <ScrollView contentContainerStyle={styles.orderContent}>
 
                 <Text style={styles.labelLg}>Dados do pedido :</Text>
-                <Text style={{ fontSize: 20 }}>Comentários : {fallbackResponse.comments}</Text>
+                <Text style={styles.labelLg}>Nome : {response.client_name}</Text>
+                <Text style={styles.labelLg}>Número de contato : {response.client_number}</Text>
+                <Text style={styles.labelLg}>Comentário do cliente : {response.comments}</Text>
+                {/* <Text style={styles.labelLg}>Comentário do cliente : {response.order_fulfilled}</Text> */}
             </ScrollView>
         </View>
     );

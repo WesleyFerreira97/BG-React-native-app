@@ -53,7 +53,7 @@ export function AddProduct({ navigation }) {
         navigation.navigate('AddImages', { productID: dataResponse.id })
 
         return () => {
-            console.log("chamou o clean");
+            console.log("Clear");
 
         }
     }, [dataResponse]);
@@ -128,10 +128,10 @@ export function AddProduct({ navigation }) {
                                     label='Preço'
                                     keyboardType='number-pad'
                                 />
-                                <SwitchInput
+                                {/* <SwitchInput
                                     name="product_available"
                                     label="Produto disponível"
-                                />
+                                /> */}
                                 <SelectSize
                                     sizeType={values.type_product_sizes}
                                     availableSizes={values.sizes_available}
