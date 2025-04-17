@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-paper';
 import { HeaderSearchBar } from '../../components/HeaderSearchBar';
 
-export function HomeScreen() {
+export default function HomeScreen() {
     const { theme, setTheme } = useTheme();
     const [searchValue, setSearchValue] = useState<string>('');
     const [itemsData, setItemsData] = useState([]);

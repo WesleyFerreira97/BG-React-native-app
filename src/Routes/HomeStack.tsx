@@ -1,5 +1,5 @@
 import { EditProducts } from "../screens/EditProducts";
-import { HomeScreen } from "../screens/Home";
+import HomeScreen from "../screens/Home";
 import { createStackNavigator } from "@react-navigation/stack";
 import { EditImages } from "../screens/EditProducts/EditImages";
 
